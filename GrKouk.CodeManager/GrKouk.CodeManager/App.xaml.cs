@@ -23,13 +23,16 @@ namespace GrKouk.CodeManager
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            //await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync(nameof(HomePage) + "/" + nameof(NavigationPage) + "/" + nameof(Views.MainPage));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<ProductCodePage, ProductCodePageViewModel>();
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
         }
     }
 }
