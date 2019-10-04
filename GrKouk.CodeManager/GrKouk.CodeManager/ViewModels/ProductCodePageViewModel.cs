@@ -9,9 +9,10 @@ namespace GrKouk.CodeManager.ViewModels
 {
     public class ProductCodePageViewModel : ViewModelBase
     {
+
         public ProductCodePageViewModel(INavigationService navigationService) :base(navigationService)
         {
-            Title = "Product Page";
+            Title = "Product Code Page";
         }
     }
 }
