@@ -20,7 +20,7 @@ namespace GrKouk.CodeManager.ViewModels
         ) : base(navigationService)
         {
             _dialogService = dialogService;
-            Title = "Product Code Page";
+            Title = "Settings Page";
 
             WebApiBaseAddress = Preferences.Get(Constants.WebApiBaseAddressKey, "Not Set");
         }
