@@ -23,6 +23,7 @@ namespace GrKouk.CodeManager.ViewModels
             Title = "Settings Page";
 
             WebApiBaseAddress = Preferences.Get(Constants.WebApiBaseAddressKey, "Not Set");
+            TestSetting = Preferences.Get("testSetting", "Not Set");
         }
 
         private string _webApiBaseAddress;
@@ -32,9 +33,16 @@ namespace GrKouk.CodeManager.ViewModels
             set => SetProperty(ref _webApiBaseAddress, value);  
         }
 
+        private string _testSetting;
+        public string TestSetting
+        {
+            get => _testSetting;
+            set => SetProperty(ref _testSetting, value);
+        }
 
         private DelegateCommand _saveCommand;
-       
+        
+
 
         public DelegateCommand SaveCommand =>
             _saveCommand ?? (_saveCommand = new DelegateCommand(async () => await SaveDataCommand()));

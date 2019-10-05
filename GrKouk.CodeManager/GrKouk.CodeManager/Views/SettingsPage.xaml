@@ -8,7 +8,11 @@
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
        <StackLayout>
             <Label Text="Web Api Base Address"></Label>
-            <Entry Text="{Binding WebApiBaseAddress}"></Entry>
+            <Entry Text="{Binding WebApiBaseAddress, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Test Setting"></Label>
+            <Entry Text="{Binding TestSetting, Mode=TwoWay}"></Entry>
         </StackLayout>
         <Button Text="Save setting" Command="{Binding SaveCommand}"></Button>
     </StackLayout>
