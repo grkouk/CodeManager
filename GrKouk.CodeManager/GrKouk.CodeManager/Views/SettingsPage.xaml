@@ -3,14 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GrKouk.CodeManager.Views.ProductCodePage"
-             Title="{Binding Title}"
-             >
+             x:Class="GrKouk.CodeManager.Views.SettingsPage">
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Product Page" />
-        <StackLayout>
-            <Label Text="Test setting"></Label>
-            <Entry Text="{Binding TestSetting}"></Entry>
+       <StackLayout>
+            <Label Text="Web Api Base Address"></Label>
+            <Entry Text="{Binding WebApiBaseAddress}"></Entry>
         </StackLayout>
         <Button Text="Save setting" Command="{Binding SaveCommand}"></Button>
     </StackLayout>

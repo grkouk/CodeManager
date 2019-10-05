@@ -43,12 +43,12 @@ namespace GrKouk.CodeManager.ViewModels
                 PageName = nameof(ProductCodePage),
                 Title = "Product Page"
             });
-            //MenuItems.Add(new MyMenuItem()
-            //{
-            //    Icon = "ic_viewb",
-            //    PageName = nameof(ProductPage),
-            //    Title = "Products Test"
-            //});
+            MenuItems.Add(new MyMenuItem()
+            {
+                Icon = "ic_viewb",
+                PageName = nameof(SettingsPage),
+                Title = "Settings Page"
+            });
             //MenuItems.Add(new MyMenuItem()
             //{
             //    Icon = "ic_viewb",
