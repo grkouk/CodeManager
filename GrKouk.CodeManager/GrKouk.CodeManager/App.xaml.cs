@@ -34,6 +34,7 @@ namespace GrKouk.CodeManager
             containerRegistry.RegisterForNavigation<ProductCodePage, ProductCodePageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
+            containerRegistry.RegisterForNavigation<ProductsPage, ProductsPageViewModel>();
         }
     }
 }
