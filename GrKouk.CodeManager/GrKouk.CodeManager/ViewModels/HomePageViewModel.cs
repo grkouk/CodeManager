@@ -40,8 +40,8 @@ namespace GrKouk.CodeManager.ViewModels
             MenuItems.Add(new MyMenuItem()
             {
                 Icon = "ic_viewb",
-                PageName = nameof(ProductCodePage),
-                Title = "Product Page"
+                PageName = nameof(ProductsPage),
+                Title = "Products Page"
             });
             MenuItems.Add(new MyMenuItem()
             {

@@ -1,4 +1,5 @@
-﻿using Prism;
+﻿using GrKouk.CodeManager.Services;
+using Prism;
 using Prism.Ioc;
 using GrKouk.CodeManager.ViewModels;
 using GrKouk.CodeManager.Views;
@@ -29,6 +30,8 @@ namespace GrKouk.CodeManager
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.Register<IDataSource, CodeManagerDataSource>();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<ProductCodePage, ProductCodePageViewModel>();

@@ -5,7 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="GrKouk.CodeManager.Views.SettingsPage"
              Title="{Binding Title}">
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <StackLayout Padding="10">
        <StackLayout>
             <Label Text="Web Api Base Address"></Label>
             <Entry Text="{Binding WebApiBaseAddress, Mode=TwoWay}"></Entry>
