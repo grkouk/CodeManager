@@ -8,6 +8,8 @@
              >
 
     <StackLayout Margin="10">
+        <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}"  />
+
         <Label Text="{Binding ItemsCollection.Count, StringFormat='Number of items: {0}'}" />
         <Button Text="Refresh" Command="{Binding RefreshCommand}"></Button>
         <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
@@ -45,6 +47,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
+       
     </StackLayout>
 
 </ContentPage>

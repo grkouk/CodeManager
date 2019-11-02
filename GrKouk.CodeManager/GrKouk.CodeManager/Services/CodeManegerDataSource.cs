@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using GrKouk.CodeManager.Models;
 using GrKouk.InfoSystem.Dtos.MobileDtos;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
@@ -19,6 +18,7 @@ namespace GrKouk.CodeManager.Services
             var apiCall = "/products/allproducts";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
+            //Thread.Sleep(5000);
             var httpClient = new HttpClient();
 
             try
