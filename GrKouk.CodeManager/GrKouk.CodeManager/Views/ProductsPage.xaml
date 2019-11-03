@@ -7,12 +7,15 @@
              Title="{Binding Title}"
              >
 
-    <StackLayout Margin="10">
-        <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}"  />
-
-        <Label Text="{Binding ItemsCollection.Count, StringFormat='Number of items: {0}'}" />
-        <Button Text="Refresh" Command="{Binding RefreshCommand}"></Button>
-        <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+ <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}" Grid.Row="0" />
+        <StackLayout Margin="10" Grid.Row="1">
+       <Label Text="{Binding ItemsCollection.Count, StringFormat='Number of items: {0}'}" />
+       <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
             <CollectionView ItemsSource="{Binding ItemsCollection}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -49,5 +52,5 @@
         </RefreshView>
        
     </StackLayout>
-
+</Grid>
 </ContentPage>
