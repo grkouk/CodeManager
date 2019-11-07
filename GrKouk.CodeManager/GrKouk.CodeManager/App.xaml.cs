@@ -31,7 +31,7 @@ namespace GrKouk.CodeManager
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IDataSource, CodeManagerDataSource>();
-            containerRegistry.Register<ICodeDataSource,CodeDataSource>();
+            //containerRegistry.Register<ICodeDataSource,CodeDataSource>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

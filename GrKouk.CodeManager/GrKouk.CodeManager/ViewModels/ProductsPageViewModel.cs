@@ -18,15 +18,14 @@ namespace GrKouk.CodeManager.ViewModels
     {
         private readonly IPageDialogService _dialogService;
         private readonly IDataSource _dataSource;
-        private readonly ICodeDataSource _codeSource;
+        
 
         public ProductsPageViewModel(INavigationService navigationService, IPageDialogService dialogService
             ,IDataSource dataSource
-            ,ICodeDataSource codeSource) : base(navigationService)
+            ) : base(navigationService)
         {
             _dialogService = dialogService;
             _dataSource = dataSource;
-            _codeSource = codeSource;
             Title = "Products Page";
         }
 

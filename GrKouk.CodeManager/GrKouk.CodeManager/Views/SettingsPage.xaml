@@ -11,8 +11,8 @@
             <Entry Text="{Binding WebApiBaseAddress, Mode=TwoWay}"></Entry>
         </StackLayout>
         <StackLayout>
-            <Label Text="Test Setting"></Label>
-            <Entry Text="{Binding TestSetting, Mode=TwoWay}"></Entry>
+            <Label Text="Nop Web Api Base Address"></Label>
+            <Entry Text="{Binding WebApiNopBaseAddress, Mode=TwoWay}"></Entry>
         </StackLayout>
         <Button Text="Save setting" Command="{Binding SaveCommand}"></Button>
     </StackLayout>

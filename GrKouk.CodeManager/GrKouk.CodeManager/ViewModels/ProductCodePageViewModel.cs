@@ -16,10 +16,10 @@ namespace GrKouk.CodeManager.ViewModels
     public class ProductCodePageViewModel : ViewModelBase
     {
         private readonly IPageDialogService _dialogService;
-        private readonly ICodeDataSource _dataSource;
+        private readonly IDataSource _dataSource;
 
         public ProductCodePageViewModel(INavigationService navigationService, IPageDialogService dialogService
-        ,ICodeDataSource dataSource
+        ,IDataSource dataSource
             ) : base(navigationService)
         {
             _dialogService = dialogService;
@@ -92,7 +92,17 @@ namespace GrKouk.CodeManager.ViewModels
                 {
                     ItemsCollection = new ObservableCollection<CodeDto>();
                 }
-                ItemsCollection.Clear();
+
+                try
+                {
+                    ItemsCollection.Clear();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                   
+                }
+               
                 var items = await GetItemsAsync();
                 foreach (var item in items)
                 {
