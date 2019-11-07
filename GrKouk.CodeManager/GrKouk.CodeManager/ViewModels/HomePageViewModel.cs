@@ -46,15 +46,16 @@ namespace GrKouk.CodeManager.ViewModels
             MenuItems.Add(new MyMenuItem()
             {
                 Icon = "ic_viewb",
+                PageName = nameof(ProductCodePage),
+                Title = "Lookup Code"
+            });
+            MenuItems.Add(new MyMenuItem()
+            {
+                Icon = "ic_viewb",
                 PageName = nameof(SettingsPage),
                 Title = "Settings Page"
             });
-            //MenuItems.Add(new MyMenuItem()
-            //{
-            //    Icon = "ic_viewb",
-            //    PageName = nameof(ProductListPage),
-            //    Title = "Product List"
-            //});
+           
             //MenuItems.Add(new MyMenuItem()
             //{
             //    Icon = "ic_viewb",

@@ -9,9 +9,35 @@
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
         <Label Text="Welcome to Product Page" />
         <StackLayout>
-            <Label Text="Test setting"></Label>
-            <Entry Text="{Binding TestSetting}"></Entry>
+            <Label Text="Look up code"></Label>
+            <Entry Text="{Binding CodeLookup}"></Entry>
         </StackLayout>
-        <Button Text="Save setting" Command="{Binding SaveCommand}"></Button>
+        <Button Text="Lookup" Command="{Binding LookupCommand}"></Button>
+        <CollectionView ItemsSource="{Binding ItemsCollection}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        
+                        <Label Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{Binding Code}"
+                               TextColor="Black"
+                               FontAttributes="Italic"
+                               VerticalOptions="End" />
+                    </Grid>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </StackLayout>
 </ContentPage>

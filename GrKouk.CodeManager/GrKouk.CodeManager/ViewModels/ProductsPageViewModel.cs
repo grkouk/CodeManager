@@ -18,11 +18,15 @@ namespace GrKouk.CodeManager.ViewModels
     {
         private readonly IPageDialogService _dialogService;
         private readonly IDataSource _dataSource;
+        private readonly ICodeDataSource _codeSource;
 
-        public ProductsPageViewModel(INavigationService navigationService, IPageDialogService dialogService,IDataSource dataSource) : base(navigationService)
+        public ProductsPageViewModel(INavigationService navigationService, IPageDialogService dialogService
+            ,IDataSource dataSource
+            ,ICodeDataSource codeSource) : base(navigationService)
         {
             _dialogService = dialogService;
             _dataSource = dataSource;
+            _codeSource = codeSource;
             Title = "Products Page";
         }
 
@@ -94,15 +98,7 @@ namespace GrKouk.CodeManager.ViewModels
 
         private async Task<IEnumerable<ProductListDto>> GetItemsAsync()
         {
-
-            //if (_selectedDateFilterItem != null)
-            //{
-            //    return await _itemsDs.GetItemsInPeriodAsync(_selectedDateFilterItem.FromDate, _selectedDateFilterItem.ToDate);
-            //}
-            //else
-            //{
-            //    return await _itemsDs.GetItemsAsync();
-            //}
+          
             return await _dataSource.GetAllProductsAsync();
         }
 
