@@ -71,16 +71,19 @@ namespace GrKouk.CodeManager.ViewModels
             IsBusy = true;
             try
             {
-                if (ItemsCollection == null)
-                {
-                    ItemsCollection = new ObservableCollection<ProductListDto>();
-                }
-                ItemsCollection.Clear();
+                var itCol = new ObservableCollection<ProductListDto>();
+                //if (ItemsCollection == null)
+                //{
+                //    ItemsCollection = new ObservableCollection<ProductListDto>();
+                //}
+                //ItemsCollection.Clear();
                 var items = await GetItemsAsync();
                 foreach (var item in items)
                 {
-                    ItemsCollection.Add(item);
+                    itCol.Add(item);
                 }
+
+                ItemsCollection = itCol;
             }
             catch (Exception e)
             {
