@@ -12,45 +12,45 @@
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
- <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}" Grid.Row="0" />
+        <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}" Grid.Row="0" />
         <StackLayout Margin="10" Grid.Row="1">
-       <Label Text="{Binding ItemsCollection.Count, StringFormat='Number of items: {0}'}" />
-       <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
-            <CollectionView ItemsSource="{Binding ItemsCollection}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+            <Label Text="{Binding ItemsCollection.Count, StringFormat='Number of items: {0}'}" />
+            <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+                <CollectionView ItemsSource="{Binding ItemsCollection}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
 
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.RowSpan="2" 
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.RowSpan="2" 
                                    Source="{Binding ImageUrl}" 
                                    Aspect="AspectFill"
                                    HeightRequest="60" 
                                    WidthRequest="60" />
-                            <Label Grid.Column="1"
+                                <Label Grid.Column="1"
                                    Text="{Binding Name}"
                                    TextColor="Black"
                                    FontAttributes="Bold" />
-                            <Label Grid.Row="1"
+                                <Label Grid.Row="1"
                                    Grid.Column="1"
                                    Text="{Binding Code}"
                                    TextColor="Black"
                                    FontAttributes="Italic"
                                    VerticalOptions="End" />
-                        </Grid>
+                            </Grid>
 
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </RefreshView>
-       
-    </StackLayout>
-</Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+        </StackLayout>
+    </Grid>
 </ContentPage>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Models;
 using GrKouk.CodeManager.Services;
+using GrKouk.InfoSystem.Dtos.MobileDtos;
 using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Essentials;
@@ -62,14 +63,20 @@ namespace GrKouk.CodeManager.ViewModels
         }
 
         #endregion
-        private ObservableCollection<CodeDto> _itemsCollection;
+        private ObservableCollection<CodeDto> _nopItems;
 
-        public ObservableCollection<CodeDto> ItemsCollection
+        public ObservableCollection<CodeDto> NopItems
         {
-            get => _itemsCollection;
-            set => SetProperty(ref _itemsCollection, value);
+            get => _nopItems;
+            set => SetProperty(ref _nopItems, value);
         }
+        private ObservableCollection<ProductListDto> _items;
 
+        public ObservableCollection<ProductListDto> Items
+        {
+            get => _items;
+            set => SetProperty(ref _items, value);
+        }
         #region RefreshCommand
 
         private DelegateCommand _refreshCommand;
@@ -88,25 +95,42 @@ namespace GrKouk.CodeManager.ViewModels
             IsBusy = true;
             try
             {
-                if (ItemsCollection == null)
+                if (NopItems == null)
                 {
-                    ItemsCollection = new ObservableCollection<CodeDto>();
+                    NopItems = new ObservableCollection<CodeDto>();
                 }
 
                 try
                 {
-                    ItemsCollection.Clear();
+                    NopItems.Clear();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                   
                 }
-               
+                var nopItems = await GetNopItemsAsync();
+                foreach (var item in nopItems)
+                {
+                    NopItems.Add(item);
+                }
+
+                if (Items == null)
+                {
+                    Items = new ObservableCollection<ProductListDto>();
+                }
+
+                try
+                {
+                    Items.Clear();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 var items = await GetItemsAsync();
                 foreach (var item in items)
                 {
-                    ItemsCollection.Add(item);
+                    Items.Add(item);
                 }
             }
             catch (Exception e)
@@ -122,9 +146,13 @@ namespace GrKouk.CodeManager.ViewModels
             }
         }
 
-        private async Task<IEnumerable<CodeDto>> GetItemsAsync()
+        private async Task<IEnumerable<ProductListDto>> GetItemsAsync()
         {
             return await _dataSource.GetCodesAsync(_codeLookup);
+        }
+        private async Task<IEnumerable<CodeDto>> GetNopItemsAsync()
+        {
+            return await _dataSource.GetNopCodesAsync(_codeLookup);
         }
     }
 }
