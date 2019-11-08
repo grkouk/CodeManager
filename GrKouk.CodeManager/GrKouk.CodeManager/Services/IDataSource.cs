@@ -12,6 +12,6 @@ namespace GrKouk.CodeManager.Services
         Task<IEnumerable<ProductListDto>> GetAllProductsAsync();
         Task<IEnumerable<ProductListDto>> GetProductsAsync(string productNameFilter);
         Task<IEnumerable<ProductListDto>> GetCodesAsync(string codeBase);
-        Task<IEnumerable<CodeDto>> GetNopCodesAsync(string codeBase);
+        Task<IEnumerable<ProductListDto>> GetNopCodesAsync(string codeBase);
     }
 }

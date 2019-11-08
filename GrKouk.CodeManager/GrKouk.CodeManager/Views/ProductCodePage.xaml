@@ -18,12 +18,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                   
+
                 </Grid.ColumnDefinitions>
                 <Entry Grid.Column="0" Text="{Binding CodeLookup}"></Entry>
                 <Button Grid.Column="1" Text="Lookup" Command="{Binding LookupCommand}"></Button>
             </Grid>
-           
+
             <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}"  />
         </StackLayout>
         <StackLayout Grid.Row="1" >
@@ -45,14 +45,16 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-
-
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Name}"
+                                               TextColor="Black"
+                                               FontAttributes="Bold" />
                                         <Label Grid.Row="1"
-                           Grid.Column="1"
-                           Text="{Binding Code}"
-                           TextColor="Black"
-                           FontAttributes="Italic"
-                           VerticalOptions="End" />
+                                           Grid.Column="1"
+                                           Text="{Binding Code}"
+                                           TextColor="Black"
+                                           FontAttributes="Italic"
+                                           VerticalOptions="End" />
                                     </Grid>
 
                                 </DataTemplate>
@@ -76,7 +78,10 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
-
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Name}"
+                                               TextColor="Black"
+                                               FontAttributes="Bold" />
                                         <Label Grid.Row="1"
                                               Grid.Column="1"
                                               Text="{Binding Code}"

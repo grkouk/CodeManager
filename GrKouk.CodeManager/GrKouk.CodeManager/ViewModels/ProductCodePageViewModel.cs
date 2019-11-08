@@ -63,9 +63,9 @@ namespace GrKouk.CodeManager.ViewModels
         }
 
         #endregion
-        private ObservableCollection<CodeDto> _nopItems;
+        private ObservableCollection<ProductListDto> _nopItems;
 
-        public ObservableCollection<CodeDto> NopItems
+        public ObservableCollection<ProductListDto> NopItems
         {
             get => _nopItems;
             set => SetProperty(ref _nopItems, value) ;
@@ -95,7 +95,7 @@ namespace GrKouk.CodeManager.ViewModels
             IsBusy = true;
             try
             {
-                var nnItems = new ObservableCollection<CodeDto>();
+                var nnItems = new ObservableCollection<ProductListDto>();
                
                 var npItems = await GetNopItemsAsync();
                 if (npItems != null)
@@ -145,7 +145,7 @@ namespace GrKouk.CodeManager.ViewModels
         {
             return await _dataSource.GetCodesAsync(_codeLookup);
         }
-        private async Task<IEnumerable<CodeDto>> GetNopItemsAsync()
+        private async Task<IEnumerable<ProductListDto>> GetNopItemsAsync()
         {
             return await _dataSource.GetNopCodesAsync(_codeLookup);
         }

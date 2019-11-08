@@ -51,10 +51,10 @@ namespace GrKouk.CodeManager.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<CodeDto>> GetNopCodesAsync(string codeBase)
+        public async Task<IEnumerable<ProductListDto>> GetNopCodesAsync(string codeBase)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
-            var apiCall = $"/products/productcodes?codebase={codeBase}";
+            var apiCall = $"/products/codes?codebase={codeBase}";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
             //Thread.Sleep(5000);
@@ -68,15 +68,15 @@ namespace GrKouk.CodeManager.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonContent = await response.Content.ReadAsStringAsync();
-                    var itemsList = JsonConvert.DeserializeObject<List<CodeDto>>(jsonContent);
+                    var itemsList = JsonConvert.DeserializeObject<List<ProductListDto>>(jsonContent);
                     return itemsList;
                 }
-                return  new List<CodeDto>();
+                return  new List<ProductListDto>();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return new List<CodeDto>();
+                return new List<ProductListDto>();
                 //throw;
             }
         }
