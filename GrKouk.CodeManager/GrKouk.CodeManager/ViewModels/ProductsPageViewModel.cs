@@ -7,10 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Models;
 using GrKouk.CodeManager.Services;
-using GrKouk.InfoSystem.Dtos.MobileDtos;
+
 using Prism.Navigation;
 using Prism.Services;
-using GrKouk.InfoSystem.Dtos.WebDtos;
+
 
 namespace GrKouk.CodeManager.ViewModels
 {

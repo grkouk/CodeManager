@@ -31,7 +31,7 @@
                 <StackLayout Orientation="Horizontal">
                     <StackLayout>
                         <Label Text="Nop Codes"></Label>
-                        <Label Text="{Binding NopItems.Count, StringFormat='Number of items: {0}'}" />
+                        <Label Text="{Binding NopItems.Count,TargetNullValue='{Null}'  ,StringFormat='Number of items: {0}'}" />
                         <CollectionView ItemsSource="{Binding NopItems}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
@@ -61,8 +61,8 @@
                     </StackLayout>
                     <StackLayout>
                         <Label Text="ERP Codes"></Label>
-                        <Label Text="{Binding Items.Count, StringFormat='Number of items: {0}'}" />
-                        <CollectionView ItemsSource="{Binding Items}">
+                        <Label Text="{Binding ErpItems.Count,TargetNullValue='{Null}', StringFormat='Number of items: {0}'}" />
+                        <CollectionView ItemsSource="{Binding ErpItems}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Padding="10">

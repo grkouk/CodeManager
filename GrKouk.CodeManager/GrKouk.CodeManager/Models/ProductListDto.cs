@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GrKouk.CodeManager.Models
 {
-    public class ProductListDtoToDelete
+    public class ProductListDto
     {
         public int Id { get; set; }
         public string Code { get; set; }

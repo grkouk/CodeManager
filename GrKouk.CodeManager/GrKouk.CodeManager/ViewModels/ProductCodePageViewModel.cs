@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Models;
 using GrKouk.CodeManager.Services;
-using GrKouk.InfoSystem.Dtos.MobileDtos;
+
 using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Essentials;
@@ -20,7 +20,7 @@ namespace GrKouk.CodeManager.ViewModels
         private readonly IDataSource _dataSource;
 
         public ProductCodePageViewModel(INavigationService navigationService, IPageDialogService dialogService
-        ,IDataSource dataSource
+        , IDataSource dataSource
             ) : base(navigationService)
         {
             _dialogService = dialogService;
@@ -31,7 +31,7 @@ namespace GrKouk.CodeManager.ViewModels
         public string CodeLookup
         {
             get => _codeLookup;
-            set =>  SetProperty(ref _codeLookup,value);
+            set => SetProperty(ref _codeLookup, value);
         }
 
         private DelegateCommand _lookupCommand;
@@ -68,14 +68,14 @@ namespace GrKouk.CodeManager.ViewModels
         public ObservableCollection<CodeDto> NopItems
         {
             get => _nopItems;
-            set => SetProperty(ref _nopItems, value);
+            set => SetProperty(ref _nopItems, value) ;
         }
-        private ObservableCollection<ProductListDto> _items;
+        private ObservableCollection<ProductListDto> _erpItems;
 
-        public ObservableCollection<ProductListDto> Items
+        public ObservableCollection<ProductListDto> ErpItems
         {
-            get => _items;
-            set => SetProperty(ref _items, value);
+            get => _erpItems;
+            set => SetProperty(ref _erpItems, value);
         }
         #region RefreshCommand
 
@@ -95,43 +95,38 @@ namespace GrKouk.CodeManager.ViewModels
             IsBusy = true;
             try
             {
-                if (NopItems == null)
+                var nnItems = new ObservableCollection<CodeDto>();
+               
+                var npItems = await GetNopItemsAsync();
+                if (npItems != null)
                 {
-                    NopItems = new ObservableCollection<CodeDto>();
+                    foreach (var item in npItems)
+                    {
+                        if (!String.IsNullOrEmpty(item.Code))
+                        {
+                            //_nopItems.Add(item);
+                            nnItems.Add(item);
+                        }
+                    }
                 }
 
-                try
+                NopItems = nnItems;
+
+                var eeItems = new ObservableCollection<ProductListDto>();
+                var erItems = await GetItemsAsync();
+                if (erItems != null)
                 {
-                    NopItems.Clear();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                var nopItems = await GetNopItemsAsync();
-                foreach (var item in nopItems)
-                {
-                    NopItems.Add(item);
+                    foreach (var item in erItems)
+                    {
+                        if (!String.IsNullOrEmpty(item.Code))
+                        {
+                            eeItems.Add(item);
+                        }
+                    }
                 }
 
-                if (Items == null)
-                {
-                    Items = new ObservableCollection<ProductListDto>();
-                }
+                ErpItems = eeItems;
 
-                try
-                {
-                    Items.Clear();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                var items = await GetItemsAsync();
-                foreach (var item in items)
-                {
-                    Items.Add(item);
-                }
             }
             catch (Exception e)
             {
@@ -142,7 +137,7 @@ namespace GrKouk.CodeManager.ViewModels
             }
             finally
             {
-                this.IsBusy = false;
+                IsBusy = false;
             }
         }
 

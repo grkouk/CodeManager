@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Models;
-using GrKouk.InfoSystem.Dtos.MobileDtos;
+
 using Newtonsoft.Json;
 using Xamarin.Essentials;
 
@@ -71,12 +71,12 @@ namespace GrKouk.CodeManager.Services
                     var itemsList = JsonConvert.DeserializeObject<List<CodeDto>>(jsonContent);
                     return itemsList;
                 }
-                return null;
+                return  new List<CodeDto>();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return new List<CodeDto>();
                 //throw;
             }
         }
@@ -100,12 +100,12 @@ namespace GrKouk.CodeManager.Services
                     var itemsList = JsonConvert.DeserializeObject<List<ProductListDto>>(jsonContent);
                     return itemsList;
                 }
-                return null;
+                return new List<ProductListDto>();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null;
+                return new List<ProductListDto>();
                 //throw;
             }
         }
