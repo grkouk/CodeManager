@@ -109,5 +109,63 @@ namespace GrKouk.CodeManager.Services
                 //throw;
             }
         }
+        public async Task<IEnumerable<ListItemDto>> GetNopProductsAsync(string codeBase)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var apiCall = $"/products/codes?codebase={codeBase}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+
+            //Thread.Sleep(5000);
+            var httpClient = new HttpClient();
+
+            try
+            {
+                var uri = new Uri(apiCallAddress);
+
+                var response = await httpClient.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var itemsList = JsonConvert.DeserializeObject<List<ListItemDto>>(jsonContent);
+                    return itemsList;
+                }
+                return new List<ListItemDto>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<ListItemDto>();
+                //throw;
+            }
+        }
+        public async Task<IEnumerable<ListItemDto>> GetNopProductAttributesAsync(string productId, string attributeId)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var apiCall = $"/products/codes?productid={productId}&attributeid={attributeId}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+
+            //Thread.Sleep(5000);
+            var httpClient = new HttpClient();
+
+            try
+            {
+                var uri = new Uri(apiCallAddress);
+
+                var response = await httpClient.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var itemsList = JsonConvert.DeserializeObject<List<ListItemDto>>(jsonContent);
+                    return itemsList;
+                }
+                return new List<ListItemDto>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<ListItemDto>();
+                //throw;
+            }
+        }
     }
 }
