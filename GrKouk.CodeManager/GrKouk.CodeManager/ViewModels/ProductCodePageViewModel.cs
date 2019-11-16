@@ -33,10 +33,10 @@ namespace GrKouk.CodeManager.ViewModels
             get => _codeLookup;
             set => SetProperty(ref _codeLookup, value);
         }
-
-        private DelegateCommand _lookupCommand;
         private string _codeLookup;
-
+        
+        private DelegateCommand _lookupCommand;
+        
         public DelegateCommand LookupCommand =>
             _lookupCommand ?? (_lookupCommand = new DelegateCommand(async () => await LookupDataCommand()));
         private async Task LookupDataCommand()

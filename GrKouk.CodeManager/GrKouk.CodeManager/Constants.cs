@@ -8,5 +8,10 @@ namespace GrKouk.CodeManager
     {
         public const string WebApiBaseAddressKey = "webApiBaseAddress";
         public const string WebApiNopBaseAddressKey = "webApiNopBaseAddress";
+        public const string WebSiteUrl = "webSiteUrl";
+        public const string CampaignSource = "campaignSource";
+        public const string CampaignMedium = "campaignMedium";
+        public const string CampaignName = "campaignName";
+
     }
 }

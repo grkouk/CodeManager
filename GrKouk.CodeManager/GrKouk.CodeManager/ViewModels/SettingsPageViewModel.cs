@@ -24,6 +24,7 @@ namespace GrKouk.CodeManager.ViewModels
 
             WebApiBaseAddress = Preferences.Get(Constants.WebApiBaseAddressKey, "Not Set");
             WebApiNopBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "Not Set");
+
         }
 
         private string _webApiBaseAddress;
@@ -38,6 +39,31 @@ namespace GrKouk.CodeManager.ViewModels
         {
             get => _webApiNopBaseAddress;
             set => SetProperty(ref _webApiNopBaseAddress, value);
+        }
+        
+        private string _webSiteUrl;
+        public string WebSiteUrl
+        {
+            get => _webSiteUrl;
+            set => SetProperty(ref _webSiteUrl, value);
+        }
+        private string _campaignSource;
+        public string CampaignSource
+        {
+            get => _campaignSource;
+            set => SetProperty(ref _campaignSource, value);
+        }
+        private string _campaignMedium;
+        public string CampaignMedium
+        {
+            get => _campaignMedium;
+            set => SetProperty(ref _campaignMedium, value);
+        }
+        private string _campaignName;
+        public string CampaignName
+        {
+            get => _campaignName;
+            set => SetProperty(ref _campaignName, value);
         }
 
         private DelegateCommand _saveCommand;

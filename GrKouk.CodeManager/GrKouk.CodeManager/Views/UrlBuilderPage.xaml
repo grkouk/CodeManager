@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GrKouk.CodeManager.Views.UrlBuilderPage"
+             Title="{Binding Title}">
+    <StackLayout Padding="10">
+        <StackLayout>
+            <Label Text="Web site Url"></Label>
+            <Entry Text="{Binding WebSiteUrl, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Campaign Source"></Label>
+            <Entry Text="{Binding CampaignSource, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Campaign Medium"></Label>
+            <Entry Text="{Binding CampaignMedium, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Campaign Name"></Label>
+            <Entry Text="{Binding CampaignName, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <Button Text="Create Url" Command="{Binding CreateUrlCommand}"></Button>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80*" />
+                <ColumnDefinition Width="20*" />
+                
+            </Grid.ColumnDefinitions>
+            <Label Text="{Binding GeneratedUrl}" Grid.Column="0" />
+            <Button Text="CP" Command="{Binding CopyToClipCommand}" Grid.Column="1"></Button>
+        </Grid>
+    </StackLayout>
+</ContentPage>
