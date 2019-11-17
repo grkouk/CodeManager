@@ -73,7 +73,12 @@ namespace GrKouk.CodeManager.ViewModels
         public string GeneratedUrl
         {
             get => _generatedUrl;
-            set => SetProperty(ref _generatedUrl, value);
+            set
+            {
+
+                SetProperty(ref _generatedUrl, value);
+                HasText = !string.IsNullOrEmpty(_generatedUrl);
+            }
         }
 
         #endregion
@@ -105,7 +110,7 @@ namespace GrKouk.CodeManager.ViewModels
             try
             {
                 var finalUrl = "";
-                finalUrl = $"{WebSiteUrl}?{CampaignSource}&{CampaignMedium}{CampaignName}";
+                finalUrl = $"{WebSiteUrl}?utm_source={CampaignSource}&utm_medium={CampaignMedium}&utm_campaign={CampaignName}";
                 GeneratedUrl = finalUrl;
 
 
@@ -124,18 +129,45 @@ namespace GrKouk.CodeManager.ViewModels
         }
 
         #endregion
-        public bool HasText => !string.IsNullOrEmpty(GeneratedUrl);
+
+        private bool _hasText;
+        public bool HasText
+        {
+            get => _hasText;
+            set => SetProperty(ref _hasText, value);
+        }
+
         #region Clipboard
         private DelegateCommand _copyToClipCommand;
 
+
         public DelegateCommand CopyToClipCommand =>
             _copyToClipCommand ?? (_copyToClipCommand = new DelegateCommand(async () => await CopyToClipCmd()))
-            .ObservesCanExecute(()=>HasText);
+            .ObservesCanExecute(() => HasText);
 
         private async Task CopyToClipCmd()
         {
-            await Clipboard.SetTextAsync("");
+            await Clipboard.SetTextAsync(GeneratedUrl);
         }
+        #endregion
+
+        #region Navigation
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+             Preferences.Set(Constants.CampaignMedium, CampaignMedium);
+             Preferences.Set(Constants.CampaignSource, CampaignSource);
+             Preferences.Set(Constants.CampaignName, CampaignName);
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            CampaignMedium = Preferences.Get(Constants.CampaignMedium, "");
+            CampaignSource = Preferences.Get(Constants.CampaignSource, "");
+            CampaignName = Preferences.Get(Constants.CampaignName, "");
+        }
+    
+
         #endregion
     }
 }
