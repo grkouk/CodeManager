@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>GrKouk</Authors>
+    <Description>Shared project for solution</Description>
+    <Copyright>George Koukoudis</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
