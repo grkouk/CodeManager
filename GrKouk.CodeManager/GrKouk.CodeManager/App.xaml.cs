@@ -1,4 +1,5 @@
-﻿using Prism;
+﻿using GrKouk.CodeManager.Services;
+using Prism;
 using Prism.Ioc;
 using GrKouk.CodeManager.ViewModels;
 using GrKouk.CodeManager.Views;
@@ -23,13 +24,23 @@ namespace GrKouk.CodeManager
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            //await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync(nameof(HomePage) + "/" + nameof(NavigationPage) + "/" + nameof(Views.MainPage));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.Register<IDataSource, CodeManagerDataSource>();
+            //containerRegistry.Register<ICodeDataSource,CodeDataSource>();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<ProductCodePage, ProductCodePageViewModel>();
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
+            containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
+            containerRegistry.RegisterForNavigation<ProductsPage, ProductsPageViewModel>();
+            containerRegistry.RegisterForNavigation<ProductAttrCopy, ProductAttrCopyViewModel>();
+            containerRegistry.RegisterForNavigation<UrlBuilderPage, UrlBuilderPageViewModel>();
         }
     }
 }

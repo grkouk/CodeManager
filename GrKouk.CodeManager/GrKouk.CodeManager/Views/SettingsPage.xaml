@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="GrKouk.CodeManager.Views.SettingsPage"
+             Title="{Binding Title}">
+    <StackLayout Padding="10">
+       <StackLayout>
+            <Label Text="Web Api Base Address"></Label>
+            <Entry Text="{Binding WebApiBaseAddress, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Nop Web Api Base Address"></Label>
+            <Entry Text="{Binding WebApiNopBaseAddress, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <Button Text="Save setting" Command="{Binding SaveCommand}"></Button>
+    </StackLayout>
+</ContentPage>
