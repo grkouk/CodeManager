@@ -78,19 +78,20 @@ namespace GrKouk.CodeManager.ViewModels
                 //}
                 //ItemsCollection.Clear();
                 var items = await GetItemsAsync();
-                foreach (var item in items)
+                if (items !=null)
                 {
-                    itCol.Add(item);
-                }
+                    foreach (var item in items)
+                    {
+                        itCol.Add(item);
+                    }
 
-                ItemsCollection = itCol;
+                    ItemsCollection = itCol;
+                }
+               
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                await _dialogService.DisplayAlertAsync("Error", e.ToString(), "ok");
-
-                //throw;
+               await _dialogService.DisplayAlertAsync("Error", e.ToString(), "ok");
             }
             finally
             {
