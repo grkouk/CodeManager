@@ -22,6 +22,7 @@ namespace GrKouk.CodeManager
 
         protected override async void OnInitialized()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTk0MDUyQDMxMzcyZTM0MmUzMEQwczdzaGFzZ3pqN25QamprWVRQc3Zyb0xLMDlVMEdGYVJnYkQzc3NxZmM9");
             InitializeComponent();
 
             //await NavigationService.NavigateAsync("NavigationPage/MainPage");

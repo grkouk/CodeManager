@@ -6,7 +6,7 @@ namespace GrKouk.CodeManager
 {
     public static class Constants
     {
-        public const string WebApiBaseAddressKey = "webApiBaseAddress";
+        public const string WebApiErpBaseAddressKey = "webApiBaseAddress";
         public const string WebApiNopBaseAddressKey = "webApiNopBaseAddress";
         public const string WebSiteUrl = "webSiteUrl";
         public const string CampaignSource = "campaignSource";

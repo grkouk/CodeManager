@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DryIoc;
 
 namespace GrKouk.CodeManager.Models
 {
@@ -8,5 +9,6 @@ namespace GrKouk.CodeManager.Models
     {
         public int ItemId { get; set; }
         public string ItemName { get; set; }
+        public string ItemCode { get; set; }
     }
 }

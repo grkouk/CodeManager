@@ -1,8 +1,132 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:c="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GrKouk.CodeManager.Views.NopProductDetailsPage">
-  
+             x:Class="GrKouk.CodeManager.Views.NopProductDetailsPage"
+Title="{Binding Title}"
+>
+<ContentPage.Resources>
+    <ResourceDictionary>
+        <c:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
+        </ResourceDictionary>
+</ContentPage.Resources>
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="80*" />
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="0">
+           
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                   
+
+                </Grid.ColumnDefinitions>
+                <Picker Grid.Column="0" ItemsSource="{Binding ShopList}"
+                        ItemDisplayBinding="{Binding ItemName}"
+                        SelectedItem="{Binding SelectedShop}"
+                        >
+
+                </Picker>
+
+                <autocomplete:SfAutoComplete  ShowClearButton="True" 
+                                                  Grid.Column="1"
+                                                  SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
+                                                  SelectedIndex="{Binding SelectedProductIndex, Mode=TwoWay}"
+                                                  
+                                                  DisplayMemberPath="Name"
+                                                  DataSource="{Binding NopItems}"
+                                                  SuggestionMode="Contains">
+                        <autocomplete:SfAutoComplete.Behaviors>
+                            <b:EventToCommandBehavior EventName="SelectionChanged"
+                                                      Command="{Binding ProductValueChangedCommand}"
+                                                      EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
+                        </autocomplete:SfAutoComplete.Behaviors>
+                    </autocomplete:SfAutoComplete>
+               
+               
+               
+            </Grid>
+
+            <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}"  />
+        </StackLayout>
+        <StackLayout Grid.Row="1" >
+            <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout>
+                        <Label Text="Nop Codes"></Label>
+                        <Label Text="{Binding NopItems.Count,TargetNullValue='{Null}'  ,StringFormat='Number of items: {0}'}" />
+                        <CollectionView ItemsSource="{Binding NopItems}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Name}"
+                                               TextColor="Black"
+                                               FontAttributes="Bold" />
+                                        <Label Grid.Row="1"
+                                           Grid.Column="1"
+                                           Text="{Binding Code}"
+                                           TextColor="Black"
+                                           FontAttributes="Italic"
+                                           VerticalOptions="End" />
+                                    </Grid>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label Text="ERP Codes"></Label>
+                        <Label Text="{Binding ErpItems.Count,TargetNullValue='{Null}', StringFormat='Number of items: {0}'}" />
+                        <CollectionView ItemsSource="{Binding ErpItems}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Name}"
+                                               TextColor="Black"
+                                               FontAttributes="Bold" />
+                                        <Label Grid.Row="1"
+                                              Grid.Column="1"
+                                              Text="{Binding Code}"
+                                              TextColor="Black"
+                                              FontAttributes="Italic"
+                                              VerticalOptions="End" />
+                                    </Grid>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+
+                </StackLayout>
+            </RefreshView>
+        </StackLayout>
+    </Grid>
 </ContentPage>

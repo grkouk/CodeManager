@@ -1,4 +1,4 @@
-﻿using Prism;
+using Prism;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,7 @@ namespace GrKouk.CodeManager.UWP
     {
         public MainPage()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTk0MDUyQDMxMzcyZTM0MmUzMEQwczdzaGFzZ3pqN25QamprWVRQc3Zyb0xLMDlVMEdGYVJnYkQzc3NxZmM9");
             this.InitializeComponent();
 
             LoadApplication(new GrKouk.CodeManager.App(new UwpInitializer()));
