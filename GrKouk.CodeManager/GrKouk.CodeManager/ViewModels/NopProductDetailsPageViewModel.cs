@@ -4,6 +4,7 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Helpers;
@@ -39,6 +40,7 @@ namespace GrKouk.CodeManager.ViewModels
             if (ShopList == null)
             {
                 LoadShops();
+                SelectedShopIndex = 1;
             }
         }
 
@@ -63,6 +65,66 @@ namespace GrKouk.CodeManager.ViewModels
             get => _shopList;
             set => SetProperty(ref _shopList, value);
         }
+        private int _selectedShopIndex;
+        public int SelectedShopIndex
+        {
+            get => _selectedShopIndex;
+            set => SetProperty(ref _selectedShopIndex, value);
+        }
+        private ListItemDto _selectedShop;
+        public ListItemDto SelectedShop { get => _selectedShop; set => SetProperty(ref _selectedShop, value); }
+
+        #region ShopValueChanged
+
+        private DelegateCommand<object> _selectedShopIndexChangedCommand;
+        public DelegateCommand<object> SelectedShopIndexChangedCommand =>
+            _selectedShopIndexChangedCommand ?? (_selectedShopIndexChangedCommand = new DelegateCommand<object>((t) => SelectedShopIndexChangedCmd(t)));
+
+        private void SelectedShopIndexChangedCmd(object value)
+        {
+            if (value != null)
+            {
+
+                if (value is string)
+                {
+                }
+               
+#if DEBUG
+                    Debug.WriteLine("SelectedShopIndexChangedCmd");
+
+                    try
+                    {
+                        var debugMessage = $"Value of value is {value.ToString()}";
+                        Debug.WriteLine(debugMessage);
+                    }
+                    catch
+                    {
+
+                    }
+#endif
+                    //var productId = (value as ListItemDto).ItemCode;
+               
+               
+            }
+            else
+            {
+#if DEBUG
+                Debug.WriteLine("SelectedShopIndexChangedCmd");
+
+                try
+                {
+                    //var debugMessage = $"Selected index is value is {}";
+                    //Debug.WriteLine(debugMessage);
+                }
+                catch
+                {
+
+                }
+#endif
+            }
+        }
+
+        #endregion
 
         private void LoadShops()
         {
@@ -80,6 +142,7 @@ namespace GrKouk.CodeManager.ViewModels
             }
 
             ShopList = cItems;
+
         }
         #endregion
 
@@ -143,26 +206,28 @@ namespace GrKouk.CodeManager.ViewModels
         }
 
         private DelegateCommand<object> _productValueChangedCommand;
+
+
         public DelegateCommand<object> ProductValueChangedCommand =>
-            _productValueChangedCommand ?? (_productValueChangedCommand = new DelegateCommand<object>( (t) =>  ProductValueChangedCmd(t)));
+            _productValueChangedCommand ?? (_productValueChangedCommand = new DelegateCommand<object>((t) => ProductValueChangedCmd(t)));
 
         private void ProductValueChangedCmd(object value)
         {
-           
+
             if (value.GetType() == typeof(string))
             {
-               
+
             }
             else if (value != null)
             {
                 var productId = (value as ProductListDto).Id;
-               
-               
+
+
             }
             else
             {
                 //CategoryText = string.Empty;
-               // CostCentreText = string.Empty;
+                // CostCentreText = string.Empty;
             }
         }
         #endregion

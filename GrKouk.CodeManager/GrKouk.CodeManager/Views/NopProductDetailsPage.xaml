@@ -9,33 +9,40 @@
              x:Class="GrKouk.CodeManager.Views.NopProductDetailsPage"
 Title="{Binding Title}"
 >
-<ContentPage.Resources>
-    <ResourceDictionary>
-        <c:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <c:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
         </ResourceDictionary>
-</ContentPage.Resources>
+    </ContentPage.Resources>
     <Grid Padding="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="20*" />
             <RowDefinition Height="80*" />
         </Grid.RowDefinitions>
         <StackLayout Grid.Row="0">
-           
+
             <Grid>
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
-                   
+
 
                 </Grid.ColumnDefinitions>
                 <Picker Grid.Column="0" ItemsSource="{Binding ShopList}"
                         ItemDisplayBinding="{Binding ItemName}"
                         SelectedItem="{Binding SelectedShop}"
+                        SelectedIndex="{Binding SelectedShopIndex}"
                         >
-
+                    <Picker.Behaviors>
+                        <b:EventToCommandBehavior EventName="SelectedIndexChanged" 
+                              Command="{Binding SelectedShopIndexChangedCommand}"
+                              EventArgsConverter="{StaticResource AutoCompleteValueConverter}"
+                              ></b:EventToCommandBehavior>
+                    </Picker.Behaviors>
                 </Picker>
 
-                <autocomplete:SfAutoComplete  ShowClearButton="True" 
+                <autocomplete:SfAutoComplete  ShowClearButton="True" HeightRequest="40"
                                                   Grid.Column="1"
                                                   SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
                                                   SelectedIndex="{Binding SelectedProductIndex, Mode=TwoWay}"
@@ -43,15 +50,15 @@ Title="{Binding Title}"
                                                   DisplayMemberPath="Name"
                                                   DataSource="{Binding NopItems}"
                                                   SuggestionMode="Contains">
-                        <autocomplete:SfAutoComplete.Behaviors>
-                            <b:EventToCommandBehavior EventName="SelectionChanged"
+                    <autocomplete:SfAutoComplete.Behaviors>
+                        <b:EventToCommandBehavior EventName="SelectionChanged"
                                                       Command="{Binding ProductValueChangedCommand}"
                                                       EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
-                        </autocomplete:SfAutoComplete.Behaviors>
-                    </autocomplete:SfAutoComplete>
-               
-               
-               
+                    </autocomplete:SfAutoComplete.Behaviors>
+                </autocomplete:SfAutoComplete>
+
+
+
             </Grid>
 
             <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}"  />
