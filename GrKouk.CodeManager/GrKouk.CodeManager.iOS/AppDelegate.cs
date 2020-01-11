@@ -1,3 +1,5 @@
+using Syncfusion.XForms.iOS.ComboBox;
+using Syncfusion.SfPicker.XForms.iOS;
 using Syncfusion.SfAutoComplete.XForms.iOS;
 using Foundation;
 using Prism;
@@ -22,7 +24,9 @@ namespace GrKouk.CodeManager.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            global::Xamarin.Forms.Forms.Init();
+global::Xamarin.Forms.Forms.Init();
+SfComboBoxRenderer.Init();
+SfPickerRenderer.Init();
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
                 "MTk0MDUyQDMxMzcyZTM0MmUzMEQwczdzaGFzZ3pqN25QamprWVRQc3Zyb0xLMDlVMEdGYVJnYkQzc3NxZmM9");
             SfAutoCompleteRenderer.Init();

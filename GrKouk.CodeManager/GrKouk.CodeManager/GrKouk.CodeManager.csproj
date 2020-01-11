@@ -15,6 +15,8 @@
     <PackageReference Include="FluentFTP" Version="29.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="17.4.0.41" />
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="17.4.0.41" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.4.0.41" />
     <PackageReference Include="Xamarin.Essentials" Version="1.4.0-pre" />
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />

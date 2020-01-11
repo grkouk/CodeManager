@@ -58,6 +58,8 @@ namespace GrKouk.CodeManager.ViewModels
 
         #region Shops
 
+        private string _selectedShopId;
+
         private ObservableCollection<ListItemDto> _shopList;
 
         public ObservableCollection<ListItemDto> ShopList
@@ -82,19 +84,28 @@ namespace GrKouk.CodeManager.ViewModels
 
         private void SelectedShopIndexChangedCmd(object value)
         {
+#if DEBUG
+            Debug.WriteLine("SelectedShopIndexChangedCmd");
+#endif
             if (value != null)
             {
 
                 if (value is string)
                 {
                 }
-               
-#if DEBUG
-                    Debug.WriteLine("SelectedShopIndexChangedCmd");
 
+                if (value is ListItemDto)
+                {
+                    _selectedShopId = (value as ListItemDto).ItemCode;
+                    if (!IsBusy)
+                    {
+                        RefreshCommand.Execute();
+                    }
+                    
+#if DEBUG
                     try
                     {
-                        var debugMessage = $"Value of value is {value.ToString()}";
+                        var debugMessage = $"Selected index is value is {_selectedShopId}";
                         Debug.WriteLine(debugMessage);
                     }
                     catch
@@ -102,25 +113,12 @@ namespace GrKouk.CodeManager.ViewModels
 
                     }
 #endif
-                    //var productId = (value as ListItemDto).ItemCode;
-               
-               
+                }
+
             }
             else
             {
-#if DEBUG
-                Debug.WriteLine("SelectedShopIndexChangedCmd");
 
-                try
-                {
-                    //var debugMessage = $"Selected index is value is {}";
-                    //Debug.WriteLine(debugMessage);
-                }
-                catch
-                {
-
-                }
-#endif
             }
         }
 
@@ -195,7 +193,12 @@ namespace GrKouk.CodeManager.ViewModels
         }
         private async Task<IEnumerable<ProductListDto>> GetNopItemsAsync()
         {
-            return await _dataSource.GetNopShopProductsAutocompleteListAsync("1");
+            if (!String.IsNullOrEmpty( _selectedShopId))
+            {
+                return await _dataSource.GetNopShopProductsAutocompleteListAsync(_selectedShopId);
+            }
+
+            return null;
         }
 
         private ProductListDto _selectedProductItem;
@@ -214,21 +217,7 @@ namespace GrKouk.CodeManager.ViewModels
         private void ProductValueChangedCmd(object value)
         {
 
-            if (value.GetType() == typeof(string))
-            {
-
-            }
-            else if (value != null)
-            {
-                var productId = (value as ProductListDto).Id;
-
-
-            }
-            else
-            {
-                //CategoryText = string.Empty;
-                // CostCentreText = string.Empty;
-            }
+           
         }
         #endregion
     }

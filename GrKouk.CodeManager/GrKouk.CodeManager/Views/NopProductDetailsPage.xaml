@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
@@ -12,6 +13,7 @@ Title="{Binding Title}"
     <ContentPage.Resources>
         <ResourceDictionary>
             <c:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
+            <c:ComboValueConverter x:Key="ComboboxValueConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <Grid Padding="10">
@@ -24,40 +26,43 @@ Title="{Binding Title}"
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-
-
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="70*" />
                 </Grid.ColumnDefinitions>
-                <Picker Grid.Column="0" ItemsSource="{Binding ShopList}"
-                        ItemDisplayBinding="{Binding ItemName}"
-                        SelectedItem="{Binding SelectedShop}"
-                        SelectedIndex="{Binding SelectedShopIndex}"
-                        >
-                    <Picker.Behaviors>
-                        <b:EventToCommandBehavior EventName="SelectedIndexChanged" 
-                              Command="{Binding SelectedShopIndexChangedCommand}"
-                              EventArgsConverter="{StaticResource AutoCompleteValueConverter}"
-                              ></b:EventToCommandBehavior>
-                    </Picker.Behaviors>
-                </Picker>
+                <StackLayout  Grid.Column="0" >
+                    <combobox:SfComboBox IsEditableMode="False"
+                                         HeightRequest="40"
+                                         SelectedItem="{Binding SelectedShop}"
+                                         SelectedIndex="{Binding SelectedShopIndex}"
+                                         
+                                         DisplayMemberPath="ItemName"  
+                                         DataSource="{Binding ShopList}"
+                                         >
+                        <combobox:SfComboBox.Behaviors>
+                            <b:EventToCommandBehavior EventName="SelectionChanged" 
+                                                     Command="{Binding SelectedShopIndexChangedCommand}"
+                                EventArgsConverter="{StaticResource ComboboxValueConverter}" />
 
-                <autocomplete:SfAutoComplete  ShowClearButton="True" HeightRequest="40"
-                                                  Grid.Column="1"
+                        </combobox:SfComboBox.Behaviors>
+                    </combobox:SfComboBox>
+                </StackLayout>
+                <StackLayout  Grid.Column="1">
+                    <autocomplete:SfAutoComplete  ShowClearButton="True" HeightRequest="40"
+                                                 
                                                   SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
                                                   SelectedIndex="{Binding SelectedProductIndex, Mode=TwoWay}"
                                                   
                                                   DisplayMemberPath="Name"
                                                   DataSource="{Binding NopItems}"
                                                   SuggestionMode="Contains">
-                    <autocomplete:SfAutoComplete.Behaviors>
-                        <b:EventToCommandBehavior EventName="SelectionChanged"
+                        <autocomplete:SfAutoComplete.Behaviors>
+                            <b:EventToCommandBehavior EventName="SelectionChanged"
                                                       Command="{Binding ProductValueChangedCommand}"
                                                       EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
-                    </autocomplete:SfAutoComplete.Behaviors>
-                </autocomplete:SfAutoComplete>
+                        </autocomplete:SfAutoComplete.Behaviors>
+                    </autocomplete:SfAutoComplete>
 
-
+                </StackLayout>
 
             </Grid>
 
