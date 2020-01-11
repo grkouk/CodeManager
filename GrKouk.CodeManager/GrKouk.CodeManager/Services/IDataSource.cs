@@ -10,6 +10,7 @@ namespace GrKouk.CodeManager.Services
     public interface IDataSource
     {
         Task<IEnumerable<ProductListDto>> GetNopShopProductsAutocompleteListAsync(string shop);
+        Task<IEnumerable<ProductListDto>> GetNopShopProductPictureListAsync(string shop, int productId);
         Task<IEnumerable<ProductListDto>> GetAllProductsAsync();
         Task<IEnumerable<ProductListDto>> GetProductsAsync(string productNameFilter);
         Task<IEnumerable<ProductListDto>> GetCodesAsync(string codeBase);

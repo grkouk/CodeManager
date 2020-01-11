@@ -145,6 +145,8 @@ namespace GrKouk.CodeManager.ViewModels
         #endregion
 
         #region products
+
+        private int _selectedProductId;
         private ObservableCollection<ProductListDto> _nopItems;
 
         public ObservableCollection<ProductListDto> NopItems
@@ -216,9 +218,113 @@ namespace GrKouk.CodeManager.ViewModels
 
         private void ProductValueChangedCmd(object value)
         {
+#if DEBUG
+            Debug.WriteLine("ProductValueChangedCmd");
+#endif
+            if (value != null)
+            {
 
+                if (value is ProductListDto)
+                {
+                    _selectedProductId = (value as ProductListDto).Id;
+                    if (!IsBusy)
+                    {
+                        RefreshPicturesCommand.Execute();
+                    }
+#if DEBUG
+                    try
+                    {
+                        var debugMessage = $"Selected index is value is {_selectedProductId}";
+                        Debug.WriteLine(debugMessage);
+                    }
+                    catch
+                    {
+
+                    }
+#endif
+                }
+
+            }
            
+
         }
+        #endregion
+        #region ProductPictures
+        private ObservableCollection<ProductListDto> _productPictures;
+
+        public ObservableCollection<ProductListDto> ProductPictures
+        {
+            get => _productPictures;
+            set => SetProperty(ref _productPictures, value);
+        }
+        private DelegateCommand _refreshProductPicturesCommand;
+        public DelegateCommand RefreshPicturesCommand =>
+            _refreshProductPicturesCommand ?? (_refreshProductPicturesCommand = new DelegateCommand(async () => await RefreshProductPicturesCmd(), () => !IsBusy))
+            .ObservesProperty(() => IsBusy);
+
+        async Task RefreshProductPicturesCmd()
+        {
+            await RefreshProductPicturesAsync();
+        }
+        private async Task RefreshProductPicturesAsync()
+        {
+            IsBusy = true;
+            try
+            {
+                var nnItems = new ObservableCollection<ProductListDto>();
+                var npItems = await GetNopProductPicturesAsync();
+                if (npItems != null)
+                {
+                    foreach (var item in npItems)
+                    {
+                        if (!String.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            //_nopItems.Add(item);
+                            nnItems.Add(item);
+                        }
+                    }
+                }
+                ProductPictures = nnItems;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                await _dialogService.DisplayAlertAsync("Error", e.ToString(), "ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        private async Task<IEnumerable<ProductListDto>> GetNopProductPicturesAsync()
+        {
+            if (!String.IsNullOrEmpty(_selectedShopId) && _selectedProductId > 0)
+            {
+                return await _dataSource.GetNopShopProductPictureListAsync(_selectedShopId,_selectedProductId);
+            }
+
+            var emptyList = new List<ProductListDto>();
+            return emptyList;
+        }
+
+        //private ProductListDto _selectedProductItem;
+        //public ProductListDto SelectedProductItem
+        //{
+        //    get => _selectedProductItem;
+        //    set => SetProperty(ref _selectedProductItem, value);
+        //}
+
+        //private DelegateCommand<object> _productValueChangedCommand;
+
+
+        //public DelegateCommand<object> ProductValueChangedCommand =>
+        //    _productValueChangedCommand ?? (_productValueChangedCommand = new DelegateCommand<object>((t) => ProductValueChangedCmd(t)));
+
+        //private void ProductValueChangedCmd(object value)
+        //{
+
+
+        //}
         #endregion
     }
 }

@@ -18,8 +18,8 @@ Title="{Binding Title}"
     </ContentPage.Resources>
     <Grid Padding="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20*" />
-            <RowDefinition Height="80*" />
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="85*" />
         </Grid.RowDefinitions>
         <StackLayout Grid.Row="0">
 
@@ -69,73 +69,28 @@ Title="{Binding Title}"
             <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}"  />
         </StackLayout>
         <StackLayout Grid.Row="1" >
-            <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+            <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshPicturesCommand}">
                 <StackLayout Orientation="Horizontal">
                     <StackLayout>
-                        <Label Text="Nop Codes"></Label>
-                        <Label Text="{Binding NopItems.Count,TargetNullValue='{Null}'  ,StringFormat='Number of items: {0}'}" />
-                        <CollectionView ItemsSource="{Binding NopItems}">
+                        <Label Text="Product Pictures"></Label>
+                        <Label Text="{Binding ProductPictures.Count,TargetNullValue='{Null}'  ,StringFormat='Number of items: {0}'}" />
+                        <CollectionView ItemsSource="{Binding ProductPictures}" SelectionMode="Multiple">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="1"
-                                               Text="{Binding Name}"
-                                               TextColor="Black"
-                                               FontAttributes="Bold" />
-                                        <Label Grid.Row="1"
-                                           Grid.Column="1"
-                                           Text="{Binding Code}"
-                                           TextColor="Black"
-                                           FontAttributes="Italic"
-                                           VerticalOptions="End" />
-                                    </Grid>
+                                   <StackLayout>
+                                       <Image
+                                              Source="{Binding ImageUrl}" 
+                                              Aspect="AspectFit"
+                                              HeightRequest="200" 
+                                              WidthRequest="200" />
+                                       <Label Text="{Binding Name}"></Label>
+                                   </StackLayout>
 
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </StackLayout>
-                    <StackLayout>
-                        <Label Text="ERP Codes"></Label>
-                        <Label Text="{Binding ErpItems.Count,TargetNullValue='{Null}', StringFormat='Number of items: {0}'}" />
-                        <CollectionView ItemsSource="{Binding ErpItems}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Padding="10">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label Grid.Column="1"
-                                               Text="{Binding Name}"
-                                               TextColor="Black"
-                                               FontAttributes="Bold" />
-                                        <Label Grid.Row="1"
-                                              Grid.Column="1"
-                                              Text="{Binding Code}"
-                                              TextColor="Black"
-                                              FontAttributes="Italic"
-                                              VerticalOptions="End" />
-                                    </Grid>
-
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </StackLayout>
+                    
 
                 </StackLayout>
             </RefreshView>
