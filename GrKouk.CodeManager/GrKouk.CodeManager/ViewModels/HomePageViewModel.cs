@@ -61,13 +61,13 @@ namespace GrKouk.CodeManager.ViewModels
                 PageName = nameof(SettingsPage),
                 Title = "Settings Page"
             });
-           
-            //MenuItems.Add(new MyMenuItem()
-            //{
-            //    Icon = "ic_viewb",
-            //    PageName = nameof(SettingsPage),
-            //    Title = "Settings"
-            //});
+
+            MenuItems.Add(new MyMenuItem()
+            {
+                Icon = "ic_viewb",
+                PageName = nameof(NopProductDetailsPage),
+                Title = "Nop Product"
+            });
 
             NavigateCommand = new DelegateCommand(Navigate);
         }

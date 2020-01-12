@@ -1,8 +1,99 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:c="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GrKouk.CodeManager.Views.NopProductDetailsPage">
-  
+             x:Class="GrKouk.CodeManager.Views.NopProductDetailsPage"
+Title="{Binding Title}"
+>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <c:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
+            <c:ComboValueConverter x:Key="ComboboxValueConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="85*" />
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="0">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="70*" />
+                </Grid.ColumnDefinitions>
+                <StackLayout  Grid.Column="0" >
+                    <combobox:SfComboBox IsEditableMode="False"
+                                         HeightRequest="40"
+                                         SelectedItem="{Binding SelectedShop}"
+                                         SelectedIndex="{Binding SelectedShopIndex}"
+                                         
+                                         DisplayMemberPath="ItemName"  
+                                         DataSource="{Binding ShopList}"
+                                         >
+                        <combobox:SfComboBox.Behaviors>
+                            <b:EventToCommandBehavior EventName="SelectionChanged" 
+                                                     Command="{Binding SelectedShopIndexChangedCommand}"
+                                EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+
+                        </combobox:SfComboBox.Behaviors>
+                    </combobox:SfComboBox>
+                </StackLayout>
+                <StackLayout  Grid.Column="1">
+                    <autocomplete:SfAutoComplete  ShowClearButton="True" HeightRequest="40"
+                                                 
+                                                  SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
+                                                  SelectedIndex="{Binding SelectedProductIndex, Mode=TwoWay}"
+                                                  
+                                                  DisplayMemberPath="NameCombined"
+                                                  DataSource="{Binding NopItems}"
+                                                  SuggestionMode="Contains">
+                        <autocomplete:SfAutoComplete.Behaviors>
+                            <b:EventToCommandBehavior EventName="SelectionChanged"
+                                                      Command="{Binding ProductValueChangedCommand}"
+                                                      EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
+                        </autocomplete:SfAutoComplete.Behaviors>
+                    </autocomplete:SfAutoComplete>
+
+                </StackLayout>
+
+            </Grid>
+
+            <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}"  />
+        </StackLayout>
+        <StackLayout Grid.Row="1" >
+            <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshPicturesCommand}">
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout>
+                        <Label Text="Product Pictures"></Label>
+                        <Label Text="{Binding ProductPictures.Count,TargetNullValue='{Null}'  ,StringFormat='Number of items: {0}'}" />
+                        <CollectionView ItemsSource="{Binding ProductPictures}" SelectionMode="Multiple">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                   <StackLayout>
+                                       <Image
+                                              Source="{Binding ImageUrl}" 
+                                              Aspect="AspectFit"
+                                              HeightRequest="200" 
+                                              WidthRequest="200" />
+                                       <Label Text="{Binding Name}"></Label>
+                                   </StackLayout>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                    
+
+                </StackLayout>
+            </RefreshView>
+        </StackLayout>
+    </Grid>
 </ContentPage>

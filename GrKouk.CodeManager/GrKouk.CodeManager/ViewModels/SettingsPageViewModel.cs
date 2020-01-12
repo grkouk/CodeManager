@@ -22,7 +22,7 @@ namespace GrKouk.CodeManager.ViewModels
             _dialogService = dialogService;
             Title = "Settings Page";
 
-            WebApiBaseAddress = Preferences.Get(Constants.WebApiBaseAddressKey, "Not Set");
+            WebApiBaseAddress = Preferences.Get(Constants.WebApiErpBaseAddressKey, "Not Set");
             WebApiNopBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "Not Set");
 
         }
@@ -76,7 +76,7 @@ namespace GrKouk.CodeManager.ViewModels
         {
             try
             {
-                Preferences.Set(Constants.WebApiBaseAddressKey, _webApiBaseAddress);
+                Preferences.Set(Constants.WebApiErpBaseAddressKey, _webApiBaseAddress);
                 Preferences.Set(Constants.WebApiNopBaseAddressKey, _webApiNopBaseAddress);
             }
             catch (Exception e)
