@@ -52,7 +52,7 @@ Title="{Binding Title}"
                                                   SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
                                                   SelectedIndex="{Binding SelectedProductIndex, Mode=TwoWay}"
                                                   
-                                                  DisplayMemberPath="Name"
+                                                  DisplayMemberPath="NameCombined"
                                                   DataSource="{Binding NopItems}"
                                                   SuggestionMode="Contains">
                         <autocomplete:SfAutoComplete.Behaviors>
