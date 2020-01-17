@@ -203,6 +203,12 @@ namespace GrKouk.CodeManager.ViewModels
             return null;
         }
 
+        private int _selectedProductIndex;
+        public int SelectedProductIndex
+        {
+            get => _selectedProductIndex;
+            set => SetProperty(ref _selectedProductIndex, value);
+        }
         private ProductListDto _selectedProductItem;
         public ProductListDto SelectedProductItem
         {

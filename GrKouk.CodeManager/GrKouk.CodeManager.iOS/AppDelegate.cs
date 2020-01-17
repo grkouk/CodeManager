@@ -30,6 +30,7 @@ SfPickerRenderer.Init();
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
                 "MTk0MDUyQDMxMzcyZTM0MmUzMEQwczdzaGFzZ3pqN25QamprWVRQc3Zyb0xLMDlVMEdGYVJnYkQzc3NxZmM9");
             SfAutoCompleteRenderer.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);

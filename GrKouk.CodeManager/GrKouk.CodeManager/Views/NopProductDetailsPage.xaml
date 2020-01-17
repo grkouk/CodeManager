@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              xmlns:c="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
              xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GrKouk.CodeManager.Views.NopProductDetailsPage"
-Title="{Binding Title}"
->
+            xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+            prism:ViewModelLocator.AutowireViewModel="True"
+            xmlns:viewmodels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
+             xmlns:models="clr-namespace:GrKouk.CodeManager.Models;assembly=GrKouk.CodeManager"
+             x:DataType="viewmodels:NopProductDetailsPageViewModel"
+            x:Class="GrKouk.CodeManager.Views.NopProductDetailsPage"
+            Title="{Binding Title}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <c:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
@@ -74,23 +77,28 @@ Title="{Binding Title}"
                     <StackLayout>
                         <Label Text="Product Pictures"></Label>
                         <Label Text="{Binding ProductPictures.Count,TargetNullValue='{Null}'  ,StringFormat='Number of items: {0}'}" />
-                        <CollectionView ItemsSource="{Binding ProductPictures}" SelectionMode="Multiple">
+                        <CollectionView ItemsSource="{Binding ProductPictures}" SelectionMode="Multiple" >
                             <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                   <StackLayout>
-                                       <Image
-                                              Source="{Binding ImageUrl}" 
-                                              Aspect="AspectFit"
-                                              HeightRequest="200" 
-                                              WidthRequest="200" />
-                                       <Label Text="{Binding Name}"></Label>
-                                   </StackLayout>
+                                <DataTemplate x:DataType="models:ProductListDto">
+                                    <StackLayout>
+                                        <forms:CachedImage HorizontalOptions="Center"
+                                                           VerticalOptions="Center"
+                                                           WidthRequest="200"
+                                                           HeightRequest="200"
+                                                           DownsampleToViewSize="true"
+                                                           Source="{Binding ImageUrl}"
+                                                           >
+
+                                        </forms:CachedImage>
+                                        
+                                        <Label Text="{Binding Name}"></Label>
+                                    </StackLayout>
 
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </StackLayout>
-                    
+
 
                 </StackLayout>
             </RefreshView>
