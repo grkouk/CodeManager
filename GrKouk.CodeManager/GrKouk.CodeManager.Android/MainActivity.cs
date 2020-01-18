@@ -16,7 +16,7 @@ namespace GrKouk.CodeManager.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTk0MDUyQDMxMzcyZTM0MmUzMEQwczdzaGFzZ3pqN25QamprWVRQc3Zyb0xLMDlVMEdGYVJnYkQzc3NxZmM9");
             base.OnCreate(bundle);
-
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true );
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.Essentials.Platform.Init(this, bundle); // add this line to your code, it may also be called: bundle
             LoadApplication(new App(new AndroidInitializer()));

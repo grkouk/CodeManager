@@ -24,6 +24,7 @@ namespace GrKouk.CodeManager.UWP
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTk0MDUyQDMxMzcyZTM0MmUzMEQwczdzaGFzZ3pqN25QamprWVRQc3Zyb0xLMDlVMEdGYVJnYkQzc3NxZmM9");
             SfPickerRenderer.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             this.InitializeComponent();
 
             LoadApplication(new GrKouk.CodeManager.App(new UwpInitializer()));
