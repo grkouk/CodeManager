@@ -11,6 +11,7 @@ using GrKouk.CodeManager.Helpers;
 using GrKouk.CodeManager.Models;
 using GrKouk.CodeManager.Services;
 using GrKouk.Shared.Definitions;
+using GrKouk.Shared.Mobile.Dtos;
 using Prism.Services;
 using Syncfusion.Licensing;
 

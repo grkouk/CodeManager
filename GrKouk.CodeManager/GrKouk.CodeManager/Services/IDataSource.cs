@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Models;
+using GrKouk.Shared.Mobile.Dtos;
 
 
 namespace GrKouk.CodeManager.Services

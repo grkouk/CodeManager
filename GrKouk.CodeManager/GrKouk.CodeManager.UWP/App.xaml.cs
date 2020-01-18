@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using FFImageLoading.Forms;
 
 namespace GrKouk.CodeManager.UWP
 {
@@ -56,11 +57,13 @@ namespace GrKouk.CodeManager.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-List<Assembly> assembliesToInclude = new List<Assembly>();
-assembliesToInclude.Add(typeof(SfComboBoxRenderer).GetTypeInfo().Assembly);
-assembliesToInclude.Add(typeof(SfPickerRenderer).GetTypeInfo().Assembly);
-assembliesToInclude.Add(typeof(SfAutoCompleteRenderer).GetTypeInfo().Assembly);
-Xamarin.Forms.Forms.Init(e, assembliesToInclude);
+                List<Assembly> assembliesToInclude = new List<Assembly>();
+                assembliesToInclude.Add(typeof(SfComboBoxRenderer).GetTypeInfo().Assembly);
+                assembliesToInclude.Add(typeof(SfPickerRenderer).GetTypeInfo().Assembly);
+                assembliesToInclude.Add(typeof(SfAutoCompleteRenderer).GetTypeInfo().Assembly);
+                assembliesToInclude.Add(typeof(CachedImage).GetTypeInfo().Assembly);
+                assembliesToInclude.Add(typeof(FFImageLoading.Forms.Platform.CachedImageRenderer).GetTypeInfo().Assembly);
+                Xamarin.Forms.Forms.Init(e, assembliesToInclude);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

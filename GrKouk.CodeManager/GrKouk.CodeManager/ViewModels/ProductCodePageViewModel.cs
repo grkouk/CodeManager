@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Models;
 using GrKouk.CodeManager.Services;
-
+using GrKouk.Shared.Mobile.Dtos;
 using Prism.Navigation;
 using Prism.Services;
 using Xamarin.Essentials;
