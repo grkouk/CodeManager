@@ -1,8 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GrKouk.CodeManager.Views.NopProductImages">
-  
+             x:Class="GrKouk.CodeManager.Views.NopProductImages"
+             xmlns:viewmodels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
+             xmlns:dtos="clr-namespace:GrKouk.Shared.Mobile.Dtos;assembly=GrKouk.Shared.Mobile.Dtos"
+             xmlns:converters="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
+             xmlns:comboBox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:xForms="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
+            <converters:ComboValueConverter x:Key="ComboboxValueConverter"/>
+        </ResourceDictionary>
+
+
+    </ContentPage.Resources>
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="70*" />
+        </Grid.RowDefinitions>
+        <StackLayout  Grid.Row="0">
+            <comboBox:SfComboBox IsEditableMode="False"
+                                 HeightRequest="40"
+                                 SelectedItem="{Binding SelectedShop}"
+                                 SelectedIndex="{Binding SelectedShopIndex}"
+                                         
+                                 DisplayMemberPath="ItemName"  
+                                 DataSource="{Binding ShopList}"
+            >
+                <comboBox:SfComboBox.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SelectionChanged" 
+                                              Command="{Binding SelectedShopIndexChangedCommand}"
+                                              EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+
+                </comboBox:SfComboBox.Behaviors>
+            </comboBox:SfComboBox>
+            <xForms:SfAutoComplete  ShowClearButton="True" HeightRequest="40"
+                                          SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
+                                          DisplayMemberPath="NameCombined"
+                                          DataSource="{Binding NopItems}"
+                                          SuggestionMode="Contains">
+                <xForms:SfAutoComplete.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SelectionChanged"
+                                              Command="{Binding ProductValueChangedCommand}"
+                                              EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
+                </xForms:SfAutoComplete.Behaviors>
+            </xForms:SfAutoComplete>
+        </StackLayout>
+        <StackLayout Grid.Row="1">
+            <Grid x:DataType="viewmodels:NopProductImagesViewModel">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50*" />
+                    <RowDefinition Height="50*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="33*" />
+                    <ColumnDefinition Width="33*" />
+                    <ColumnDefinition Width="33*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0">Product Id</Label>
+                <Label Grid.Row="0" Grid.Column="1">Product Sku</Label>
+                <Label Grid.Row="0" Grid.Column="2">Product Slugs</Label>
+                <Label Grid.Row="1" Grid.Column="0" Text="{Binding SelectedProductItem.Id}"></Label>
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedProductItem.Code}"></Label>
+            </Grid>
+        </StackLayout>
+        <StackLayout Grid.Row="2">
+            <datagrid:SfDataGrid 
+            ItemsSource="{Binding OrderInfoCollection}">
+            </datagrid:SfDataGrid>
+        </StackLayout>
+    </Grid>
 </ContentPage>
