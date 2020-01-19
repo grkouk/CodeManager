@@ -55,12 +55,6 @@ namespace GrKouk.CodeManager.ViewModels
                 PageName = nameof(UrlBuilderPage),
                 Title = "Build Url"
             });
-            MenuItems.Add(new MyMenuItem()
-            {
-                Icon = "ic_viewb",
-                PageName = nameof(SettingsPage),
-                Title = "Settings Page"
-            });
 
             MenuItems.Add(new MyMenuItem()
             {
@@ -69,6 +63,18 @@ namespace GrKouk.CodeManager.ViewModels
                 Title = "Nop Product"
             });
 
+            MenuItems.Add(new MyMenuItem()
+            {
+                Icon = "ic_viewb",
+                PageName = nameof(NopProductImages),
+                Title = "Nop Product Images"
+            });
+            MenuItems.Add(new MyMenuItem()
+            {
+                Icon = "ic_viewb",
+                PageName = nameof(SettingsPage),
+                Title = "Settings Page"
+            });
             NavigateCommand = new DelegateCommand(Navigate);
         }
         async void Navigate()

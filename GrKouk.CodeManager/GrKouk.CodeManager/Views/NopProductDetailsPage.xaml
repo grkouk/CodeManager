@@ -9,8 +9,9 @@
             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
             prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:viewmodels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
-             xmlns:models="clr-namespace:GrKouk.CodeManager.Models;assembly=GrKouk.CodeManager"
-             x:DataType="viewmodels:NopProductDetailsPageViewModel"
+            xmlns:dtos="clr-namespace:GrKouk.Shared.Mobile.Dtos;assembly=GrKouk.Shared.Mobile.Dtos"
+            x:DataType="viewmodels:NopProductDetailsPageViewModel"
+            
             x:Class="GrKouk.CodeManager.Views.NopProductDetailsPage"
             Title="{Binding Title}">
     <ContentPage.Resources>
@@ -21,18 +22,11 @@
     </ContentPage.Resources>
     <Grid Padding="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*" />
-            <RowDefinition Height="85*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="80*" />
         </Grid.RowDefinitions>
         <StackLayout Grid.Row="0">
-
-            <Grid>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*" />
-                    <ColumnDefinition Width="70*" />
-                </Grid.ColumnDefinitions>
-                <StackLayout  Grid.Column="0" >
+                <StackLayout   >
                     <combobox:SfComboBox IsEditableMode="False"
                                          HeightRequest="40"
                                          SelectedItem="{Binding SelectedShop}"
@@ -48,13 +42,8 @@
 
                         </combobox:SfComboBox.Behaviors>
                     </combobox:SfComboBox>
-                </StackLayout>
-                <StackLayout  Grid.Column="1">
                     <autocomplete:SfAutoComplete  ShowClearButton="True" HeightRequest="40"
-                                                 
                                                   SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
-                                                  SelectedIndex="{Binding SelectedProductIndex, Mode=TwoWay}"
-                                                  
                                                   DisplayMemberPath="NameCombined"
                                                   DataSource="{Binding NopItems}"
                                                   SuggestionMode="Contains">
@@ -64,10 +53,7 @@
                                                       EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
                         </autocomplete:SfAutoComplete.Behaviors>
                     </autocomplete:SfAutoComplete>
-
                 </StackLayout>
-
-            </Grid>
 
             <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}"  />
         </StackLayout>
@@ -79,18 +65,17 @@
                         <Label Text="{Binding ProductPictures.Count,TargetNullValue='{Null}'  ,StringFormat='Number of items: {0}'}" />
                         <CollectionView ItemsSource="{Binding ProductPictures}" SelectionMode="Multiple" >
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:ProductListDto">
+                                <DataTemplate x:DataType="dtos:ProductListDto">
                                     <StackLayout>
                                         <forms:CachedImage HorizontalOptions="Center"
                                                            VerticalOptions="Center"
                                                            WidthRequest="200"
                                                            HeightRequest="200"
                                                            DownsampleToViewSize="true"
-                                                           Source="{Binding ImageUrl}"
-                                                           >
+                                                           Source="{Binding ImageUrl}">
 
                                         </forms:CachedImage>
-                                        
+
                                         <Label Text="{Binding Name}"></Label>
                                     </StackLayout>
 
@@ -98,8 +83,6 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </StackLayout>
-
-
                 </StackLayout>
             </RefreshView>
         </StackLayout>
