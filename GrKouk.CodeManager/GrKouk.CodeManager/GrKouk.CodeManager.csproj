@@ -17,7 +17,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="17.4.0.43" />
     <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="17.4.0.43" />
-    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.4.0.41" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.4.0.43" />
     <PackageReference Include="Xamarin.Essentials" Version="1.4.0-pre" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
@@ -30,6 +30,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NopProductDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\NopProductImages.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ProductAttrCopy.xaml">

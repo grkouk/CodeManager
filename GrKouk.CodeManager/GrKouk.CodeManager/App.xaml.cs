@@ -43,6 +43,7 @@ namespace GrKouk.CodeManager
             containerRegistry.RegisterForNavigation<ProductAttrCopy, ProductAttrCopyViewModel>();
             containerRegistry.RegisterForNavigation<UrlBuilderPage, UrlBuilderPageViewModel>();
             containerRegistry.RegisterForNavigation<NopProductDetailsPage, NopProductDetailsPageViewModel>();
+            containerRegistry.RegisterForNavigation<NopProductImages, NopProductImagesViewModel>();
         }
     }
 }
