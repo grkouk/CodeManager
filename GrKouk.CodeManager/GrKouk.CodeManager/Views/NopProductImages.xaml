@@ -69,6 +69,21 @@ xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.S
                 <Label Grid.Row="0" Grid.Column="2">Product Slugs</Label>
                 <Label Grid.Row="1" Grid.Column="0" Text="{Binding SelectedProductItem.Id}"></Label>
                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedProductItem.Code}"></Label>
+                <comboBox:SfComboBox Grid.Row="1" Grid.Column="2"
+                                     IsEditableMode="False"
+                                     HeightRequest="40"
+                                     SelectedItem="{Binding SelectedSlug}"
+                                     SelectedIndex="{Binding SelectedSlugIndex}"
+                                         
+                                     DisplayMemberPath="ItemName"  
+                                     DataSource="{Binding SlugList}">
+                    <comboBox:SfComboBox.Behaviors>
+                        <prism:EventToCommandBehavior EventName="SelectionChanged" 
+                                                      Command="{Binding SelectedSlugIndexChangedCommand}"
+                                                      EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+
+                    </comboBox:SfComboBox.Behaviors>
+                </comboBox:SfComboBox>
             </Grid>
         </StackLayout>
         <StackLayout Grid.Row="2">

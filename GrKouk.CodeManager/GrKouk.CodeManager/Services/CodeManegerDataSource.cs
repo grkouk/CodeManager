@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using GrKouk.CodeManager.Models;
+using GrKouk.Shared.Core;
 using GrKouk.Shared.Mobile.Dtos;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
@@ -241,6 +241,43 @@ namespace GrKouk.CodeManager.Services
                 throw new Exception(e.Message, e.InnerException);
             }
         }
+
+        public async Task<IEnumerable<ListItemDto>> GetNopShopProductSlugsListAsync(string shop, int productId)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var apiCall = $"/products/ShopProductSlugs?shop={shop}&productid={productId}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            // httpClient.Timeout = TimeSpan.FromMinutes(1);
+            try
+            {
+                var uri = new Uri(apiCallAddress);
+
+                var response = await httpClient.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var itemsList = JsonConvert.DeserializeObject<List<ListItemDto>>(jsonContent);
+                    return itemsList;
+
+                }
+                else
+                {
+                    throw new Exception(response.StatusCode.ToString() + " " + response.ReasonPhrase);
+                }
+
+                return null;
+
+            }
+            catch (Exception e)
+            {
+                // Console.WriteLine(e);
+                // return null;
+                throw new Exception(e.Message, e.InnerException);
+            }
+        }
+
         public async Task<IEnumerable<ProductListDto>> GetNopShopProductPictureListAsync(string shop,int productId)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");

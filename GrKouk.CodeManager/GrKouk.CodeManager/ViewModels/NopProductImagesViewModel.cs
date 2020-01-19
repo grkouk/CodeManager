@@ -7,8 +7,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Helpers;
-using GrKouk.CodeManager.Models;
+
 using GrKouk.CodeManager.Services;
+using GrKouk.Shared.Core;
 using GrKouk.Shared.Definitions;
 using GrKouk.Shared.Mobile.Dtos;
 using Prism.Navigation;
@@ -21,7 +22,7 @@ namespace GrKouk.CodeManager.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IDataSource _dataSource;
-        public NopProductImagesViewModel(INavigationService navigationService, IPageDialogService dialogService,IDataSource dataSource) : base(navigationService)
+        public NopProductImagesViewModel(INavigationService navigationService, IPageDialogService dialogService, IDataSource dataSource) : base(navigationService)
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
@@ -37,7 +38,7 @@ namespace GrKouk.CodeManager.ViewModels
             if (ShopList == null)
             {
                 LoadShops();
-                SelectedShopIndex = 1;
+                SelectedShopIndex = 0;
             }
         }
         #region IsBusy
@@ -137,7 +138,115 @@ namespace GrKouk.CodeManager.ViewModels
 
         }
         #endregion
+        #region Slugs
 
+        private string _selectedSlugId;
+
+        private ObservableCollection<ListItemDto> _slugList;
+
+        public ObservableCollection<ListItemDto> SlugList
+        {
+            get => _slugList;
+            set => SetProperty(ref _slugList, value);
+        }
+        private int _selectedSlugIndex;
+        public int SelectedSlugIndex
+        {
+            get => _selectedSlugIndex;
+            set => SetProperty(ref _selectedSlugIndex, value);
+        }
+        private ListItemDto _selectedSlug;
+        public ListItemDto SelectedSlug { get => _selectedSlug; set => SetProperty(ref _selectedSlug, value); }
+
+        #region SlugValueChanged
+
+        private DelegateCommand<object> _selectedSlugIndexChangedCommand;
+        public DelegateCommand<object> SelectedSlugIndexChangedCommand =>
+            _selectedSlugIndexChangedCommand ?? (_selectedSlugIndexChangedCommand = new DelegateCommand<object>((t) => SelectedSlugIndexChangedCmd(t)));
+
+        private void SelectedSlugIndexChangedCmd(object value)
+        {
+#if DEBUG
+            Debug.WriteLine("SelectedSlugIndexChangedCmd");
+#endif
+            if (value != null)
+            {
+
+                if (value is string)
+                {
+                }
+
+                if (value is ListItemDto)
+                {
+                    _selectedShopId = (value as ListItemDto).ItemCode;
+                    if (!IsBusy)
+                    {
+                        RefreshCommand.Execute();
+                    }
+
+#if DEBUG
+                    try
+                    {
+                        var debugMessage = $"Selected index is value is {_selectedShopId}";
+                        Debug.WriteLine(debugMessage);
+                    }
+                    catch
+                    {
+
+                    }
+#endif
+                }
+
+            }
+            else
+            {
+
+            }
+        }
+
+        #endregion
+
+        private async Task RefreshSlugsAsync()
+        {
+            IsBusy = true;
+            try
+            {
+                var nnItems = new ObservableCollection<ListItemDto>();
+                var npItems = await GetNopProductSlugsAsync();
+                if (npItems != null)
+                {
+                    foreach (var item in npItems)
+                    {
+
+                        nnItems.Add(item);
+
+                    }
+                }
+                SlugList = nnItems;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                await _dialogService.DisplayAlertAsync("Error", e.ToString(), "ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+        }
+
+        private async Task<IEnumerable<ListItemDto>> GetNopProductSlugsAsync()
+        {
+            if (!String.IsNullOrEmpty(_selectedShopId))
+            {
+                return await _dataSource.GetNopShopProductSlugsListAsync(_selectedShopId, _selectedProductId);
+            }
+
+            return null;
+        }
+
+        #endregion
         #region products
 
         private int _selectedProductId;
@@ -229,6 +338,7 @@ namespace GrKouk.CodeManager.ViewModels
                     if (!IsBusy)
                     {
                         //RefreshPicturesCommand.Execute();
+
                     }
 #if DEBUG
                     try

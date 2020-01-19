@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using GrKouk.CodeManager.Models;
+
 using GrKouk.CodeManager.Services;
+using GrKouk.Shared.Core;
 using Prism.Navigation;
 using Prism.Services;
 
