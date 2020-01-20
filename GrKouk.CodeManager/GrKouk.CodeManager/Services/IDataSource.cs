@@ -13,6 +13,7 @@ namespace GrKouk.CodeManager.Services
     {
         Task<IEnumerable<ProductListDto>> GetNopShopProductsAutocompleteListAsync(string shop);
         Task<IEnumerable<ListItemDto>> GetNopShopProductSlugsListAsync(string shop,int productId);
+        Task<ListItemDto> GetNopShopPrimaryProductSlug(string shop, int productId);
         Task<IEnumerable<ProductListDto>> GetNopShopProductPictureListAsync(string shop, int productId);
         Task<IEnumerable<ProductListDto>> GetAllProductsAsync();
         Task<IEnumerable<ProductListDto>> GetProductsAsync(string productNameFilter);

@@ -278,6 +278,42 @@ namespace GrKouk.CodeManager.Services
             }
         }
 
+        public async Task<ListItemDto> GetNopShopPrimaryProductSlug(string shop, int productId)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var apiCall = $"/products/ShopProductPrimarySlug?shop={shop}&productid={productId}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            // httpClient.Timeout = TimeSpan.FromMinutes(1);
+            try
+            {
+                var uri = new Uri(apiCallAddress);
+
+                var response = await httpClient.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var itemsList = JsonConvert.DeserializeObject<ListItemDto>(jsonContent);
+                    return itemsList;
+
+                }
+                else
+                {
+                    throw new Exception(response.StatusCode.ToString() + " " + response.ReasonPhrase);
+                }
+
+                return null;
+
+            }
+            catch (Exception e)
+            {
+                // Console.WriteLine(e);
+                // return null;
+                throw new Exception(e.Message, e.InnerException);
+            }
+        }
+
         public async Task<IEnumerable<ProductListDto>> GetNopShopProductPictureListAsync(string shop,int productId)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");

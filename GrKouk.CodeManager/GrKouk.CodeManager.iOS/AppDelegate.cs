@@ -1,3 +1,4 @@
+using Syncfusion.SfNumericUpDown.XForms.iOS;
 using Syncfusion.SfDataGrid.XForms.iOS;
 using Syncfusion.XForms.iOS.ComboBox;
 using Syncfusion.SfPicker.XForms.iOS;
@@ -26,6 +27,7 @@ namespace GrKouk.CodeManager.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
 global::Xamarin.Forms.Forms.Init();
+SfNumericUpDownRenderer.Init();
 SfDataGridRenderer.Init();
 SfComboBoxRenderer.Init();
 SfPickerRenderer.Init();

@@ -51,6 +51,31 @@ namespace GrKouk.CodeManager.ViewModels
         }
 
         #endregion
+        #region CreateImages
+        private int _numberOfImages;
+        public int NumberOfImages
+        {
+            get => _numberOfImages;
+            set => SetProperty(ref _numberOfImages, value);
+        }
+        private DelegateCommand _createImagesCmd;
+
+        public DelegateCommand CreateImagesCmd =>
+            _createImagesCmd ?? (_createImagesCmd = new DelegateCommand( () => CreateImagesImpl()));
+        private void  CreateImagesImpl()
+        {
+            try
+            {
+               
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                 _dialogService.DisplayAlertAsync("Error", e.ToString(), "Ok");
+                //throw;
+            }
+        }
+        #endregion
         #region Shops
 
         private string _selectedShopId;
@@ -138,8 +163,33 @@ namespace GrKouk.CodeManager.ViewModels
 
         }
         #endregion
+        #region PrimarySlug
+        private string _primarySlugText;
+        public string PrimarySlugText
+        {
+            get => _primarySlugText;
+            set => SetProperty(ref _primarySlugText, value);
+        }
+
+        private async Task<string> GetProductPrimarySlugAsync(string shop, int productId)
+        {
+            var primarySlug = await _dataSource.GetNopShopPrimaryProductSlug(shop, productId);
+            if (primarySlug != null)
+            {
+                return primarySlug.ItemName;
+            }
+
+            return null;
+        }
+        #endregion
         #region Slugs
 
+        private string _selectedSlugText;
+        public string SelectedSlugText
+        {
+            get => _selectedSlugText;
+            set => SetProperty(ref _selectedSlugText, value);
+        }
         private string _selectedSlugId;
 
         private ObservableCollection<ListItemDto> _slugList;
@@ -172,22 +222,13 @@ namespace GrKouk.CodeManager.ViewModels
             if (value != null)
             {
 
-                if (value is string)
-                {
-                }
-
                 if (value is ListItemDto)
                 {
-                    _selectedShopId = (value as ListItemDto).ItemCode;
-                    if (!IsBusy)
-                    {
-                        RefreshCommand.Execute();
-                    }
-
+                    _selectedSlugId = (value as ListItemDto).ItemCode;
 #if DEBUG
                     try
                     {
-                        var debugMessage = $"Selected index is value is {_selectedShopId}";
+                        var debugMessage = $"Selected index is {_selectedSlugIndex} item value is {_selectedSlugId}";
                         Debug.WriteLine(debugMessage);
                     }
                     catch
@@ -322,9 +363,9 @@ namespace GrKouk.CodeManager.ViewModels
         private DelegateCommand<object> _productValueChangedCommand;
 
         public DelegateCommand<object> ProductValueChangedCommand =>
-            _productValueChangedCommand ?? (_productValueChangedCommand = new DelegateCommand<object>((t) => ProductValueChangedCmd(t)));
+            _productValueChangedCommand ?? (_productValueChangedCommand = new DelegateCommand<object>(async (t) => await ProductValueChangedCmd(t)));
 
-        private void ProductValueChangedCmd(object value)
+        private async Task ProductValueChangedCmd(object value)
         {
 #if DEBUG
             Debug.WriteLine("ProductValueChangedCmd");
@@ -335,11 +376,10 @@ namespace GrKouk.CodeManager.ViewModels
                 if (value is ProductListDto)
                 {
                     _selectedProductId = (value as ProductListDto).Id;
-                    if (!IsBusy)
-                    {
-                        //RefreshPicturesCommand.Execute();
 
-                    }
+                    //get slugs for selected productId
+                    PrimarySlugText = await GetProductPrimarySlugAsync(_selectedShopId, _selectedProductId);
+
 #if DEBUG
                     try
                     {

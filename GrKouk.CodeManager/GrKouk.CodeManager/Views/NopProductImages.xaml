@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:numericupdown="clr-namespace:Syncfusion.SfNumericUpDown.XForms;assembly=Syncfusion.SfNumericUpDown.XForms"
 xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
@@ -21,9 +22,10 @@ xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.S
     </ContentPage.Resources>
     <Grid Padding="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*" />
-            <RowDefinition Height="15*" />
-            <RowDefinition Height="70*" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackLayout  Grid.Row="0">
             <comboBox:SfComboBox IsEditableMode="False"
@@ -60,33 +62,34 @@ xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.S
                     <RowDefinition Height="50*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="33*" />
-                    <ColumnDefinition Width="33*" />
-                    <ColumnDefinition Width="33*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="60*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0">Product Id</Label>
                 <Label Grid.Row="0" Grid.Column="1">Product Sku</Label>
-                <Label Grid.Row="0" Grid.Column="2">Product Slugs</Label>
+                <Label Grid.Row="0" Grid.Column="2">Primary Slug</Label>
                 <Label Grid.Row="1" Grid.Column="0" Text="{Binding SelectedProductItem.Id}"></Label>
                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedProductItem.Code}"></Label>
-                <comboBox:SfComboBox Grid.Row="1" Grid.Column="2"
-                                     IsEditableMode="False"
-                                     HeightRequest="40"
-                                     SelectedItem="{Binding SelectedSlug}"
-                                     SelectedIndex="{Binding SelectedSlugIndex}"
-                                         
-                                     DisplayMemberPath="ItemName"  
-                                     DataSource="{Binding SlugList}">
-                    <comboBox:SfComboBox.Behaviors>
-                        <prism:EventToCommandBehavior EventName="SelectionChanged" 
-                                                      Command="{Binding SelectedSlugIndexChangedCommand}"
-                                                      EventArgsConverter="{StaticResource ComboboxValueConverter}" />
-
-                    </comboBox:SfComboBox.Behaviors>
-                </comboBox:SfComboBox>
+                <Label Grid.Row="1" Grid.Column="2" Text="{Binding PrimarySlugText}"></Label>
             </Grid>
         </StackLayout>
         <StackLayout Grid.Row="2">
+            <Grid x:DataType="viewmodels:NopProductImagesViewModel">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label  Grid.Column="0">Number of Images</Label>
+
+                <numericupdown:SfNumericUpDown Grid.Column="1" Value="{Binding NumberOfImages}"/>
+
+                <Button Grid.Column="2" Text="Create" Command="{Binding CreateImagesCmd}"></Button>
+
+            </Grid>
+        </StackLayout>
+        <StackLayout Grid.Row="3">
             <datagrid:SfDataGrid 
             ItemsSource="{Binding OrderInfoCollection}">
             </datagrid:SfDataGrid>

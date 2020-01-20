@@ -146,6 +146,9 @@
     <PackageReference Include="Syncfusion.Xamarin.SfDataGrid">
       <Version>17.4.0.43</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericUpDown">
+      <Version>17.4.0.43</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfPicker">
       <Version>17.4.0.43</Version>
     </PackageReference>
