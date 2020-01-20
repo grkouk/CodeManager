@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 xmlns:numericupdown="clr-namespace:Syncfusion.SfNumericUpDown.XForms;assembly=Syncfusion.SfNumericUpDown.XForms"
-xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
+xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
@@ -83,16 +83,48 @@ xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.S
                 </Grid.ColumnDefinitions>
                 <Label  Grid.Column="0">Number of Images</Label>
 
-                <numericupdown:SfNumericUpDown Grid.Column="1" Value="{Binding NumberOfImages}"/>
+                <numericupdown:SfNumericUpDown Grid.Column="1" 
+                                               Value="{Binding NumberOfImages}" 
+                                               ParsingMode="Decimal" 
+                                               Minimum="0" Maximum="20"
+                                               MaximumDecimalDigits="0"/>
 
                 <Button Grid.Column="2" Text="Create" Command="{Binding CreateImagesCmd}"></Button>
 
             </Grid>
         </StackLayout>
-        <StackLayout Grid.Row="3">
-            <datagrid:SfDataGrid 
-            ItemsSource="{Binding OrderInfoCollection}">
-            </datagrid:SfDataGrid>
+        <StackLayout Grid.Row="3"  HorizontalOptions="FillAndExpand">
+            <sfgrid:SfDataGrid x:DataType="viewmodels:NopProductImagesViewModel"
+            ItemsSource="{Binding ImageList}"
+            AllowEditing="True"
+            AutoGenerateColumns="False"
+            AllowKeyboardNavigation="True"
+            NavigationMode="Cell"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            SelectionMode="Single"
+            >
+                <sfgrid:SfDataGrid.Columns >
+                    <sfgrid:GridComboBoxColumn 
+                            ItemsSource="{Binding MimeTypes}" 
+                            MappingName="MimeType"
+                            HeaderText="Mime Type" />
+                    <sfgrid:GridTextColumn
+                        AllowEditing="False"
+                             HeaderText="Seo Filename" 
+                             MappingName="SeoFilename"
+                    ></sfgrid:GridTextColumn>
+                    <sfgrid:GridTextColumn
+                        HeaderText="AltAttribute" 
+                        MappingName="AltAttribute"
+                    ></sfgrid:GridTextColumn>
+                    <sfgrid:GridTextColumn
+                        HeaderText="Title Attribute" 
+                        MappingName="TitleAttribute"
+                    ></sfgrid:GridTextColumn>
+
+                </sfgrid:SfDataGrid.Columns>
+            </sfgrid:SfDataGrid>
         </StackLayout>
     </Grid>
 </ContentPage>

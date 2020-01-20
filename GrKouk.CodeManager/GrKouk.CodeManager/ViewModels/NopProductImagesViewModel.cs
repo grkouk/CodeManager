@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using GrKouk.CodeManager.Helpers;
-
+using GrKouk.CodeManager.Models;
 using GrKouk.CodeManager.Services;
 using GrKouk.Shared.Core;
 using GrKouk.Shared.Definitions;
@@ -28,6 +28,7 @@ namespace GrKouk.CodeManager.ViewModels
             _dialogService = dialogService;
             _dataSource = dataSource;
         }
+        
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (NopItems == null)
@@ -52,7 +53,23 @@ namespace GrKouk.CodeManager.ViewModels
 
         #endregion
         #region CreateImages
-        private int _numberOfImages;
+        private ObservableCollection<ProductImageDto> _imageList;
+        public ObservableCollection<ProductImageDto> ImageList
+        {
+            get => _imageList;
+            set => SetProperty(ref _imageList, value);
+        }
+        private ObservableCollection<string> _mimeTypes=new ObservableCollection<string>
+        {
+            "image/jpeg",
+            "image/png"
+        } ;
+        public ObservableCollection<string> MimeTypes
+        {
+            get => _mimeTypes;
+            set => SetProperty(ref _mimeTypes, value);
+        }
+        private int _numberOfImages=1;
         public int NumberOfImages
         {
             get => _numberOfImages;
@@ -66,7 +83,23 @@ namespace GrKouk.CodeManager.ViewModels
         {
             try
             {
-               
+                var nnItems = new ObservableCollection<ProductImageDto>();
+
+                for (int i = 0; i < _numberOfImages; i++)
+                {
+                    var item = new ProductImageDto
+                    {
+                        MimeType = "image/jpeg",
+                        SeoFilename = "LOREM",
+                        AltAttribute = "lorem ipsum",
+                        TitleAttribute = "lorem ipsum",
+                        DisplayOrder = 32
+                    };
+                    nnItems.Add(item);
+                }
+
+
+                ImageList = nnItems;
             }
             catch (Exception e)
             {
