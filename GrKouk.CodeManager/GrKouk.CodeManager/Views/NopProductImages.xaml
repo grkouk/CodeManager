@@ -93,13 +93,14 @@ xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfD
 
             </Grid>
         </StackLayout>
-        <StackLayout Grid.Row="3"  HorizontalOptions="FillAndExpand">
-            <sfgrid:SfDataGrid x:DataType="viewmodels:NopProductImagesViewModel"
+       
+            <sfgrid:SfDataGrid x:DataType="viewmodels:NopProductImagesViewModel" Grid.Row="3"
             ItemsSource="{Binding ImageList}"
             AllowEditing="True"
             AutoGenerateColumns="False"
             AllowKeyboardNavigation="True"
             NavigationMode="Cell"
+            ColumnSizer="Star"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             SelectionMode="Single"
@@ -125,6 +126,6 @@ xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfD
 
                 </sfgrid:SfDataGrid.Columns>
             </sfgrid:SfDataGrid>
-        </StackLayout>
+       
     </Grid>
 </ContentPage>
