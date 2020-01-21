@@ -27,6 +27,7 @@ namespace GrKouk.CodeManager.ViewModels
             _navigationService = navigationService;
             _dialogService = dialogService;
             _dataSource = dataSource;
+           
         }
         
         public override async void OnNavigatedTo(INavigationParameters parameters)
@@ -42,6 +43,14 @@ namespace GrKouk.CodeManager.ViewModels
                 SelectedShopIndex = 0;
             }
         }
+        #region Product Selected
+        private bool _productSelected = false;
+        public bool ProductSelected
+        {
+            get => _productSelected;
+            set => SetProperty(ref _productSelected, value);
+        }
+        #endregion
         #region IsBusy
 
         private bool _isBusy = false;
@@ -53,18 +62,44 @@ namespace GrKouk.CodeManager.ViewModels
 
         #endregion
         #region CreateImages
+
+        private void LoadMimeTypes()
+        {
+            var items =new List<ListItemDto>();
+            items.Add(new ListItemDto
+            {
+                ItemId = 0,
+                ItemName = "image/jpeg",
+                ItemCode = "jpeg"
+            });
+            items.Add(new ListItemDto
+            {
+                ItemId = 0,
+                ItemName = "image/jpg",
+                ItemCode = "jpg"
+            });
+            items.Add(new ListItemDto
+            {
+                ItemId = 0,
+                ItemName = "image/png",
+                ItemCode = "png"
+            });
+            var cItems = new ObservableCollection<ListItemDto>();
+            foreach (var item in items)
+            {
+                cItems.Add(item);
+            }
+
+            MimeTypes = cItems;
+        }
         private ObservableCollection<ProductImageDto> _imageList;
         public ObservableCollection<ProductImageDto> ImageList
         {
             get => _imageList;
             set => SetProperty(ref _imageList, value);
         }
-        private ObservableCollection<string> _mimeTypes=new ObservableCollection<string>
-        {
-            "image/jpeg",
-            "image/png"
-        } ;
-        public ObservableCollection<string> MimeTypes
+        private ObservableCollection<ListItemDto> _mimeTypes ;
+        public ObservableCollection<ListItemDto> MimeTypes
         {
             get => _mimeTypes;
             set => SetProperty(ref _mimeTypes, value);
@@ -78,27 +113,31 @@ namespace GrKouk.CodeManager.ViewModels
         private DelegateCommand _createImagesCmd;
 
         public DelegateCommand CreateImagesCmd =>
-            _createImagesCmd ?? (_createImagesCmd = new DelegateCommand( () => CreateImagesImpl()));
+            _createImagesCmd ?? (_createImagesCmd = new DelegateCommand( () => CreateImagesImpl(), () => ProductSelected) ).ObservesProperty(() => ProductSelected);
         private void  CreateImagesImpl()
         {
             try
             {
+                LoadMimeTypes();
                 var nnItems = new ObservableCollection<ProductImageDto>();
-
+                if (SelectedProductItem !=null)
+                {
+                    
+                }
                 for (int i = 0; i < _numberOfImages; i++)
                 {
                     var item = new ProductImageDto
                     {
-                        MimeType = "image/jpeg",
-                        SeoFilename = "LOREM",
-                        AltAttribute = "lorem ipsum",
-                        TitleAttribute = "lorem ipsum",
+                        PictureId = 0,
+                        MimeType = "jpeg",
+                        SeoFilename =!String.IsNullOrEmpty(PrimarySlugText) ? PrimarySlugText : string.Empty,
+                        AltAttribute = SelectedProductItem!=null?SelectedProductItem.Name:string.Empty,
+                        TitleAttribute = SelectedProductItem != null ? SelectedProductItem.Name : string.Empty,
                         DisplayOrder = 32
                     };
                     nnItems.Add(item);
                 }
-
-
+                //LoadMimeTypes();
                 ImageList = nnItems;
             }
             catch (Exception e)
@@ -392,31 +431,41 @@ namespace GrKouk.CodeManager.ViewModels
             get => _selectedProductItem;
             set => SetProperty(ref _selectedProductItem, value);
         }
+        #region AutoCompleteSelection Chanded
 
-        private DelegateCommand<object> _productValueChangedCommand;
+        private DelegateCommand<object> _acSelectionChangedCmd;
 
-        public DelegateCommand<object> ProductValueChangedCommand =>
-            _productValueChangedCommand ?? (_productValueChangedCommand = new DelegateCommand<object>(async (t) => await ProductValueChangedCmd(t)));
+        public DelegateCommand<object> AcSelectionChangedCmd =>
+            _acSelectionChangedCmd ?? (_acSelectionChangedCmd = new DelegateCommand<object>(async (t) => await AcSelectionChangedImpl(t)));
 
-        private async Task ProductValueChangedCmd(object value)
+        private async Task AcSelectionChangedImpl(object value)
         {
 #if DEBUG
-            Debug.WriteLine("ProductValueChangedCmd");
+            Debug.WriteLine("ProductValueChangedImpl");
 #endif
             if (value != null)
             {
-
+                ProductSelected = SelectedProductItem != null;
                 if (value is ProductListDto)
                 {
                     _selectedProductId = (value as ProductListDto).Id;
-
                     //get slugs for selected productId
                     PrimarySlugText = await GetProductPrimarySlugAsync(_selectedShopId, _selectedProductId);
-
 #if DEBUG
                     try
                     {
-                        var debugMessage = $"Selected index is value is {_selectedProductId}";
+                        var debugMessage = $"ProductValueChangedImpl Parameter value is {(value as ProductListDto).Name}";
+                        Debug.WriteLine(debugMessage);
+                        debugMessage = $"ProductValueChangedImpl Selected index is {_selectedProductId}";
+                        Debug.WriteLine(debugMessage);
+                        if (_selectedProductItem is null)
+                        {
+                            debugMessage = $"ProductValueChangedImpl Selected Item is null";
+                        }
+                        else
+                        {
+                            debugMessage = $"ProductValueChangedImpl Selected Item is {_selectedProductItem.Name}";
+                        }
                         Debug.WriteLine(debugMessage);
                     }
                     catch
@@ -425,11 +474,88 @@ namespace GrKouk.CodeManager.ViewModels
                     }
 #endif
                 }
+            }
+        }
+
+        #endregion
+        #region AutoCompleteValue Chanded
+
+        private DelegateCommand<object> _acValueChangedCmd;
+
+        public DelegateCommand<object> AcValueChangedCmd =>
+            _acValueChangedCmd ?? (_acValueChangedCmd = new DelegateCommand<object>( (t) =>  AcValueChangedImpl(t)));
+
+        private void AcValueChangedImpl(object value)
+        {
+#if DEBUG
+            Debug.WriteLine("AcValueChangedImpl");
+#endif
+            if (value != null)
+            {
+
+                if (value is string)
+                {
+                    if (!string.IsNullOrEmpty((string) value))
+                    {
+                        ProductSelected = SelectedProductItem!=null;
+#if DEBUG
+                        try
+                        {
+                            var debugMessage = $"AcValueChangedImpl parameter value is {value}";
+                            Debug.WriteLine(debugMessage);
+                            debugMessage = $"AcValueChangedImpl Selected index is {_selectedProductId}";
+                            Debug.WriteLine(debugMessage);
+                            if (_selectedProductItem is null)
+                            {
+                                debugMessage = $"AcValueChangedImpl Selected Item is null";
+                            }
+                            else
+                            {
+                                debugMessage = $"AcValueChangedImpl Selected Item is {_selectedProductItem.Name}";
+                            }
+                            Debug.WriteLine(debugMessage);
+                        }
+                        catch
+                        {
+
+                        }
+#endif
+                    }
+                    else //value is null or empty
+                    {
+                        ProductSelected = false;
+#if DEBUG
+                        try
+                        {
+                            var debugMessage = $"AcValueChangedImpl parameter value is null or empty string";
+                            Debug.WriteLine(debugMessage);
+                            debugMessage = $"AcValueChangedImpl Selected index is {_selectedProductId}";
+                            Debug.WriteLine(debugMessage);
+                            if (_selectedProductItem is null)
+                            {
+                                debugMessage = $"AcValueChangedImpl Selected Item is null";
+                            }
+                            else
+                            {
+                                debugMessage = $"AcValueChangedImpl Selected Item is {_selectedProductItem.Name}";
+                            }
+                            Debug.WriteLine(debugMessage);
+                        }
+                        catch
+                        {
+
+                        }
+#endif  
+                    }
+
+                }
 
             }
 
 
         }
+
+        #endregion
         #endregion
 
         #region Product Slugs

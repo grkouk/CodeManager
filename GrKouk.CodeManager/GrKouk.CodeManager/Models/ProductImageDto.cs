@@ -7,6 +7,8 @@ namespace GrKouk.CodeManager.Models
 {
     public class ProductImageDto
     {
+        public int PictureId { get; set; }
+        public int ProductId { get; set; }
         public string MimeType { get; set; }
         public string SeoFilename { get; set; }
         public string AltAttribute { get; set; }

@@ -231,7 +231,6 @@ namespace GrKouk.CodeManager.ViewModels
 #endif
             if (value != null)
             {
-
                 if (value is ProductListDto)
                 {
                     _selectedProductId = (value as ProductListDto).Id;
