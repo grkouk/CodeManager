@@ -13,6 +13,7 @@
     <PackageReference Include="GrKouk.Shared.Definitions" Version="1.0.0" />
     <PackageReference Include="GrKouk.Shared.Mobile.Dtos" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Polly" Version="7.2.0" />
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="17.4.0.43" />
     <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="17.4.0.43" />
     <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="17.4.0.43" />
