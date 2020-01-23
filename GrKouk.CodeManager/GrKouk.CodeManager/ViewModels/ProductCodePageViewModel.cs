@@ -37,11 +37,22 @@ namespace GrKouk.CodeManager.ViewModels
         private DelegateCommand _lookupCommand;
         
         public DelegateCommand LookupCommand =>
-            _lookupCommand ?? (_lookupCommand = new DelegateCommand(async () => await LookupDataCommand()));
-        private async Task LookupDataCommand()
+            _lookupCommand ?? (_lookupCommand = new DelegateCommand(async () => await LookupDataImpl()));
+        private async Task LookupDataImpl()
         {
             try
             {
+                if (_nopItems != null)
+                {
+                    _nopItems.Clear();
+                    NopItems = _nopItems;
+                }
+                if (_erpItems != null)
+                {
+                    _erpItems.Clear();
+                    ErpItems = _erpItems;
+                }
+
                 await RefreshDataAsync();
             }
             catch (Exception e)
