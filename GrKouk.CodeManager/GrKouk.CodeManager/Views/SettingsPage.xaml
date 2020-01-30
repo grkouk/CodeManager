@@ -1,12 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GrKouk.CodeManager.Views.SettingsPage"
+xmlns:viewmodels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
+xmlns:converters="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
+x:Class="GrKouk.CodeManager.Views.SettingsPage"
              Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ComboValueConverter x:Key="ComboboxValueConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout Padding="10">
-       <StackLayout>
+        <StackLayout>
+            <Label Text="Profile"></Label>
+            <StackLayout Orientation="Vertical" x:DataType="viewmodels:SettingsPageViewModel">
+                <combobox:SfComboBox 
+                                     IsEditableMode="True" 
+                                     ComboBoxMode="SuggestAppend" 
+                                     Text="{Binding ProfileNameText}"
+                                     DisplayMemberPath="ProfileName"
+                                     DataSource="{Binding ProfileList}">
+                    <combobox:SfComboBox.Behaviors>
+                        <prism:EventToCommandBehavior EventName="SelectionChanged" 
+                                                      Command="{Binding SelectedProfileIndexChangedCommand}"
+                                                      EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+
+                    </combobox:SfComboBox.Behaviors>
+                </combobox:SfComboBox>
+                <Button Text="Save Profile" Command="{Binding SaveProfileCmd}"></Button>
+            </StackLayout>
+        </StackLayout>
+        <StackLayout>
             <Label Text="Web Api Base Address"></Label>
             <Entry Text="{Binding WebApiBaseAddress, Mode=TwoWay}"></Entry>
         </StackLayout>
