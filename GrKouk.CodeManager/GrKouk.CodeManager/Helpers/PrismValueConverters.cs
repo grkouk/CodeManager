@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
@@ -9,6 +10,7 @@ using Xamarin.Forms;
 using SelectionChangedEventArgs = Syncfusion.SfAutoComplete.XForms.SelectionChangedEventArgs;
 using ComboChangedEventArgs = Syncfusion.XForms.ComboBox.SelectionChangedEventArgs;
 using ValueChangedEventArgs = Syncfusion.SfAutoComplete.XForms.ValueChangedEventArgs;
+using ValueChangedEventArgsCombobox = Syncfusion.XForms.ComboBox.ValueChangedEventArgs;
 
 namespace Prism.Converters
 {
@@ -72,23 +74,33 @@ namespace Prism.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var evArgs = value as ComboChangedEventArgs;
-
-            if (evArgs != null)
+            Debug.WriteLine(value.GetType().ToString() + " --- " + typeof(ComboChangedEventArgs));
+            Debug.WriteLine(value.GetType().ToString() + " --- " + typeof(ValueChangedEventArgs));
+            if (value is ComboChangedEventArgs)
             {
+                var evArgs = value as ComboChangedEventArgs;
                 var item = evArgs.Value;
                 if (item == null)
                 {
-                    throw new ArgumentException("Expected value to be of type ItemTappedEventArgs", nameof(value));
+                    throw new ArgumentException("Expected value to be of type ComboChangedEventArgs", nameof(value));
+                }
+                return item;
+
+            }
+            Debug.WriteLine(value.GetType().ToString()+" --- " + typeof(ComboChangedEventArgs));
+            Debug.WriteLine(value.GetType().ToString() + " --- " + typeof(ValueChangedEventArgs));
+            if (value is ValueChangedEventArgsCombobox)
+            {
+                var evArgs = value as ValueChangedEventArgsCombobox;
+                var item = evArgs.Value;
+                if (item == null)
+                {
+                    throw new ArgumentException("Expected value to be of type ComboChangedEventArgs", nameof(value));
                 }
                 return item;
             }
-            else
-            {
-                throw new ArgumentException("Expected value to be of type ItemTappedEventArgs", nameof(value));
-            }
 
-
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

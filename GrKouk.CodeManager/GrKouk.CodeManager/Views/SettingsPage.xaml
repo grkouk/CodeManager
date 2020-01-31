@@ -14,25 +14,45 @@ x:Class="GrKouk.CodeManager.Views.SettingsPage"
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout Padding="10">
-        <StackLayout>
-            <Label Text="Profile"></Label>
-            <StackLayout Orientation="Vertical" x:DataType="viewmodels:SettingsPageViewModel">
-                <combobox:SfComboBox 
-                                     IsEditableMode="True" 
-                                     ComboBoxMode="SuggestAppend" 
-                                     Text="{Binding ProfileNameText}"
-                                     DisplayMemberPath="ProfileName"
-                                     DataSource="{Binding ProfileList}">
-                    <combobox:SfComboBox.Behaviors>
-                        <prism:EventToCommandBehavior EventName="SelectionChanged" 
-                                                      Command="{Binding SelectedProfileIndexChangedCommand}"
-                                                      EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+        <Grid x:DataType="viewmodels:SettingsPageViewModel">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="15*" />
+                <ColumnDefinition Width="15*" />
+            </Grid.ColumnDefinitions>
+            <Label Text="Profile" Grid.Column="0"></Label>
+            <combobox:SfComboBox 
+                Grid.Column="1"
+                SelectedItem="{Binding SelectedProfile}"
+                SelectedIndex="{Binding SelectedProfileIndex}"
+                IsEditableMode="True" 
+                AllowFiltering="True"
+                SuggestionMode="Contains"
+                TextHighlightMode="MultipleOccurrence"  HighlightedTextFontAttributes="Bold"
+                NoResultsFoundText="No result found"
+                
+                Text="{Binding ProfileNameText}"
+                DisplayMemberPath="ProfileName"
+                DataSource="{Binding ProfileList}">
+                <combobox:SfComboBox.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SelectionChanged" x:DataType="viewmodels:SettingsPageViewModel" 
+                                                  Command="{Binding SelectedProfileIndexChangedCommand}"
+                                                  EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+                    <prism:EventToCommandBehavior EventName="ValueChanged" x:DataType="viewmodels:SettingsPageViewModel" 
+                                                  Command="{Binding ProfileTextChangedCmd}"
+                                                  EventArgsConverter="{StaticResource ComboboxValueConverter}" />
 
-                    </combobox:SfComboBox.Behaviors>
-                </combobox:SfComboBox>
-                <Button Text="Save Profile" Command="{Binding SaveProfileCmd}"></Button>
-            </StackLayout>
-        </StackLayout>
+                </combobox:SfComboBox.Behaviors>
+            </combobox:SfComboBox>
+            <Button Text="Save Profile" 
+                    Grid.Column="2"
+                    Command="{Binding SaveProfileCmd}"></Button>
+            <Button Text="Apply Profile"
+                    Grid.Column="3"
+                    Command="{Binding ApplyProfileCmd}"></Button>
+        </Grid>
+        
         <StackLayout>
             <Label Text="Web Api Base Address"></Label>
             <Entry Text="{Binding WebApiBaseAddress, Mode=TwoWay}"></Entry>
