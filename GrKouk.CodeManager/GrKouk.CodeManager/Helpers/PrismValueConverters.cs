@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-
 using Syncfusion.SfAutoComplete.XForms;
-
 using Xamarin.Forms;
 using SelectionChangedEventArgs = Syncfusion.SfAutoComplete.XForms.SelectionChangedEventArgs;
 using ComboChangedEventArgs = Syncfusion.XForms.ComboBox.SelectionChangedEventArgs;
@@ -74,8 +72,7 @@ namespace Prism.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Debug.WriteLine(value.GetType().ToString() + " --- " + typeof(ComboChangedEventArgs));
-            Debug.WriteLine(value.GetType().ToString() + " --- " + typeof(ValueChangedEventArgs));
+           
             if (value is ComboChangedEventArgs)
             {
                 var evArgs = value as ComboChangedEventArgs;
@@ -87,8 +84,6 @@ namespace Prism.Converters
                 return item;
 
             }
-            Debug.WriteLine(value.GetType().ToString()+" --- " + typeof(ComboChangedEventArgs));
-            Debug.WriteLine(value.GetType().ToString() + " --- " + typeof(ValueChangedEventArgs));
             if (value is ValueChangedEventArgsCombobox)
             {
                 var evArgs = value as ValueChangedEventArgsCombobox;
