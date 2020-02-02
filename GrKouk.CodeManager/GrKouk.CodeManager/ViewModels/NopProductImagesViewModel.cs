@@ -27,9 +27,9 @@ namespace GrKouk.CodeManager.ViewModels
             _navigationService = navigationService;
             _dialogService = dialogService;
             _dataSource = dataSource;
-           
+
         }
-        
+
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (NopItems == null)
@@ -43,6 +43,21 @@ namespace GrKouk.CodeManager.ViewModels
                 SelectedShopIndex = 0;
             }
         }
+        #region Picture text suggestion properties
+        private string _pictureTitleTextSuggestion;
+        public string PictureTitleTextSuggestion
+        {
+            get => _pictureTitleTextSuggestion;
+            set => SetProperty(ref _pictureTitleTextSuggestion, value);
+        }
+
+        private string _pictureAltTextSuggestion;
+        public string PictureAltTextSuggestion
+        {
+            get => _pictureAltTextSuggestion;
+            set => SetProperty(ref _pictureAltTextSuggestion, value);
+        }
+        #endregion
         #region Product Selected
         private bool _productSelected = false;
         public bool ProductSelected
@@ -65,7 +80,7 @@ namespace GrKouk.CodeManager.ViewModels
 
         private void LoadMimeTypes()
         {
-            var items =new List<ListItemDto>();
+            var items = new List<ListItemDto>();
             items.Add(new ListItemDto
             {
                 ItemId = 0,
@@ -98,13 +113,13 @@ namespace GrKouk.CodeManager.ViewModels
             get => _imageList;
             set => SetProperty(ref _imageList, value);
         }
-        private ObservableCollection<ListItemDto> _mimeTypes ;
+        private ObservableCollection<ListItemDto> _mimeTypes;
         public ObservableCollection<ListItemDto> MimeTypes
         {
             get => _mimeTypes;
             set => SetProperty(ref _mimeTypes, value);
         }
-        private int _numberOfImages=1;
+        private int _numberOfImages = 1;
         public int NumberOfImages
         {
             get => _numberOfImages;
@@ -113,16 +128,16 @@ namespace GrKouk.CodeManager.ViewModels
         private DelegateCommand _createImagesCmd;
 
         public DelegateCommand CreateImagesCmd =>
-            _createImagesCmd ?? (_createImagesCmd = new DelegateCommand( () => CreateImagesImpl(), () => ProductSelected) ).ObservesProperty(() => ProductSelected);
-        private void  CreateImagesImpl()
+            _createImagesCmd ?? (_createImagesCmd = new DelegateCommand(() => CreateImagesImpl(), () => ProductSelected)).ObservesProperty(() => ProductSelected);
+        private void CreateImagesImpl()
         {
             try
             {
                 LoadMimeTypes();
                 var nnItems = new ObservableCollection<ProductImageDto>();
-                if (SelectedProductItem !=null)
+                if (SelectedProductItem != null)
                 {
-                    
+
                 }
                 for (int i = 0; i < _numberOfImages; i++)
                 {
@@ -130,9 +145,9 @@ namespace GrKouk.CodeManager.ViewModels
                     {
                         PictureId = 0,
                         MimeType = "jpeg",
-                        SeoFilename =!String.IsNullOrEmpty(PrimarySlugText) ? PrimarySlugText : string.Empty,
-                        AltAttribute = SelectedProductItem!=null?SelectedProductItem.Name:string.Empty,
-                        TitleAttribute = SelectedProductItem != null ? SelectedProductItem.Name : string.Empty,
+                        SeoFilename = !String.IsNullOrEmpty(PrimarySlugText) ? PrimarySlugText : string.Empty,
+                        AltAttribute = !string.IsNullOrEmpty(PictureAltTextSuggestion) ? PictureAltTextSuggestion : string.Empty,
+                        TitleAttribute = !string.IsNullOrEmpty(PictureTitleTextSuggestion) ? PictureTitleTextSuggestion : string.Empty,
                         DisplayOrder = 32
                     };
                     nnItems.Add(item);
@@ -143,7 +158,7 @@ namespace GrKouk.CodeManager.ViewModels
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                 _dialogService.DisplayAlertAsync("Error", e.ToString(), "Ok");
+                _dialogService.DisplayAlertAsync("Error", e.ToString(), "Ok");
                 //throw;
             }
         }
@@ -441,7 +456,7 @@ namespace GrKouk.CodeManager.ViewModels
         private async Task AcSelectionChangedImpl(object value)
         {
 #if DEBUG
-            Debug.WriteLine("ProductValueChangedImpl");
+            Debug.WriteLine("AA AcSelectionChangedImpl");
 #endif
             if (value != null)
             {
@@ -451,20 +466,22 @@ namespace GrKouk.CodeManager.ViewModels
                     _selectedProductId = (value as ProductListDto).Id;
                     //get slugs for selected productId
                     PrimarySlugText = await GetProductPrimarySlugAsync(_selectedShopId, _selectedProductId);
+                    PictureTitleTextSuggestion = (value as ProductListDto).Name;
+                    PictureAltTextSuggestion = (value as ProductListDto).Name;
 #if DEBUG
                     try
                     {
-                        var debugMessage = $"ProductValueChangedImpl Parameter value is {(value as ProductListDto).Name}";
+                        var debugMessage = $"AA AcSelectionChangedImpl Parameter value is {(value as ProductListDto).Name}";
                         Debug.WriteLine(debugMessage);
-                        debugMessage = $"ProductValueChangedImpl Selected index is {_selectedProductId}";
+                        debugMessage = $"AA AcSelectionChangedImpl Selected index is {_selectedProductId}";
                         Debug.WriteLine(debugMessage);
                         if (_selectedProductItem is null)
                         {
-                            debugMessage = $"ProductValueChangedImpl Selected Item is null";
+                            debugMessage = $"AA AcSelectionChangedImpl Selected Item is null";
                         }
                         else
                         {
-                            debugMessage = $"ProductValueChangedImpl Selected Item is {_selectedProductItem.Name}";
+                            debugMessage = $"AA AcSelectionChangedImpl Selected Item is {_selectedProductItem.Name}";
                         }
                         Debug.WriteLine(debugMessage);
                     }
@@ -483,7 +500,7 @@ namespace GrKouk.CodeManager.ViewModels
         private DelegateCommand<object> _acValueChangedCmd;
 
         public DelegateCommand<object> AcValueChangedCmd =>
-            _acValueChangedCmd ?? (_acValueChangedCmd = new DelegateCommand<object>( (t) =>  AcValueChangedImpl(t)));
+            _acValueChangedCmd ?? (_acValueChangedCmd = new DelegateCommand<object>((t) => AcValueChangedImpl(t)));
 
         private void AcValueChangedImpl(object value)
         {
@@ -495,9 +512,9 @@ namespace GrKouk.CodeManager.ViewModels
 
                 if (value is string)
                 {
-                    if (!string.IsNullOrEmpty((string) value))
+                    if (!string.IsNullOrEmpty((string)value))
                     {
-                        ProductSelected = SelectedProductItem!=null;
+                        ProductSelected = SelectedProductItem != null;
 #if DEBUG
                         try
                         {
@@ -524,6 +541,8 @@ namespace GrKouk.CodeManager.ViewModels
                     else //value is null or empty
                     {
                         ProductSelected = false;
+                        PictureAltTextSuggestion = string.Empty;
+                        PictureTitleTextSuggestion=String.Empty;
 #if DEBUG
                         try
                         {

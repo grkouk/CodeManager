@@ -54,7 +54,7 @@ x:Class="GrKouk.CodeManager.Views.SettingsPage"
         </Grid>
         
         <StackLayout>
-            <Label Text="Web Api Base Address"></Label>
+            <Label Text="Erp Web Api Base Address"></Label>
             <Entry Text="{Binding WebApiBaseAddress, Mode=TwoWay}"></Entry>
         </StackLayout>
         <StackLayout>

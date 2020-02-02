@@ -36,7 +36,7 @@ xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfD
     <Grid Padding="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
-            <RowDefinition Height="60" />
+            <RowDefinition Height="150" />
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -76,8 +76,10 @@ xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfD
         <StackLayout Grid.Row="1">
             <Grid x:DataType="viewmodels:NopProductImagesViewModel">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50*" />
-                    <RowDefinition Height="50*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20*" />
@@ -90,6 +92,10 @@ xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfD
                 <Label Grid.Row="1" Grid.Column="0" Text="{Binding SelectedProductItem.Id}"></Label>
                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedProductItem.Code}"></Label>
                 <Label Grid.Row="1" Grid.Column="2" Text="{Binding PrimarySlugText}"></Label>
+                <Label Grid.Row="2" Grid.Column="0">Picture Title</Label>
+                <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PictureTitleTextSuggestion}"></Entry>
+                <Label Grid.Row="3" Grid.Column="0">Alt Text</Label>
+                <Entry Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PictureAltTextSuggestion}"></Entry>
             </Grid>
         </StackLayout>
         <StackLayout Grid.Row="2">
@@ -103,6 +109,7 @@ xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfD
 
                 <numericupdown:SfNumericUpDown Grid.Column="1" 
                                                Value="{Binding NumberOfImages}" 
+                                               TextAlignment="End"
                                                ParsingMode="Decimal" 
                                                Minimum="0" Maximum="20"
                                                MaximumDecimalDigits="0"/>
@@ -115,6 +122,7 @@ xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfD
         <sfgrid:SfDataGrid x:DataType="viewmodels:NopProductImagesViewModel" Grid.Row="3"
             ItemsSource="{Binding ImageList}"
             AllowEditing="True"
+            
             AutoGenerateColumns="False"
             AllowKeyboardNavigation="True"
             AllowResizingColumn="True"
@@ -173,6 +181,7 @@ xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfD
                 </sfgrid:GridComboBoxColumn>
                 <sfgrid:GridTextColumn
                         AllowEditing="False"
+                        LineBreakMode="TailTruncation"
                         HeaderFontAttribute="Bold"
                         HeaderTextAlignment="Center"
                         HeaderText="Seo Filename" 
