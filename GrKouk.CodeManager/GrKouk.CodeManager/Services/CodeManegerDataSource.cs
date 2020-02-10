@@ -44,9 +44,6 @@ namespace GrKouk.CodeManager.Services
                 {
                     throw new Exception(response.StatusCode.ToString() + " " + response.ReasonPhrase);
                 }
-
-                return null;
-
             }
             catch (Exception e)
             {
@@ -275,9 +272,6 @@ namespace GrKouk.CodeManager.Services
                 {
                     throw new Exception(response.StatusCode.ToString() + " " + response.ReasonPhrase);
                 }
-
-                return null;
-
             }
             catch (Exception e)
             {
@@ -311,9 +305,6 @@ namespace GrKouk.CodeManager.Services
                 {
                     throw new Exception(response.StatusCode.ToString() + " " + response.ReasonPhrase);
                 }
-
-                return null;
-
             }
             catch (Exception e)
             {
@@ -347,9 +338,6 @@ namespace GrKouk.CodeManager.Services
                 {
                     throw new Exception(response.StatusCode.ToString() + " " + response.ReasonPhrase);
                 }
-
-                return null;
-
             }
             catch (Exception e)
             {
@@ -383,9 +371,6 @@ namespace GrKouk.CodeManager.Services
                 {
                     throw new Exception(response.StatusCode.ToString() + " " + response.ReasonPhrase);
                 }
-
-                return null;
-
             }
             catch (Exception e)
             {

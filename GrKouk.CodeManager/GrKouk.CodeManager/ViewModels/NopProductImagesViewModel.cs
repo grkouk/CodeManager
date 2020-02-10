@@ -80,25 +80,12 @@ namespace GrKouk.CodeManager.ViewModels
 
         private void LoadMimeTypes()
         {
-            var items = new List<ListItemDto>();
-            items.Add(new ListItemDto
+            var items = new List<ListItemDto>
             {
-                ItemId = 0,
-                ItemName = "image/jpeg",
-                ItemCode = "jpeg"
-            });
-            items.Add(new ListItemDto
-            {
-                ItemId = 0,
-                ItemName = "image/jpg",
-                ItemCode = "jpg"
-            });
-            items.Add(new ListItemDto
-            {
-                ItemId = 0,
-                ItemName = "image/png",
-                ItemCode = "png"
-            });
+                new ListItemDto {ItemId = 0, ItemName = "image/jpeg", ItemCode = "jpeg"},
+                new ListItemDto {ItemId = 0, ItemName = "image/jpg", ItemCode = "jpg"},
+                new ListItemDto {ItemId = 0, ItemName = "image/png", ItemCode = "png"}
+            };
             var cItems = new ObservableCollection<ListItemDto>();
             foreach (var item in items)
             {

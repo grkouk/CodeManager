@@ -49,7 +49,7 @@ namespace GrKouk.CodeManager.ViewModels
 
         private void SaveProfileCmdImpl()
         {
-            string profName;
+            //string profName;
             if (!string.IsNullOrEmpty(_profileNameText))
             {
                 KeyValuePair<string, string> setting;
