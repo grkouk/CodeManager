@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using GrKouk.CodeManager.Models;
+
 using GrKouk.CodeManager.Services;
 using GrKouk.Shared.Mobile.Dtos;
 using Prism.Navigation;

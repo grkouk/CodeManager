@@ -1,8 +1,214 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:numericupdown="clr-namespace:Syncfusion.SfNumericUpDown.XForms;assembly=Syncfusion.SfNumericUpDown.XForms"
+xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GrKouk.CodeManager.Views.NopProductImages">
-  
+             x:Class="GrKouk.CodeManager.Views.NopProductImages"
+             xmlns:viewmodels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
+             xmlns:dtos="clr-namespace:GrKouk.Shared.Mobile.Dtos;assembly=GrKouk.Shared.Mobile.Dtos"
+             xmlns:converters="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
+             xmlns:comboBox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:xForms="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
+            <converters:AutoCompleteSelectionChangedConverter x:Key="AutoCompleteSelectionChangedConverter"/>
+            <converters:ComboValueConverter x:Key="ComboboxValueConverter"/>
+
+            <OnPlatform x:Key="TextSize"
+                        x:TypeArguments="x:Double">
+                <On Platform="iOS,UWP" Value="14" />
+                <On Platform="Android" Value="13" />
+            </OnPlatform>
+            <OnPlatform x:Key="Font"
+                        x:TypeArguments="x:String">
+                <On Platform="Android" Value="Roboto-Regular" />
+                <On Platform="iOS" Value="SFProText-Regular" />
+                <On Platform="UWP" Value="SegoeUI" />
+            </OnPlatform>
+        </ResourceDictionary>
+
+
+    </ContentPage.Resources>
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="150" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackLayout  Grid.Row="0">
+            <comboBox:SfComboBox IsEditableMode="False"
+                                 HeightRequest="40"
+                                 SelectedItem="{Binding SelectedShop}"
+                                 SelectedIndex="{Binding SelectedShopIndex}"
+                                         
+                                 DisplayMemberPath="ItemName"  
+                                 DataSource="{Binding ShopList}"
+            >
+                <comboBox:SfComboBox.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SelectionChanged" 
+                                              Command="{Binding SelectedShopIndexChangedCommand}"
+                                              EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+
+                </comboBox:SfComboBox.Behaviors>
+            </comboBox:SfComboBox>
+            <xForms:SfAutoComplete  ShowClearButton="True" HeightRequest="40"
+                        SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
+                        DisplayMemberPath="NameCombined"
+                        DataSource="{Binding NopItems}"
+                        SuggestionMode="Contains">
+                <xForms:SfAutoComplete.Behaviors >
+                    <prism:EventToCommandBehavior x:DataType="viewmodels:NopProductImagesViewModel"
+                            EventName="SelectionChanged"
+                            Command="{Binding AcSelectionChangedCmd}"
+                            EventArgsConverter="{StaticResource AutoCompleteSelectionChangedConverter}" />
+                    <prism:EventToCommandBehavior x:DataType="viewmodels:NopProductImagesViewModel"
+                                                  EventName="ValueChanged"
+                                                  Command="{Binding AcValueChangedCmd}"
+                                                  EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
+                </xForms:SfAutoComplete.Behaviors>
+            </xForms:SfAutoComplete>
+        </StackLayout>
+        <StackLayout Grid.Row="1">
+            <Grid x:DataType="viewmodels:NopProductImagesViewModel">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="60*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0">Product Id</Label>
+                <Label Grid.Row="0" Grid.Column="1">Product Sku</Label>
+                <Label Grid.Row="0" Grid.Column="2">Primary Slug</Label>
+                <Label Grid.Row="1" Grid.Column="0" Text="{Binding SelectedProductItem.Id}"></Label>
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedProductItem.Code}"></Label>
+                <Label Grid.Row="1" Grid.Column="2" Text="{Binding PrimarySlugText}"></Label>
+                <Label Grid.Row="2" Grid.Column="0">Picture Title</Label>
+                <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PictureTitleTextSuggestion}"></Entry>
+                <Label Grid.Row="3" Grid.Column="0">Alt Text</Label>
+                <Entry Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding PictureAltTextSuggestion}"></Entry>
+            </Grid>
+        </StackLayout>
+        <StackLayout Grid.Row="2">
+            <Grid x:DataType="viewmodels:NopProductImagesViewModel">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label  Grid.Column="0">Number of Images</Label>
+
+                <numericupdown:SfNumericUpDown Grid.Column="1" 
+                                               Value="{Binding NumberOfImages}" 
+                                               TextAlignment="End"
+                                               ParsingMode="Decimal" 
+                                               Minimum="0" Maximum="20"
+                                               MaximumDecimalDigits="0"/>
+
+                <Button Grid.Column="2" Text="Create" Command="{Binding CreateImagesCmd}"></Button>
+
+            </Grid>
+        </StackLayout>
+
+        <sfgrid:SfDataGrid x:DataType="viewmodels:NopProductImagesViewModel" Grid.Row="3"
+            ItemsSource="{Binding ImageList}"
+            AllowEditing="True"
+            
+            AutoGenerateColumns="False"
+            AllowKeyboardNavigation="True"
+            AllowResizingColumn="True"
+            NavigationMode="Cell"
+            EditTapAction="OnDoubleTap"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            SelectionMode="Single"
+            ColumnSizer="{OnPlatform Android={OnIdiom Phone=Auto, Tablet=Star}, iOS={OnIdiom Phone=Auto, Tablet=Star}, macOS=Star , UWP={OnIdiom Phone=Auto, Tablet=Star, Desktop=Star}}"
+            >
+            <sfgrid:SfDataGrid.Columns >
+                <sfgrid:GridNumericColumn 
+                    HeaderFontAttribute="Bold"
+                    HeaderText="Picture Id"
+                    HeaderTextAlignment="Center"
+                    
+                    LineBreakMode="WordWrap"
+                    MappingName="PictureId"
+                    Padding="5,5,5,5"
+                    NumberDecimalDigits="0"
+                    HeaderCellTextSize="{StaticResource TextSize}"
+                    CellTextSize="{StaticResource TextSize}"
+                    TextAlignment="End">
+                </sfgrid:GridNumericColumn>
+                <sfgrid:GridPickerColumn x:DataType="viewmodels:NopProductImagesViewModel"
+                    ItemsSource="{Binding MimeTypes}" 
+                    
+                    MappingName="MimeType"
+                    
+                    DisplayMemberPath="ItemName"
+                    ValueMemberPath="ItemCode"
+                    HeaderCellTextSize="{StaticResource TextSize}"
+                    CellTextSize="{StaticResource TextSize}"
+                    HeaderFontAttribute="Bold"
+                    HeaderTextAlignment="Center"
+                    LoadUIView="True"
+                   
+                    HeaderText="Mime Type">
+
+                </sfgrid:GridPickerColumn>
+                <sfgrid:GridComboBoxColumn x:DataType="viewmodels:NopProductImagesViewModel"
+                                         ItemsSource="{Binding MimeTypes}" 
+                    
+                                         MappingName="MimeType"
+                    
+                                         DisplayMemberPath="ItemName"
+                                         ValueMemberPath="ItemCode"
+                                         HeaderCellTextSize="{StaticResource TextSize}"
+                                         CellTextSize="{StaticResource TextSize}"
+                                         HeaderFontAttribute="Bold"
+                                         HeaderTextAlignment="Center"
+                                         LoadUIView="True"
+                   
+                                         HeaderText="Mime Type">
+
+                </sfgrid:GridComboBoxColumn>
+                <sfgrid:GridTextColumn
+                        AllowEditing="False"
+                        LineBreakMode="TailTruncation"
+                        HeaderFontAttribute="Bold"
+                        HeaderTextAlignment="Center"
+                        HeaderText="Seo Filename" 
+                        HeaderCellTextSize="{StaticResource TextSize}"
+                        CellTextSize="{StaticResource TextSize}"
+                        MappingName="SeoFilename"
+                    ></sfgrid:GridTextColumn>
+                <sfgrid:GridTextColumn
+                        HeaderText="AltAttribute" 
+                        HeaderFontAttribute="Bold"
+                        HeaderTextAlignment="Center"
+                        HeaderCellTextSize="{StaticResource TextSize}"
+                        CellTextSize="{StaticResource TextSize}"
+                        MappingName="AltAttribute"
+                    ></sfgrid:GridTextColumn>
+                <sfgrid:GridTextColumn
+                        HeaderText="Title Attribute" 
+                        HeaderFontAttribute="Bold"
+                        HeaderTextAlignment="Center"
+                        HeaderCellTextSize="{StaticResource TextSize}"
+                        CellTextSize="{StaticResource TextSize}"
+                        MappingName="TitleAttribute"
+                    ></sfgrid:GridTextColumn>
+
+            </sfgrid:SfDataGrid.Columns>
+           
+        </sfgrid:SfDataGrid>
+
+    </Grid>
 </ContentPage>

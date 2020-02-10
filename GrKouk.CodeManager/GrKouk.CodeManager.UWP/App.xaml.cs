@@ -1,3 +1,5 @@
+using Syncfusion.SfNumericUpDown.XForms.UWP;
+using Syncfusion.SfDataGrid.XForms.UWP;
 using Syncfusion.XForms.UWP.ComboBox;
 using Syncfusion.SfPicker.XForms.UWP;
 using Syncfusion.SfAutoComplete.XForms.UWP;
@@ -57,7 +59,9 @@ namespace GrKouk.CodeManager.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                List<Assembly> assembliesToInclude = new List<Assembly>();
+List<Assembly> assembliesToInclude = new List<Assembly>();
+assembliesToInclude.Add(typeof(SfNumericUpDownRenderer).GetTypeInfo().Assembly);
+                assembliesToInclude.Add(typeof(SfDataGridRenderer).GetTypeInfo().Assembly);
                 assembliesToInclude.Add(typeof(SfComboBoxRenderer).GetTypeInfo().Assembly);
                 assembliesToInclude.Add(typeof(SfPickerRenderer).GetTypeInfo().Assembly);
                 assembliesToInclude.Add(typeof(SfAutoCompleteRenderer).GetTypeInfo().Assembly);

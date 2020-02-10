@@ -8,15 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="F:\Projects\Grkouk.Nop.Api3.Sol\Grkouk.Nop.Api3\Helpers\SharedDefinitions.cs" Link="Helpers\SharedDefinitions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentFTP" Version="29.0.0" />
-    <PackageReference Include="GrKouk.Shared.Mobile.Dtos" Version="1.1.0" />
+    <PackageReference Include="GrKouk.Shared.Core" Version="1.0.0" />
+    <PackageReference Include="GrKouk.Shared.Definitions" Version="1.0.0" />
+    <PackageReference Include="GrKouk.Shared.Mobile.Dtos" Version="1.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Polly" Version="7.2.0" />
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="17.4.0.43" />
     <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="17.4.0.43" />
+    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="17.4.0.43" />
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericUpDown" Version="17.4.0.43" />
     <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.4.0.43" />
     <PackageReference Include="Xamarin.Essentials" Version="1.4.0-pre" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
@@ -45,6 +46,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ShopToolsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\UrlBuilderPage.xaml">

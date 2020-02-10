@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using GrKouk.CodeManager.Models;
 using GrKouk.CodeManager.Services;
 using GrKouk.Shared.Mobile.Dtos;
 using Prism.Navigation;
@@ -38,11 +37,22 @@ namespace GrKouk.CodeManager.ViewModels
         private DelegateCommand _lookupCommand;
         
         public DelegateCommand LookupCommand =>
-            _lookupCommand ?? (_lookupCommand = new DelegateCommand(async () => await LookupDataCommand()));
-        private async Task LookupDataCommand()
+            _lookupCommand ?? (_lookupCommand = new DelegateCommand(async () => await LookupDataImpl()));
+        private async Task LookupDataImpl()
         {
             try
             {
+                if (_nopItems != null)
+                {
+                    _nopItems.Clear();
+                    NopItems = _nopItems;
+                }
+                if (_erpItems != null)
+                {
+                    _erpItems.Clear();
+                    ErpItems = _erpItems;
+                }
+
                 await RefreshDataAsync();
             }
             catch (Exception e)
@@ -63,9 +73,9 @@ namespace GrKouk.CodeManager.ViewModels
         }
 
         #endregion
-        private ObservableCollection<ProductListDto> _nopItems;
+        private ObservableCollection<ProductCodeLookupDto> _nopItems;
 
-        public ObservableCollection<ProductListDto> NopItems
+        public ObservableCollection<ProductCodeLookupDto> NopItems
         {
             get => _nopItems;
             set => SetProperty(ref _nopItems, value) ;
@@ -95,7 +105,7 @@ namespace GrKouk.CodeManager.ViewModels
             IsBusy = true;
             try
             {
-                var nnItems = new ObservableCollection<ProductListDto>();
+                var nnItems = new ObservableCollection<ProductCodeLookupDto>();
                
                 var npItems = await GetNopItemsAsync();
                 if (npItems != null)
@@ -145,9 +155,9 @@ namespace GrKouk.CodeManager.ViewModels
         {
             return await _dataSource.GetCodesAsync(_codeLookup);
         }
-        private async Task<IEnumerable<ProductListDto>> GetNopItemsAsync()
+        private async Task<IEnumerable<ProductCodeLookupDto>> GetNopItemsAsync()
         {
-            return await _dataSource.GetNopCodesAsync(_codeLookup);
+            return await _dataSource.GetNopCodesAsyncV2(_codeLookup);
         }
     }
 }

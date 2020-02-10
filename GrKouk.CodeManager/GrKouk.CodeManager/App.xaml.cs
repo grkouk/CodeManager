@@ -44,6 +44,7 @@ namespace GrKouk.CodeManager
             containerRegistry.RegisterForNavigation<UrlBuilderPage, UrlBuilderPageViewModel>();
             containerRegistry.RegisterForNavigation<NopProductDetailsPage, NopProductDetailsPageViewModel>();
             containerRegistry.RegisterForNavigation<NopProductImages, NopProductImagesViewModel>();
+            containerRegistry.RegisterForNavigation<ShopToolsPage, ShopToolsPageViewModel>();
         }
     }
 }

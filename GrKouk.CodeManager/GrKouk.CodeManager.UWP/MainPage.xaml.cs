@@ -1,3 +1,4 @@
+using Syncfusion.SfDataGrid.XForms.UWP;
 using Prism;
 using Prism.Ioc;
 using System;
@@ -26,6 +27,7 @@ namespace GrKouk.CodeManager.UWP
             SfPickerRenderer.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             this.InitializeComponent();
+            SfDataGridRenderer.Init();
 
             LoadApplication(new GrKouk.CodeManager.App(new UwpInitializer()));
         }

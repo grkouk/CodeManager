@@ -39,22 +39,29 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
 
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="1"
+                                        <Label Grid.Column="0" Grid.Row="0"
                                                Text="{Binding Name}"
                                                TextColor="Black"
                                                FontAttributes="Bold" />
                                         <Label Grid.Row="1"
-                                           Grid.Column="1"
+                                           Grid.Column="0"
                                            Text="{Binding Code}"
                                            TextColor="Black"
                                            FontAttributes="Italic"
                                            VerticalOptions="End" />
+                                        <Label Grid.Row="2"
+                                               Grid.Column="0"
+                                               Text="{Binding ShopName}"
+                                               TextColor="Black"
+                                               FontAttributes="Italic"
+                                               VerticalOptions="End" />
                                     </Grid>
 
                                 </DataTemplate>
