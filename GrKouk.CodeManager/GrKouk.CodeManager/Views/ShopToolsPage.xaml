@@ -3,8 +3,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:viewmodels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
+             xmlns:converters="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
+             xmlns:comboBox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:xForms="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:views="clr-namespace:GrKouk.CodeManager.Views;assembly=GrKouk.CodeManager"
              x:Class="GrKouk.CodeManager.Views.ShopToolsPage"
              Title="{Binding Title}"
              >
-  
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
+            <converters:AutoCompleteSelectionChangedConverter x:Key="AutoCompleteSelectionChangedConverter"/>
+            <converters:ComboValueConverter x:Key="ComboboxValueConverter"/>
+
+            <OnPlatform x:Key="TextSize"
+                        x:TypeArguments="x:Double">
+                <On Platform="iOS,UWP" Value="14" />
+                <On Platform="Android" Value="13" />
+            </OnPlatform>
+            <OnPlatform x:Key="Font"
+                        x:TypeArguments="x:String">
+                <On Platform="Android" Value="Roboto-Regular" />
+                <On Platform="iOS" Value="SFProText-Regular" />
+                <On Platform="UWP" Value="SegoeUI" />
+            </OnPlatform>
+        </ResourceDictionary>
+
+
+    </ContentPage.Resources>
+    <StackLayout>
+        <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
+            <comboBox:SfComboBox IsEditableMode="False"
+                                 HeightRequest="40"
+                                 SelectedItem="{Binding SelectedShop}"
+                                 SelectedIndex="{Binding SelectedShopIndex}"
+
+                                 DisplayMemberPath="ItemName"
+                                 DataSource="{Binding ShopList}">
+                <comboBox:SfComboBox.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SelectionChanged"
+                                                  Command="{Binding SelectedShopIndexChangedCommand}"
+                                                  EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+
+                </comboBox:SfComboBox.Behaviors>
+            </comboBox:SfComboBox>
+            <xForms:SfAutoComplete ShowClearButton="True" HeightRequest="40"
+                                   SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
+                                   DisplayMemberPath="NameCombined"
+                                   DataSource="{Binding NopItems}"
+                                   SuggestionMode="Contains">
+                <xForms:SfAutoComplete.Behaviors>
+                    <prism:EventToCommandBehavior x:DataType="viewmodels:ShopToolsPageViewModel"
+                                                  EventName="SelectionChanged"
+                                                  Command="{Binding AcSelectionChangedCmd}"
+                                                  EventArgsConverter="{StaticResource AutoCompleteSelectionChangedConverter}" />
+                    <prism:EventToCommandBehavior x:DataType="viewmodels:ShopToolsPageViewModel"
+                                                  EventName="ValueChanged"
+                                                  Command="{Binding AcValueChangedCmd}"
+                                                  EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
+                </xForms:SfAutoComplete.Behaviors>
+            </xForms:SfAutoComplete>
+        </StackLayout>
+<StackLayout>
+    <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
+        <Label Text="Number of attributes"></Label>
+        <Label Text="{Binding NumberOfProductAttrCombinations}"></Label>
+    </StackLayout>
+</StackLayout>
+    </StackLayout>
+    
 </ContentPage>
