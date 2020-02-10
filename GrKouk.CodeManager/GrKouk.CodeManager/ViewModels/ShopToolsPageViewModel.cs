@@ -226,7 +226,8 @@ namespace GrKouk.CodeManager.ViewModels
                 if (value is ProductListDto)
                 {
                     _selectedProductId = (value as ProductListDto).Id;
-
+                    _productAttrCombList = await GetShopProductAttrCombinationsAsync();
+                    NumberOfProductAttrCombinations = _productAttrCombList?.Count() ?? 0;
 #if DEBUG
                     try
                     {
@@ -348,8 +349,23 @@ namespace GrKouk.CodeManager.ViewModels
 
         #region ProductAttributeCombinations
 
-        private List<ProductAttrCombinationDto> _productAttrCombList;
+        private IEnumerable<ProductAttrCombinationDto> _productAttrCombList;
+        private async Task<IEnumerable<ProductAttrCombinationDto>> GetShopProductAttrCombinationsAsync()
+        {
+            if (!String.IsNullOrEmpty(_selectedShopId)&&_selectedProductId>0)
+            {
+                if (Int32.TryParse(_selectedShopId, out int shopId))
+                {
+                    return await _dataSource.GetShopProductAttrCombinations(shopId, _selectedProductId);
+                }
+                else
+                {
+                    return null;
+                }
+            }
 
+            return null;
+        }
         #endregion
     }
 }
