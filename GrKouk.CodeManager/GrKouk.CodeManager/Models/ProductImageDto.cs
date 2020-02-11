@@ -15,4 +15,5 @@ namespace GrKouk.CodeManager.Models
         public string TitleAttribute { get; set; }
         public int DisplayOrder { get; set; }
     }
+    
 }

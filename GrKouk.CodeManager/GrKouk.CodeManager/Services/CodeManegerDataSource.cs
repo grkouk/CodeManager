@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using GrKouk.CodeManager.Models;
 using GrKouk.Shared.Core;
 using GrKouk.Shared.Mobile.Dtos;
 using Newtonsoft.Json;
@@ -246,6 +247,99 @@ namespace GrKouk.CodeManager.Services
                 return new List<ListItemDto>();
                 //throw;
             }
+        }
+
+        public async Task<IEnumerable<ProductAttrCombinationDto>> GetShopProductAttrCombinations(int shopId, int productId)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var apiCall = $"/products/ShopProductAttrCombinations?productid={productId}&shopid={shopId}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+
+            HttpStatusCode[] httpStatusCodesWorthRetrying = {
+                HttpStatusCode.RequestTimeout, // 408
+                HttpStatusCode.InternalServerError, // 500
+                HttpStatusCode.BadGateway, // 502
+                HttpStatusCode.ServiceUnavailable, // 503
+                HttpStatusCode.GatewayTimeout // 504
+            };
+            CancellationToken cancellationToken = CancellationToken.None;
+            var policy = Policy
+                .Handle<HttpRequestException>()
+                .OrResult<HttpResponseMessage>(r => httpStatusCodesWorthRetrying.Contains(r.StatusCode))
+                .WaitAndRetryAsync(new[] {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(4)
+                });
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+
+            try
+            {
+                var response = await policy.ExecuteAsync(ct => httpClient.GetAsync(apiCallAddress, ct), cancellationToken);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var itemsList = JsonConvert.DeserializeObject<List<ProductAttrCombinationDto>>(jsonContent);
+                    return itemsList;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return new List<ProductAttrCombinationDto>();
+        }
+
+        public async Task<DeleteResponse> DeleteNopShopProductAttrCombinationsAsync(int shopId, int productId)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var apiCall = $"/products/DeleteShopProductAttrCombinations?productid={productId}&shopid={shopId}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+
+            HttpStatusCode[] httpStatusCodesWorthRetrying = {
+                HttpStatusCode.RequestTimeout, // 408
+                HttpStatusCode.InternalServerError, // 500
+                HttpStatusCode.BadGateway, // 502
+                HttpStatusCode.ServiceUnavailable, // 503
+                HttpStatusCode.GatewayTimeout // 504
+            };
+            CancellationToken cancellationToken = CancellationToken.None;
+            var policy = Policy
+                .Handle<HttpRequestException>()
+                .OrResult<HttpResponseMessage>(r => httpStatusCodesWorthRetrying.Contains(r.StatusCode))
+                .WaitAndRetryAsync(new[] {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(4)
+                });
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+
+            try
+            {
+                var response = await policy.ExecuteAsync(ct => httpClient.PostAsync(apiCallAddress, null, ct),
+                    cancellationToken);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var retResponse = JsonConvert.DeserializeObject<DeleteResponse>(jsonContent);
+                    return retResponse;
+                }
+            }
+           
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return new DeleteResponse
+            {
+                ToDelete = 0,
+                DeletedCount = 0
+            };
         }
 
         public async Task<IEnumerable<ProductListDto>> GetNopShopProductsAutocompleteListAsync(string shop)
