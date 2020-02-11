@@ -367,5 +367,39 @@ namespace GrKouk.CodeManager.ViewModels
             return null;
         }
         #endregion
+
+        #region DeleteProductAttributeCombinations
+
+        private DelegateCommand _deleteProductAttrCombCmd;
+
+        public DelegateCommand DeleteProductAttrCombCmd =>
+            _deleteProductAttrCombCmd ?? (_deleteProductAttrCombCmd = new DelegateCommand(async () =>await  DeleteProductAttrCombImpl(), () => ProductSelected)).ObservesProperty(() => ProductSelected);
+        private async Task DeleteProductAttrCombImpl()
+        {
+            try
+            {
+                if (Int32.TryParse(_selectedShopId, out int shopId))
+                {
+                    var retResponse = await _dataSource.DeleteNopShopProductAttrCombinationsAsync(shopId, _selectedProductId);
+                    var msg = $"Should delete {retResponse.ToDelete}. Actually deleted {retResponse.DeletedCount}";
+                    await _dialogService.DisplayAlertAsync("Info",msg,"Ok");
+                }
+               
+            }
+            catch (TaskCanceledException e)
+            {
+                Console.WriteLine(e);
+                var msg = "This task was cancelled (timed out)";
+                await _dialogService.DisplayAlertAsync("Task Cancelled", msg, "Ok");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                await _dialogService.DisplayAlertAsync("Error", e.ToString(), "Ok");
+                //throw;
+            }
+        }
+
+        #endregion
     }
 }

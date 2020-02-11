@@ -65,12 +65,13 @@
                 </xForms:SfAutoComplete.Behaviors>
             </xForms:SfAutoComplete>
         </StackLayout>
-<StackLayout>
-    <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
-        <Label Text="Number of attributes"></Label>
-        <Label Text="{Binding NumberOfProductAttrCombinations}"></Label>
+        <StackLayout>
+            <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
+                <Label Text="Number of attributes"></Label>
+                <Label Text="{Binding NumberOfProductAttrCombinations}"></Label>
+                <Button  Text="Delete Combinations" Command="{Binding DeleteProductAttrCombCmd}"></Button>
+            </StackLayout>
+        </StackLayout>
     </StackLayout>
-</StackLayout>
-    </StackLayout>
-    
+
 </ContentPage>
