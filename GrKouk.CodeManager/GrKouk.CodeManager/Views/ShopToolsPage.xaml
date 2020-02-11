@@ -7,6 +7,7 @@
              xmlns:converters="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
              xmlns:comboBox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              xmlns:xForms="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:numericupdown="clr-namespace:Syncfusion.SfNumericUpDown.XForms;assembly=Syncfusion.SfNumericUpDown.XForms"
              xmlns:views="clr-namespace:GrKouk.CodeManager.Views;assembly=GrKouk.CodeManager"
              x:Class="GrKouk.CodeManager.Views.ShopToolsPage"
              Title="{Binding Title}"
@@ -70,6 +71,16 @@
                 <Label Text="Number of attributes"></Label>
                 <Label Text="{Binding NumberOfProductAttrCombinations}"></Label>
                 <Button  Text="Delete Combinations" Command="{Binding DeleteProductAttrCombCmd}"></Button>
+            </StackLayout>
+            <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
+                <Label Text="Stock Quantity"></Label>
+                <numericupdown:SfNumericUpDown 
+                                               Value="{Binding StockQuantity}" 
+                                               TextAlignment="End"
+                                               ParsingMode="Decimal" 
+                                               Minimum="0" 
+                                               MaximumDecimalDigits="0"/>
+                <Button  Text="Set stock quantity" Command="{Binding UpdateStockQuantityCmd}"></Button>
             </StackLayout>
         </StackLayout>
     </StackLayout>

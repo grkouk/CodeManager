@@ -11,6 +11,8 @@ using GrKouk.CodeManager.Services;
 using GrKouk.Shared.Core;
 using GrKouk.Shared.Definitions;
 using GrKouk.Shared.Mobile.Dtos;
+using Plugin.Toast;
+using Plugin.Toast.Abstractions;
 using Prism.Navigation;
 using Prism.Services;
 
@@ -89,6 +91,7 @@ namespace GrKouk.CodeManager.ViewModels
                     if (!IsBusy)
                     {
                         RefreshCommand.Execute();
+                       
                     }
 #if DEBUG
                     try
@@ -381,7 +384,7 @@ namespace GrKouk.CodeManager.ViewModels
                 if (Int32.TryParse(_selectedShopId, out int shopId))
                 {
                     var retResponse = await _dataSource.DeleteNopShopProductAttrCombinationsAsync(shopId, _selectedProductId);
-                    var msg = $"Should delete {retResponse.ToDelete}. Actually deleted {retResponse.DeletedCount}";
+                    var msg = $"Should delete {retResponse.ToAffectCount}. Actually deleted {retResponse.AffectedCount}";
                     await _dialogService.DisplayAlertAsync("Info",msg,"Ok");
                 }
                
@@ -400,6 +403,45 @@ namespace GrKouk.CodeManager.ViewModels
             }
         }
 
+        #endregion
+
+        #region Update Stock quantity
+
+        private int _stockQuantity = 1;
+        public int StockQuantity
+        {
+            get => _stockQuantity;
+            set => SetProperty(ref _stockQuantity, value);
+        }
+        private DelegateCommand _updateStockQuantityCmd;
+
+        public DelegateCommand UpdateStockQuantityCmd =>
+            _updateStockQuantityCmd ?? (_updateStockQuantityCmd = new DelegateCommand(async () => await UpdateStockQuantityImpl(), () => ProductSelected)).ObservesProperty(() => ProductSelected);
+        private async Task UpdateStockQuantityImpl()
+        {
+            try
+            {
+                if (Int32.TryParse(_selectedShopId, out int shopId))
+                {
+                    var retResponse = await _dataSource.UpdateNopShopProductAttrCombStockQuantityAsync(shopId, _selectedProductId,_stockQuantity);
+                    var msg = $"Should Update {retResponse.ToAffectCount}. Actually updated {retResponse.AffectedCount}";
+                    await _dialogService.DisplayAlertAsync("Info", msg, "Ok");
+                }
+
+            }
+            catch (TaskCanceledException e)
+            {
+                Console.WriteLine(e);
+                var msg = "This task was cancelled (timed out)";
+                await _dialogService.DisplayAlertAsync("Task Cancelled", msg, "Ok");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                await _dialogService.DisplayAlertAsync("Error", e.ToString(), "Ok");
+                //throw;
+            }
+        }
         #endregion
     }
 }
