@@ -82,6 +82,11 @@
                                                MaximumDecimalDigits="0"/>
                 <Button  Text="Set stock quantity" Command="{Binding UpdateStockQuantityCmd}"></Button>
             </StackLayout>
+            <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel" >
+                <Label Text="Sku to Use"></Label>
+                <Entry Text="{Binding CombinationSku}"></Entry>
+                <Button  Text="Set combination Sku" Command="{Binding UpdateCombinationSkuCmd}"></Button>
+            </StackLayout>
         </StackLayout>
     </StackLayout>
 

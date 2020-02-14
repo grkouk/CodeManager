@@ -353,6 +353,8 @@ namespace GrKouk.CodeManager.ViewModels
             {
                 Preferences.Set(Constants.WebApiErpBaseAddressKey, _webApiBaseAddress);
                 Preferences.Set(Constants.WebApiNopBaseAddressKey, _webApiNopBaseAddress);
+                Preferences.Set(Constants.WebErpApikeyKey, _webErpApiKey);
+                Preferences.Set(Constants.WebNopApikeyKey, _webNopApiKey);
             }
             catch (Exception e)
             {

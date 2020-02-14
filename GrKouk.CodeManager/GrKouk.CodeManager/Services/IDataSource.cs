@@ -11,6 +11,7 @@ namespace GrKouk.CodeManager.Services
 {
     public interface IDataSource
     {
+        Task<AffectedResponse> UpdateNopShopProductAttrCombSkuAsync(int shopId, int productId, string skuToUse);
         Task<AffectedResponse> UpdateNopShopProductAttrCombStockQuantityAsync(int shopId, int productId,int stockQuantity);
         Task<AffectedResponse> DeleteNopShopProductAttrCombinationsAsync(int shopId,int productId);
         Task<IEnumerable<ProductListDto>> GetNopShopProductsAutocompleteListAsync(string shop);

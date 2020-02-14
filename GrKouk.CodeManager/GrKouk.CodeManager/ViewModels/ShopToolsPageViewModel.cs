@@ -443,5 +443,43 @@ namespace GrKouk.CodeManager.ViewModels
             }
         }
         #endregion
+        #region Update combinations Sku
+
+        private string _combinationSku ;
+        public string CombinationSku
+        {
+            get => _combinationSku;
+            set => SetProperty(ref _combinationSku, value);
+        }
+        private DelegateCommand _updateCombinationSkuCmd;
+
+        public DelegateCommand UpdateCombinationSkuCmd =>
+            _updateCombinationSkuCmd ?? (_updateCombinationSkuCmd = new DelegateCommand(async () => await UpdateCombinationSkuImpl(), () => ProductSelected)).ObservesProperty(() => ProductSelected);
+        private async Task UpdateCombinationSkuImpl()
+        {
+            try
+            {
+                if (Int32.TryParse(_selectedShopId, out int shopId))
+                {
+                    var retResponse = await _dataSource.UpdateNopShopProductAttrCombSkuAsync(shopId, _selectedProductId, _combinationSku);
+                    var msg = $"Should Update {retResponse.ToAffectCount} {Environment.NewLine}Actually updated {retResponse.AffectedCount}{Environment.NewLine}Message={retResponse.Message}";
+                    await _dialogService.DisplayAlertAsync("Info", msg, "Ok");
+                }
+
+            }
+            catch (TaskCanceledException e)
+            {
+                Console.WriteLine(e);
+                var msg = "This task was cancelled (timed out)";
+                await _dialogService.DisplayAlertAsync("Task Cancelled", msg, "Ok");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                await _dialogService.DisplayAlertAsync("Error", e.ToString(), "Ok");
+                //throw;
+            }
+        }
+        #endregion
     }
 }
