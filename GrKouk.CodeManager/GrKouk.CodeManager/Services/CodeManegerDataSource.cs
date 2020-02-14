@@ -252,6 +252,7 @@ namespace GrKouk.CodeManager.Services
         public async Task<IEnumerable<ProductAttrCombinationDto>> GetShopProductAttrCombinations(int shopId, int productId)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/ShopProductAttrCombinations?productid={productId}&shopid={shopId}";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
@@ -272,7 +273,7 @@ namespace GrKouk.CodeManager.Services
                     TimeSpan.FromSeconds(4)
                 });
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
 
             try
             {
@@ -292,9 +293,10 @@ namespace GrKouk.CodeManager.Services
             return new List<ProductAttrCombinationDto>();
         }
 
-        public async Task<DeleteResponse> DeleteNopShopProductAttrCombinationsAsync(int shopId, int productId)
+        public async Task<AffectedResponse> DeleteNopShopProductAttrCombinationsAsync(int shopId, int productId)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/DeleteShopProductAttrCombinations?productid={productId}&shopid={shopId}";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
@@ -315,7 +317,7 @@ namespace GrKouk.CodeManager.Services
                     TimeSpan.FromSeconds(4)
                 });
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
 
             try
             {
@@ -324,7 +326,7 @@ namespace GrKouk.CodeManager.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonContent = await response.Content.ReadAsStringAsync();
-                    var retResponse = JsonConvert.DeserializeObject<DeleteResponse>(jsonContent);
+                    var retResponse = JsonConvert.DeserializeObject<AffectedResponse>(jsonContent);
                     return retResponse;
                 }
             }
@@ -335,20 +337,121 @@ namespace GrKouk.CodeManager.Services
                 throw;
             }
 
-            return new DeleteResponse
+            return new AffectedResponse
             {
-                ToDelete = 0,
-                DeletedCount = 0
+                ToAffectCount = 0,
+                AffectedCount = 0
             };
         }
 
+        public async Task<AffectedResponse> UpdateNopShopProductAttrCombStockQuantityAsync(int shopId, int productId,int stockQuantity)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
+            var apiCall = $"/products/UpdateShopProductAttrCombStock?productid={productId}&shopid={shopId}&stockQuantity={stockQuantity}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+
+            HttpStatusCode[] httpStatusCodesWorthRetrying = {
+                HttpStatusCode.RequestTimeout, // 408
+                HttpStatusCode.InternalServerError, // 500
+                HttpStatusCode.BadGateway, // 502
+                HttpStatusCode.ServiceUnavailable, // 503
+                HttpStatusCode.GatewayTimeout // 504
+            };
+            CancellationToken cancellationToken = CancellationToken.None;
+            var policy = Policy
+                .Handle<HttpRequestException>()
+                .OrResult<HttpResponseMessage>(r => httpStatusCodesWorthRetrying.Contains(r.StatusCode))
+                .WaitAndRetryAsync(new[] {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(4)
+                });
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
+
+            try
+            {
+                var response = await policy.ExecuteAsync(ct => httpClient.PostAsync(apiCallAddress, null, ct),
+                    cancellationToken);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var retResponse = JsonConvert.DeserializeObject<AffectedResponse>(jsonContent);
+                    return retResponse;
+                }
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return new AffectedResponse
+            {
+                ToAffectCount = 0,
+                AffectedCount = 0
+            };
+        }
+        public async Task<AffectedResponse> UpdateNopShopProductAttrCombSkuAsync(int shopId, int productId, string skuToUse)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
+            var apiCall = $"/products/UpdateShopProductAttrCombSku?productid={productId}&shopid={shopId}&skuToUse={skuToUse}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+
+            HttpStatusCode[] httpStatusCodesWorthRetrying = {
+                HttpStatusCode.RequestTimeout, // 408
+                HttpStatusCode.InternalServerError, // 500
+                HttpStatusCode.BadGateway, // 502
+                HttpStatusCode.ServiceUnavailable, // 503
+                HttpStatusCode.GatewayTimeout // 504
+            };
+            CancellationToken cancellationToken = CancellationToken.None;
+            var policy = Policy
+                .Handle<HttpRequestException>()
+                .OrResult<HttpResponseMessage>(r => httpStatusCodesWorthRetrying.Contains(r.StatusCode))
+                .WaitAndRetryAsync(new[] {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(4)
+                });
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
+
+            try
+            {
+                var response = await policy.ExecuteAsync(ct => httpClient.PostAsync(apiCallAddress, null, ct),
+                    cancellationToken);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var retResponse = JsonConvert.DeserializeObject<AffectedResponse>(jsonContent);
+                    return retResponse;
+                }
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return new AffectedResponse
+            {
+                ToAffectCount = 0,
+                AffectedCount = 0
+            };
+        }
         public async Task<IEnumerable<ProductListDto>> GetNopShopProductsAutocompleteListAsync(string shop)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/FltShopProductsAutoCompleteList?shop={shop}";
             var apiCallAddress = webApiBaseAddress + apiCall;
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName,webNopApiKey);
             httpClient.Timeout = TimeSpan.FromMinutes(1);
             try
             {
@@ -477,6 +580,7 @@ namespace GrKouk.CodeManager.Services
         public async Task<IEnumerable<ProductCodeLookupDto>> GetNopCodesAsyncV2(string codeBase)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/codes?codebase={codeBase}";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
@@ -497,7 +601,7 @@ namespace GrKouk.CodeManager.Services
                     TimeSpan.FromSeconds(4)
                 });
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
 
             try
             {
