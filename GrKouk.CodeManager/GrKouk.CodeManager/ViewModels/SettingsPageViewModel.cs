@@ -58,6 +58,10 @@ namespace GrKouk.CodeManager.ViewModels
                 settings.Add(setting);
                 setting = new KeyValuePair<string, string>(Constants.WebApiNopBaseAddressKey, _webApiNopBaseAddress);
                 settings.Add(setting);
+                setting = new KeyValuePair<string, string>(Constants.WebErpApikeyKey, _webErpApiKey);
+                settings.Add(setting);
+                setting = new KeyValuePair<string, string>(Constants.WebNopApikeyKey, _webNopApiKey);
+                settings.Add(setting);
                 string jsonSettings = JsonConvert.SerializeObject(settings);
                 ObservableCollection<SettingsProfile> profiles = ProfileList;
                 var spro = new SettingsProfile
@@ -103,6 +107,14 @@ namespace GrKouk.CodeManager.ViewModels
                             Preferences.Set(Constants.WebApiNopBaseAddressKey, setting.Value);
                             WebApiNopBaseAddress = setting.Value;
                             break;
+                        case Constants.WebErpApikeyKey:
+                            Preferences.Set(Constants.WebErpApikeyKey, setting.Value);
+                            WebErpApiKey = setting.Value;
+                            break;
+                        case Constants.WebNopApikeyKey:
+                            Preferences.Set(Constants.WebNopApikeyKey, setting.Value);
+                            WebNopApiKey = setting.Value;
+                            break;
                     }
                 }
             }
@@ -118,6 +130,8 @@ namespace GrKouk.CodeManager.ViewModels
 
             WebApiBaseAddress = Preferences.Get(Constants.WebApiErpBaseAddressKey, "Not Set");
             WebApiNopBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "Not Set");
+            WebErpApiKey = Preferences.Get(Constants.WebErpApikeyKey, "ff00ff00");
+            WebNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "ff00ff00");
 
         }
 
@@ -290,6 +304,18 @@ namespace GrKouk.CodeManager.ViewModels
             set => SetProperty(ref _webApiNopBaseAddress, value);
         }
 
+        private string _webErpApiKey;
+        public string WebErpApiKey
+        {
+            get => _webErpApiKey;
+            set => SetProperty(ref _webErpApiKey, value);
+        }
+        private string _webNopApiKey;
+        public string WebNopApiKey
+        {
+            get => _webNopApiKey;
+            set => SetProperty(ref _webNopApiKey, value);
+        }
         private string _webSiteUrl;
         public string WebSiteUrl
         {

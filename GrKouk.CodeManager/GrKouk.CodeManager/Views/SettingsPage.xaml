@@ -58,8 +58,16 @@ x:Class="GrKouk.CodeManager.Views.SettingsPage"
             <Entry Text="{Binding WebApiBaseAddress, Mode=TwoWay}"></Entry>
         </StackLayout>
         <StackLayout>
+            <Label Text="Erp Web Api Key"></Label>
+            <Entry Text="{Binding WebErpApiKey, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <StackLayout>
             <Label Text="Nop Web Api Base Address"></Label>
             <Entry Text="{Binding WebApiNopBaseAddress, Mode=TwoWay}"></Entry>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Nop Web Api Key"></Label>
+            <Entry Text="{Binding WebNopApiKey, Mode=TwoWay}"></Entry>
         </StackLayout>
         <Button Text="Save setting" Command="{Binding SaveCommand}"></Button>
     </StackLayout>
