@@ -252,6 +252,7 @@ namespace GrKouk.CodeManager.Services
         public async Task<IEnumerable<ProductAttrCombinationDto>> GetShopProductAttrCombinations(int shopId, int productId)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/ShopProductAttrCombinations?productid={productId}&shopid={shopId}";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
@@ -272,7 +273,7 @@ namespace GrKouk.CodeManager.Services
                     TimeSpan.FromSeconds(4)
                 });
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
 
             try
             {
@@ -295,6 +296,7 @@ namespace GrKouk.CodeManager.Services
         public async Task<AffectedResponse> DeleteNopShopProductAttrCombinationsAsync(int shopId, int productId)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/DeleteShopProductAttrCombinations?productid={productId}&shopid={shopId}";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
@@ -315,7 +317,7 @@ namespace GrKouk.CodeManager.Services
                     TimeSpan.FromSeconds(4)
                 });
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
 
             try
             {
@@ -345,6 +347,7 @@ namespace GrKouk.CodeManager.Services
         public async Task<AffectedResponse> UpdateNopShopProductAttrCombStockQuantityAsync(int shopId, int productId,int stockQuantity)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/UpdateShopProductAttrCombStock?productid={productId}&shopid={shopId}&stockQuantity={stockQuantity}";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
@@ -365,7 +368,7 @@ namespace GrKouk.CodeManager.Services
                     TimeSpan.FromSeconds(4)
                 });
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
 
             try
             {
@@ -394,10 +397,11 @@ namespace GrKouk.CodeManager.Services
         public async Task<IEnumerable<ProductListDto>> GetNopShopProductsAutocompleteListAsync(string shop)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/FltShopProductsAutoCompleteList?shop={shop}";
             var apiCallAddress = webApiBaseAddress + apiCall;
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName,webNopApiKey);
             httpClient.Timeout = TimeSpan.FromMinutes(1);
             try
             {
@@ -526,6 +530,7 @@ namespace GrKouk.CodeManager.Services
         public async Task<IEnumerable<ProductCodeLookupDto>> GetNopCodesAsyncV2(string codeBase)
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/products/codes?codebase={codeBase}";
             var apiCallAddress = webApiBaseAddress + apiCall;
 
@@ -546,7 +551,7 @@ namespace GrKouk.CodeManager.Services
                     TimeSpan.FromSeconds(4)
                 });
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, "ff00ff00");
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
 
             try
             {
