@@ -84,7 +84,7 @@
       <Version>17.4.0.43</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
-      <Version>1.4.0-pre</Version>
+      <Version>1.5.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
