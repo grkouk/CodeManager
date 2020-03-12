@@ -62,7 +62,7 @@
                 <StackLayout Orientation="Horizontal">
                     <StackLayout>
                         <Label Text="Product Pictures"></Label>
-                        <Label Text="{Binding ProductPictures.Count,TargetNullValue='{Null}'  ,StringFormat='Number of items: {0}'}" />
+                        <Label Text="{Binding ProductPictures.Count,TargetNullValue='{Null}',StringFormat='Number of items: {0}'}" />
                         <CollectionView ItemsSource="{Binding ProductPictures}" SelectionMode="Multiple" >
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="dtos:ProductListDto">
