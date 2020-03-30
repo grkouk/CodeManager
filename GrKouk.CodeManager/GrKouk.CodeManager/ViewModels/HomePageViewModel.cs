@@ -85,7 +85,10 @@ namespace GrKouk.CodeManager.ViewModels
         }
         async void Navigate()
         {
-            await _navigationService.NavigateAsync(nameof(NavigationPage) + "/" + SelectedMenuItem.PageName);
+            //nameof(HomePage) + "/" +
+            //await _navigationService.NavigateAsync(nameof(HomePage) + "/" + nameof(NavigationPage) + "/" + SelectedMenuItem.PageName);
+             await _navigationService.NavigateAsync(nameof(NavigationPage) + "/" + SelectedMenuItem.PageName);
+
             // await _navigationService.NavigateAsync( SelectedMenuItem.PageName);
 
         }
