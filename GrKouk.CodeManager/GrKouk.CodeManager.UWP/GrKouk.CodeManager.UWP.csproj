@@ -116,6 +116,14 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\delete.png" />
+    <Content Include="Images\ic_viewa.png" />
+    <Content Include="Images\ic_viewb.png" />
+    <Content Include="Images\pencil.png" />
+    <Content Include="Images\plus.png" />
+    <Content Include="Images\save.png" />
+    <Content Include="Images\search.png" />
+    <Content Include="Images\synchronize.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -165,7 +173,7 @@
       <Version>17.4.0.43</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
-      <Version>1.4.0-pre</Version>
+      <Version>1.5.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
@@ -173,7 +181,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.379-pre1" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +193,7 @@
   <ItemGroup>
     <None Include="GrKouk.CodeManager.UWP_TemporaryKey.pfx" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
