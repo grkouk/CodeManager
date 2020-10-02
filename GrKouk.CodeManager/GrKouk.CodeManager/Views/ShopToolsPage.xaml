@@ -35,52 +35,60 @@
     </ContentPage.Resources>
     <StackLayout>
         <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
-            <comboBox:SfComboBox IsEditableMode="False"
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Shop" VerticalOptions="Center"></Label>
+                <comboBox:SfComboBox IsEditableMode="False" VerticalOptions="Center"
                                  HeightRequest="40"
                                  SelectedItem="{Binding SelectedShop}"
                                  SelectedIndex="{Binding SelectedShopIndex}"
 
                                  DisplayMemberPath="ItemName"
                                  DataSource="{Binding ShopList}">
-                <comboBox:SfComboBox.Behaviors>
-                    <prism:EventToCommandBehavior EventName="SelectionChanged"
+                    <comboBox:SfComboBox.Behaviors>
+                        <prism:EventToCommandBehavior EventName="SelectionChanged"
                                                   Command="{Binding SelectedShopIndexChangedCommand}"
                                                   EventArgsConverter="{StaticResource ComboboxValueConverter}" />
 
-                </comboBox:SfComboBox.Behaviors>
-            </comboBox:SfComboBox>
-            <xForms:SfAutoComplete ShowClearButton="True" HeightRequest="40"
+                    </comboBox:SfComboBox.Behaviors>
+                </comboBox:SfComboBox>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label VerticalOptions="Center" Text="Product"></Label>
+                <xForms:SfAutoComplete ShowClearButton="True" HeightRequest="40" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                                      Watermark="Enter product name or sku"
                                    SelectedItem="{Binding SelectedProductItem, Mode=TwoWay}"
                                    DisplayMemberPath="NameCombined"
                                    DataSource="{Binding NopItems}"
                                    SuggestionMode="Contains">
-                <xForms:SfAutoComplete.Behaviors>
-                    <prism:EventToCommandBehavior x:DataType="viewmodels:ShopToolsPageViewModel"
+                    <xForms:SfAutoComplete.Behaviors>
+                        <prism:EventToCommandBehavior x:DataType="viewmodels:ShopToolsPageViewModel"
                                                   EventName="SelectionChanged"
                                                   Command="{Binding AcSelectionChangedCmd}"
                                                   EventArgsConverter="{StaticResource AutoCompleteSelectionChangedConverter}" />
-                    <prism:EventToCommandBehavior x:DataType="viewmodels:ShopToolsPageViewModel"
+                        <prism:EventToCommandBehavior x:DataType="viewmodels:ShopToolsPageViewModel"
                                                   EventName="ValueChanged"
                                                   Command="{Binding AcValueChangedCmd}"
                                                   EventArgsConverter="{StaticResource AutoCompleteValueConverter}" />
-                </xForms:SfAutoComplete.Behaviors>
-            </xForms:SfAutoComplete>
+                    </xForms:SfAutoComplete.Behaviors>
+                </xForms:SfAutoComplete>
+            </StackLayout>
         </StackLayout>
         <StackLayout>
-            <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
-                <Label Text="Number of attributes"></Label>
-                <Label Text="{Binding NumberOfProductAttrCombinations}"></Label>
-                <Button  Text="Delete Combinations" Command="{Binding DeleteProductAttrCombCmd}"></Button>
+            <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel" Orientation="Horizontal">
+                <Label Text="Number of attributes" VerticalOptions="Center"></Label>
+                <Label Text="{Binding NumberOfProductAttrCombinations}" VerticalOptions="Center"></Label>
+                <Button VerticalOptions="Center" Text="Delete Combinations" Command="{Binding DeleteProductAttrCombCmd}"></Button>
             </StackLayout>
-            <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
-                <Label Text="Stock Quantity"></Label>
-                <numericupdown:SfNumericUpDown 
+            <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel" Orientation="Horizontal">
+                <Label Text="Stock Quantity" VerticalOptions="Center"></Label>
+                <numericupdown:SfNumericUpDown VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                                                Value="{Binding StockQuantity}" 
                                                TextAlignment="End"
                                                ParsingMode="Decimal" 
                                                Minimum="0" 
                                                MaximumDecimalDigits="0"/>
-                <Button  Text="Set stock quantity" Command="{Binding UpdateStockQuantityCmd}"></Button>
+                <Button VerticalOptions="Center"  
+                    Text="Set stock quantity" Command="{Binding UpdateStockQuantityCmd}"></Button>
             </StackLayout>
             <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel" >
                 <Label Text="Sku to Use"></Label>

@@ -9,23 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentFTP" Version="29.0.0" />
+    <PackageReference Include="FluentFTP" Version="32.4.3" />
     <PackageReference Include="GrKouk.Shared.Core" Version="1.0.0" />
     <PackageReference Include="GrKouk.Shared.Definitions" Version="1.0.0" />
     <PackageReference Include="GrKouk.Shared.Mobile.Dtos" Version="1.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Plugin.Toast" Version="2.1.2" />
-    <PackageReference Include="Polly" Version="7.2.0" />
-    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="17.4.0.43" />
-    <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="17.4.0.43" />
-    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="17.4.0.43" />
-    <PackageReference Include="Syncfusion.Xamarin.SfNumericUpDown" Version="17.4.0.43" />
-    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.4.0.43" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
+    <PackageReference Include="Polly" Version="7.2.1" />
+    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="18.1.0.54" />
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="18.1.0.54" />
+    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="18.1.0.54" />
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericUpDown" Version="18.1.0.54" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="18.1.0.54" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.379-pre1" />
-    <PackageReference Include="Prism.DryIoc.Forms" Version="7.2.0.1422" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.813-pre2" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1740-pre" />
   </ItemGroup>
 
   <ItemGroup>
