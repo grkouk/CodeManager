@@ -182,7 +182,7 @@
       <Version>2.4.11.982</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
-    <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1740-pre" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1850-pre" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GrKouk.CodeManager\GrKouk.CodeManager.csproj">

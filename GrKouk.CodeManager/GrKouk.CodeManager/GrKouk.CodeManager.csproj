@@ -25,7 +25,7 @@
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
-    <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1740-pre" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1850-pre" />
   </ItemGroup>
 
   <ItemGroup>
