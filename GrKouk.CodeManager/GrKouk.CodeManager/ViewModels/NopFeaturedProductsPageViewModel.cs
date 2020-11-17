@@ -14,9 +14,12 @@ namespace GrKouk.CodeManager.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _dialogService;
         private readonly IDataSource _dataSource;
-        public NopFeaturedProductsPageViewModel()
+        public NopFeaturedProductsPageViewModel(INavigationService navigationService, IPageDialogService dialogService, IDataSource dataSource)
+            : base(navigationService)
         {
-
+            _navigationService = navigationService;
+            _dialogService = dialogService;
+            _dataSource = dataSource;
         }
     }
 }
