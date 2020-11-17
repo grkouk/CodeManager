@@ -16,20 +16,23 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Plugin.Toast" Version="2.2.0" />
     <PackageReference Include="Polly" Version="7.2.1" />
-    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="18.3.0.35" />
-    <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="18.3.0.35" />
-    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="18.3.0.35" />
-    <PackageReference Include="Syncfusion.Xamarin.SfNumericUpDown" Version="18.3.0.35" />
-    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="18.3.0.35" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre2" />
+    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="18.3.0.47" />
+    <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="18.3.0.47" />
+    <PackageReference Include="Syncfusion.Xamarin.SfDataGrid" Version="18.3.0.47" />
+    <PackageReference Include="Syncfusion.Xamarin.SfNumericUpDown" Version="18.3.0.47" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="18.3.0.47" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre3" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
-    <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1850-pre" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="8.0.0.1909" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Views\HomePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\NopFeaturedProductsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NopProductDetailsPage.xaml">
