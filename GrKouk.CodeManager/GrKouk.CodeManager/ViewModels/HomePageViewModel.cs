@@ -78,6 +78,12 @@ namespace GrKouk.CodeManager.ViewModels
             MenuItems.Add(new MyMenuItem()
             {
                 Icon = "ic_viewb",
+                PageName = nameof(NopFeaturedProductsPage),
+                Title = "Nop Featured Products"
+            });
+            MenuItems.Add(new MyMenuItem()
+            {
+                Icon = "ic_viewb",
                 PageName = nameof(SettingsPage),
                 Title = "Settings Page"
             });

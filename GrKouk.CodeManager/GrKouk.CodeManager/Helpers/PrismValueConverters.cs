@@ -44,21 +44,38 @@ namespace Prism.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var evArgs = value as ValueChangedEventArgs;
-
-            if (evArgs != null)
+            if (value is SelectionChangedEventArgs)
             {
-                var item = evArgs.Value;
-                if (item == null)
+                var slArgs = value as SelectionChangedEventArgs;
+                if (slArgs != null)
                 {
-                    throw new ArgumentException("Expected value to be of type string", nameof(value));
+                    var item = slArgs.Value;
+                    if (item != null)
+                    {
+                        return item;
+                    }
+                    
                 }
-                return item;
             }
-            else
+
+            if (value is ValueChangedEventArgs)
             {
-                throw new ArgumentException("Expected value to be of type ValueChangedEventArgs", nameof(value));
+                var evArgs = value as ValueChangedEventArgs;
+
+                if (evArgs != null)
+                {
+                    var item = evArgs.Value;
+                    if (item == null)
+                    {
+                        throw new ArgumentException("Expected value to be of type string", nameof(value));
+                    }
+                    return item;
+                }
             }
+
+            return string.Empty;
+            //throw new ArgumentException("Expected value to be of type ValueChangedEventArgs", nameof(value));
+
 
 
         }
