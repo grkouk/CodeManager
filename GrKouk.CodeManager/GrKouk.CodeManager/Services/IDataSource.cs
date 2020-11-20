@@ -27,5 +27,6 @@ namespace GrKouk.CodeManager.Services
         Task<IEnumerable<ListItemDto>> GetNopProductAttributesAsync(string productId, string attributeId);
 
         Task<IEnumerable<ProductAttrCombinationDto>> GetShopProductAttrCombinations(int shopId, int productId);
+        Task<IEnumerable<ProductListDto>> GetShopFeaturedProductList(int shopId);
     }
 }

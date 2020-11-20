@@ -620,5 +620,48 @@ namespace GrKouk.CodeManager.Services
             }
             return new List<ProductCodeLookupDto>();
         }
+        public async Task<IEnumerable<ProductListDto>> GetShopFeaturedProductList(int shopId)
+        {
+            var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
+            var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
+            var apiCall = $"/products/ShopFeaturedProductList?shopid={shopId}";
+            var apiCallAddress = webApiBaseAddress + apiCall;
+
+            HttpStatusCode[] httpStatusCodesWorthRetrying = {
+                HttpStatusCode.RequestTimeout, // 408
+                HttpStatusCode.InternalServerError, // 500
+                HttpStatusCode.BadGateway, // 502
+                HttpStatusCode.ServiceUnavailable, // 503
+                HttpStatusCode.GatewayTimeout // 504
+            };
+            CancellationToken cancellationToken = CancellationToken.None;
+            var policy = Policy
+                .Handle<HttpRequestException>()
+                .OrResult<HttpResponseMessage>(r => httpStatusCodesWorthRetrying.Contains(r.StatusCode))
+                .WaitAndRetryAsync(new[] {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(4)
+                });
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add(ApiKeyHeaderName, webNopApiKey);
+
+            try
+            {
+                var response = await policy.ExecuteAsync(ct => httpClient.GetAsync(apiCallAddress, ct), cancellationToken);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var itemsList = JsonConvert.DeserializeObject<List<ProductListDto>>(jsonContent);
+                    return itemsList;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return new List<ProductListDto>();
+        }
     }
 }
