@@ -2,6 +2,8 @@
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:prism="http://prismlibrary.com"
+                  xmlns:viewModels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
+                  xmlns:helpers="clr-namespace:GrKouk.CodeManager.Helpers;assembly=GrKouk.CodeManager"
                   prism:ViewModelLocator.AutowireViewModel="True"
                   x:Class="GrKouk.CodeManager.Views.HomePage">
 
@@ -10,7 +12,7 @@
                         Icon="ic_hamburger.png">
 
             <x:Arguments>
-                <ContentPage Title="Grkouk App">
+                <ContentPage Title="Grkouk App" x:DataType="viewModels:HomePageViewModel">
 
                     <ListView ItemsSource="{Binding MenuItems}"
                               SelectedItem="{Binding SelectedMenuItem}"
@@ -24,7 +26,7 @@
                                 <ViewCell>
 
                                     <!-- Main design for our menu items -->
-                                    <StackLayout VerticalOptions="FillAndExpand"
+                                    <StackLayout VerticalOptions="FillAndExpand" x:DataType="helpers:MyMenuItem"
                                                  Orientation="Horizontal"
                                                  Padding="20,10,0,10"
                                                  Spacing="20">

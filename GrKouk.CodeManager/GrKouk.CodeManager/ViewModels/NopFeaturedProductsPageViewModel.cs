@@ -130,6 +130,30 @@ namespace GrKouk.CodeManager.ViewModels
         }
         #endregion
         #region products
+        #region SelectionChanged
+
+        private DelegateCommand<object> _selProdChangedCommand;
+        public DelegateCommand<object> SelectedProdChangedCommand =>
+            _selProdChangedCommand ?? (_selProdChangedCommand = new DelegateCommand<object>((t) => SelectedProdChangedCmd(t)));
+
+        private void SelectedProdChangedCmd(object value)
+        {
+#if DEBUG
+            Debug.WriteLine("SelectedProdChangedCmd");
+#endif
+            ProductSelected = false;
+            if (value!=null)
+            {
+                var selectionList = value as List<object>;
+                if (selectionList?.Count>0)
+                {
+                    ProductSelected = true;
+                }
+                
+            }
+        }
+
+        #endregion
         #region Product Selected
         private bool _productSelected = false;
         public bool ProductSelected
@@ -137,6 +161,8 @@ namespace GrKouk.CodeManager.ViewModels
             get => _productSelected;
             set => SetProperty(ref _productSelected, value);
         }
+        
+
         #endregion
         private int _selectedProductId;
         private ObservableCollection<ProductListDto> _featuredProductList;
@@ -204,6 +230,12 @@ namespace GrKouk.CodeManager.ViewModels
             get => _selectedProductItem;
             set => SetProperty(ref _selectedProductItem, value);
         }
+        private ObservableCollection<ProductListDto> _selectedProducts;
+        public ObservableCollection<ProductListDto> SelectedProducts
+        {
+            get => _selectedProducts;
+            set => SetProperty(ref _selectedProducts, value);
+        }
         #region AutoCompleteSelection Chanded
 
         private DelegateCommand<object> _acSelectionChangedCmd;
@@ -218,7 +250,7 @@ namespace GrKouk.CodeManager.ViewModels
 #endif
             if (value != null)
             {
-                ProductSelected = SelectedProductItem != null;
+                //ProductSelected = SelectedProductItem != null;
                 if (value is ProductListDto)
                 {
                     _selectedProductId = (value as ProductListDto).Id;
@@ -269,7 +301,7 @@ namespace GrKouk.CodeManager.ViewModels
                 {
                     if (!string.IsNullOrEmpty((string)value))
                     {
-                        ProductSelected = SelectedProductItem != null;
+                        //ProductSelected = SelectedProductItem != null;
 #if DEBUG
                         try
                         {
@@ -295,7 +327,7 @@ namespace GrKouk.CodeManager.ViewModels
                     }
                     else //value is null or empty
                     {
-                        ProductSelected = false;
+                       // ProductSelected = false;
 
 #if DEBUG
                         try
@@ -329,6 +361,40 @@ namespace GrKouk.CodeManager.ViewModels
         }
 
         #endregion
+        #endregion
+        #region UnCheckFeaturedProductCommand
+
+       
+        private DelegateCommand _uncheckFeaturedProductCmd;
+
+        public DelegateCommand UncheckFeaturedProductCmd =>
+            _uncheckFeaturedProductCmd ?? (_uncheckFeaturedProductCmd = new DelegateCommand(async () => await UncheckFeaturedProductImpl(), () => ProductSelected)).ObservesProperty(() => ProductSelected);
+        private async Task UncheckFeaturedProductImpl()
+        {
+            try
+            {
+                if (Int32.TryParse(_selectedShopId, out int shopId))
+                {
+                    string selProdIds = "1,2,3";
+                    var retResponse = await _dataSource.UncheckFeaturedProductsAsync(shopId, selProdIds);
+                    var msg = $"Should Update {retResponse.ToAffectCount} {Environment.NewLine}Actually updated {retResponse.AffectedCount}{Environment.NewLine}Message={retResponse.Message}";
+                    await _dialogService.DisplayAlertAsync("Info", msg, "Ok");
+                }
+
+            }
+            catch (TaskCanceledException e)
+            {
+                Console.WriteLine(e);
+                var msg = "This task was cancelled (timed out)";
+                await _dialogService.DisplayAlertAsync("Task Cancelled", msg, "Ok");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                await _dialogService.DisplayAlertAsync("Error", e.ToString(), "Ok");
+                //throw;
+            }
+        }
         #endregion
     }
 }

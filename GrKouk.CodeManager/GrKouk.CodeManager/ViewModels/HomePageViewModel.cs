@@ -96,6 +96,7 @@ namespace GrKouk.CodeManager.ViewModels
             try
             {
                 await _navigationService.NavigateAsync(nameof(NavigationPage) + "/" + SelectedMenuItem.PageName);
+                //await _navigationService.NavigateAsync(nameof(HomePage) + "/" + nameof(NavigationPage) + "/" + SelectedMenuItem.PageName);
             }
             catch (Exception e)
             {

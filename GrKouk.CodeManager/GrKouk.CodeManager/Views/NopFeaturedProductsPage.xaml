@@ -19,6 +19,7 @@
             <converters:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
             <converters:AutoCompleteSelectionChangedConverter x:Key="AutoCompleteSelectionChangedConverter"/>
             <converters:ComboValueConverter x:Key="ComboboxValueConverter"/>
+            <converters:CollectionViewSelectionValueConverter x:Key="CollectionViewSelectionValueConverter"/>
 
             <OnPlatform x:Key="TextSize"
                         x:TypeArguments="x:Double">
@@ -58,12 +59,19 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="20" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
             </Grid.RowDefinitions>
-            <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" IsRunning="{Binding IsBusy}" Grid.Row="0" />
+            <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" 
+                               IsRunning="{Binding IsBusy}" 
+                               Grid.Row="0" />
             <StackLayout Margin="10" Grid.Row="1">
                 <Label Text="{Binding FeaturedProductList.Count, StringFormat='Number of items: {0}'}" />
-                <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshFeaturedProductsCommand}">
-                    <CollectionView ItemsSource="{Binding FeaturedProductList}">
+                <RefreshView IsRefreshing="{Binding IsBusy}" 
+                             Command="{Binding RefreshFeaturedProductsCommand}">
+                    <CollectionView ItemsSource="{Binding FeaturedProductList}"
+                                    SelectionMode="Multiple"
+                                    SelectedItems="{Binding SelectedProducts,Mode=TwoWay}"
+                                    >
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="dtos:ProductListDto">
                                 <Grid Padding="10">
@@ -95,10 +103,17 @@
 
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
+                        <CollectionView.Behaviors>
+                            <prism:EventToCommandBehavior EventName="SelectionChanged"
+                                                          Command="{Binding SelectedProdChangedCommand}"
+                                                          EventArgsConverter="{StaticResource CollectionViewSelectionValueConverter}" />
+                        </CollectionView.Behaviors>
                     </CollectionView>
                 </RefreshView>
 
             </StackLayout>
+            <Button Grid.Row="2" Text="Update"
+                    Command="{Binding UncheckFeaturedProductCmd}"></Button>
         </Grid>
     </StackLayout>
 </ContentPage>
