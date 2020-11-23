@@ -669,7 +669,8 @@ namespace GrKouk.CodeManager.Services
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
             //var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/info";
-            var stripedApiBase = webApiBaseAddress.Replace("/api", "");
+            var l = webApiBaseAddress.Length;
+            var stripedApiBase = webApiBaseAddress.Substring(0,l-4);
             var apiCallAddress = stripedApiBase + apiCall;
 
             HttpStatusCode[] httpStatusCodesWorthRetrying = {
