@@ -2,13 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mvvm="http://prismlibrary.com"
+             xmlns:viewModels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
              x:Class="GrKouk.CodeManager.Views.MainPage"
              mvvm:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                 x:DataType="viewModels:MainPageViewModel">
         <Label Text="Welcome to Xamarin Forms and Prism!" />
         <Button Text="Test" Command="{Binding MediaCommand}" ></Button>
+        <Label Text="{Binding BackendVersion}" />
+        <Label Text="{Binding ServerName}" />
+        <Button Text="Get Api Info" Command="{Binding GetApiInfoCommand}" ></Button>
     </StackLayout>
 
 </ContentPage>

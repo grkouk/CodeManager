@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GrKouk.CodeManager.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -14,10 +15,28 @@ namespace GrKouk.CodeManager.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        public MainPageViewModel(INavigationService navigationService)
+        private readonly IDataSource _ds;
+        public MainPageViewModel(INavigationService navigationService, IDataSource ds)
             : base(navigationService)
         {
-            Title = "Main Page";
+            var vs = AppInfo.VersionString;
+            Title = $"Main Page version {vs}";
+            _ds = ds;
+        }
+
+        private string _backendVersion;
+        public string BackendVersion
+        {
+            get => _backendVersion;
+            set => SetProperty(ref _backendVersion, value) ;
+        }
+
+        private string _serverName;
+
+        public string ServerName
+        {
+            get => _serverName; 
+            set =>  SetProperty(ref _serverName, value); 
         }
         private DelegateCommand _mediaCommand;
         private string _photoPath;
@@ -81,7 +100,28 @@ namespace GrKouk.CodeManager.ViewModels
 
         private string _testFileName;
         private ImageSource _image;
+        private DelegateCommand _getApiInfoCommand;
 
+
+        public DelegateCommand GetApiInfoCommand =>
+_getApiInfoCommand ?? (_getApiInfoCommand = new DelegateCommand(async () => await getApiInfoComImpl()));
+
+        private async Task getApiInfoComImpl()
+        {
+            try
+            {
+                var apiInfo = await _ds.GetApiInfoAsync();
+                BackendVersion = apiInfo.AssemblyVersion;
+                ServerName = apiInfo.ServerName;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+            }
+
+
+        }
         private async Task<FileResult> PickAndShow(PickOptions options)
         {
             try
@@ -95,7 +135,7 @@ namespace GrKouk.CodeManager.ViewModels
                     {
                         var stream = await result.OpenReadAsync();
                         _image = ImageSource.FromStream(() => stream);
-                       
+
                     }
                 }
 
@@ -107,5 +147,6 @@ namespace GrKouk.CodeManager.ViewModels
                 throw new Exception(ex.Message);
             }
         }
+
     }
 }

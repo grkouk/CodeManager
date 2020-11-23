@@ -35,9 +35,9 @@
     </ContentPage.Resources>
     <StackLayout>
         <StackLayout x:DataType="viewmodels:ShopToolsPageViewModel">
-            <StackLayout Orientation="Horizontal" >
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" >
                 <Label Text="Shop" VerticalOptions="Center"></Label>
-                <comboBox:SfComboBox IsEditableMode="False" VerticalOptions="Center"
+                <comboBox:SfComboBox IsEditableMode="False" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
                                  HeightRequest="40"
                                  SelectedItem="{Binding SelectedShop}"
                                  SelectedIndex="{Binding SelectedShopIndex}"

@@ -3,6 +3,117 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="GrKouk.CodeManager.Views.NopFeaturedProductsPage">
-  
+             xmlns:viewmodels="clr-namespace:GrKouk.CodeManager.ViewModels;assembly=GrKouk.CodeManager"
+             xmlns:converters="clr-namespace:Prism.Converters;assembly=GrKouk.CodeManager"
+             xmlns:comboBox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
+             xmlns:xForms="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:numericupdown="clr-namespace:Syncfusion.SfNumericUpDown.XForms;assembly=Syncfusion.SfNumericUpDown.XForms"
+             xmlns:views="clr-namespace:GrKouk.CodeManager.Views;assembly=GrKouk.CodeManager"
+             xmlns:dtos="clr-namespace:GrKouk.Shared.Mobile.Dtos;assembly=GrKouk.Shared.Mobile.Dtos"
+
+             x:Class="GrKouk.CodeManager.Views.NopFeaturedProductsPage"
+             Title="{Binding Title}"
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:AutoCompleteValueConverter x:Key="AutoCompleteValueConverter"/>
+            <converters:AutoCompleteSelectionChangedConverter x:Key="AutoCompleteSelectionChangedConverter"/>
+            <converters:ComboValueConverter x:Key="ComboboxValueConverter"/>
+            <converters:CollectionViewSelectionValueConverter x:Key="CollectionViewSelectionValueConverter"/>
+
+            <OnPlatform x:Key="TextSize"
+                        x:TypeArguments="x:Double">
+                <On Platform="iOS,UWP" Value="14" />
+                <On Platform="Android" Value="13" />
+            </OnPlatform>
+            <OnPlatform x:Key="Font"
+                        x:TypeArguments="x:String">
+                <On Platform="Android" Value="Roboto-Regular" />
+                <On Platform="iOS" Value="SFProText-Regular" />
+                <On Platform="UWP" Value="SegoeUI" />
+            </OnPlatform>
+        </ResourceDictionary>
+
+
+    </ContentPage.Resources>
+    <StackLayout x:DataType="viewmodels:NopFeaturedProductsPageViewModel">
+        <StackLayout Orientation="Horizontal" >
+            <Label Text="Shop" VerticalOptions="Center"></Label>
+            <comboBox:SfComboBox IsEditableMode="False" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                                 HeightRequest="40"
+                                 SelectedItem="{Binding SelectedShop}"
+                                 SelectedIndex="{Binding SelectedShopIndex}"
+
+                                 DisplayMemberPath="ItemName"
+                                 DataSource="{Binding ShopList}">
+                <comboBox:SfComboBox.Behaviors>
+                    <prism:EventToCommandBehavior EventName="SelectionChanged"
+                                                  Command="{Binding SelectedShopIndexChangedCommand}"
+                                                  EventArgsConverter="{StaticResource ComboboxValueConverter}" />
+
+                </comboBox:SfComboBox.Behaviors>
+            </comboBox:SfComboBox>
+        </StackLayout>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+            <ActivityIndicator VerticalOptions="Center" HorizontalOptions="Center" 
+                               IsRunning="{Binding IsBusy}" 
+                               Grid.Row="0" />
+            <StackLayout Margin="10" Grid.Row="1">
+                <Label Text="{Binding FeaturedProductList.Count, StringFormat='Number of items: {0}'}" />
+                <RefreshView IsRefreshing="{Binding IsBusy}" 
+                             Command="{Binding RefreshFeaturedProductsCommand}">
+                    <CollectionView ItemsSource="{Binding FeaturedProductList}"
+                                    SelectionMode="Multiple"
+                                    SelectedItems="{Binding SelectedProducts,Mode=TwoWay}"
+                                    >
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="dtos:ProductListDto">
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.RowSpan="2" 
+                                   Source="{Binding ImageUrl}" 
+                                   Aspect="AspectFill"
+                                   HeightRequest="60" 
+                                   WidthRequest="60" />
+                                    <Label Grid.Column="1"
+                                   Text="{Binding Name}"
+                                   TextColor="Black"
+                                   FontAttributes="Bold" />
+                                    <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding Code}"
+                                   TextColor="Black"
+                                   FontAttributes="Italic"
+                                   VerticalOptions="End" />
+                                </Grid>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.Behaviors>
+                            <prism:EventToCommandBehavior EventName="SelectionChanged"
+                                                          Command="{Binding SelectedProdChangedCommand}"
+                                                          EventArgsConverter="{StaticResource CollectionViewSelectionValueConverter}" />
+                        </CollectionView.Behaviors>
+                    </CollectionView>
+                </RefreshView>
+
+            </StackLayout>
+            <Button Grid.Row="2" Text="Update"
+                    Command="{Binding UncheckFeaturedProductCmd}"></Button>
+        </Grid>
+    </StackLayout>
 </ContentPage>

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Text;
 using Syncfusion.SfAutoComplete.XForms;
 using Xamarin.Forms;
+using BaseSelectionChangedEventArgs=Xamarin.Forms.SelectionChangedEventArgs;
 using SelectionChangedEventArgs = Syncfusion.SfAutoComplete.XForms.SelectionChangedEventArgs;
 using ComboChangedEventArgs = Syncfusion.XForms.ComboBox.SelectionChangedEventArgs;
 using ValueChangedEventArgs = Syncfusion.SfAutoComplete.XForms.ValueChangedEventArgs;
@@ -111,6 +112,32 @@ namespace Prism.Converters
                 }
                 return item;
             }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class CollectionViewSelectionValueConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+           
+            //if (value is BaseSelectionChangedEventArgs)
+            //{
+            //    var evArgs = value as BaseSelectionChangedEventArgs;
+            //    var item = evArgs.CurrentSelection;
+            //    if (item == null)
+            //    {
+            //        throw new ArgumentException("Expected value to be of type ComboChangedEventArgs", nameof(value));
+            //    }
+            //    return item;
+
+            //}
+           
 
             return value;
         }
