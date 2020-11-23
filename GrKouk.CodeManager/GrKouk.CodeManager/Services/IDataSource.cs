@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using GrKouk.CodeManager.Helpers;
 using GrKouk.CodeManager.Models;
 using GrKouk.Shared.Core;
 using GrKouk.Shared.Mobile.Dtos;
@@ -28,5 +29,6 @@ namespace GrKouk.CodeManager.Services
         Task<IEnumerable<ProductAttrCombinationDto>> GetShopProductAttrCombinations(int shopId, int productId);
         Task<IEnumerable<ProductListDto>> GetShopFeaturedProductList(int shopId);
         Task<AffectedResponse> UncheckFeaturedProductsAsync(int shopId, string productIdList);
+        Task<GrKoukApiInfo> GetApiInfo();
     }
 }

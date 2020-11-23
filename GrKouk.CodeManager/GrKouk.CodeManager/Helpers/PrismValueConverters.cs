@@ -126,17 +126,17 @@ namespace Prism.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
            
-            if (value is BaseSelectionChangedEventArgs)
-            {
-                var evArgs = value as BaseSelectionChangedEventArgs;
-                var item = evArgs.CurrentSelection;
-                if (item == null)
-                {
-                    throw new ArgumentException("Expected value to be of type ComboChangedEventArgs", nameof(value));
-                }
-                return item;
+            //if (value is BaseSelectionChangedEventArgs)
+            //{
+            //    var evArgs = value as BaseSelectionChangedEventArgs;
+            //    var item = evArgs.CurrentSelection;
+            //    if (item == null)
+            //    {
+            //        throw new ArgumentException("Expected value to be of type ComboChangedEventArgs", nameof(value));
+            //    }
+            //    return item;
 
-            }
+            //}
            
 
             return value;

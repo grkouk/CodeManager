@@ -13,6 +13,7 @@ using GrKouk.Shared.Definitions;
 using GrKouk.Shared.Mobile.Dtos;
 using Prism.Navigation;
 using Prism.Services;
+using CollectionViewChangedEventArgs=Xamarin.Forms.SelectionChangedEventArgs;
 
 namespace GrKouk.CodeManager.ViewModels
 {
@@ -144,12 +145,13 @@ namespace GrKouk.CodeManager.ViewModels
             ProductSelected = false;
             if (value!=null)
             {
-                var selectionList = value as List<object>;
-                if (selectionList?.Count>0)
+
+                var selectionList = value as CollectionViewChangedEventArgs;
+                if (selectionList?.CurrentSelection.Count > 0)
                 {
                     ProductSelected = true;
                 }
-                
+
             }
         }
 
@@ -230,8 +232,8 @@ namespace GrKouk.CodeManager.ViewModels
             get => _selectedProductItem;
             set => SetProperty(ref _selectedProductItem, value);
         }
-        private ObservableCollection<ProductListDto> _selectedProducts;
-        public ObservableCollection<ProductListDto> SelectedProducts
+        private ObservableCollection<object> _selectedProducts=new ObservableCollection<object>();
+        public ObservableCollection<object> SelectedProducts
         {
             get => _selectedProducts;
             set => SetProperty(ref _selectedProducts, value);
@@ -375,10 +377,30 @@ namespace GrKouk.CodeManager.ViewModels
             {
                 if (Int32.TryParse(_selectedShopId, out int shopId))
                 {
-                    string selProdIds = "1,2,3";
+                    string selProdIds =string.Empty ;
+                    int i = 0;
+                    if (SelectedProducts!=null)
+                    {
+                        foreach (ProductListDto item in SelectedProducts)
+                        {
+                            if (i > 0)
+                            {
+                                selProdIds += ",";
+                            }
+                            selProdIds += item.Id;
+                            i++;
+                        }
+                    }
+                    
                     var retResponse = await _dataSource.UncheckFeaturedProductsAsync(shopId, selProdIds);
                     var msg = $"Should Update {retResponse.ToAffectCount} {Environment.NewLine}Actually updated {retResponse.AffectedCount}{Environment.NewLine}Message={retResponse.Message}";
-                    await _dialogService.DisplayAlertAsync("Info", msg, "Ok");
+                    var tasks = new Task[] {
+                        RefreshFeaturedProductsDataCommand(),
+                        _dialogService.DisplayAlertAsync("Info", msg, "Ok")
+                    };
+                    await Task.WhenAll(tasks);
+                    ProductSelected = false;
+                   
                 }
 
             }

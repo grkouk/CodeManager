@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace GrKouk.CodeManager.ViewModels
 {
-   
+
     public class HomePageViewModel : BindableBase
     {
         private INavigationService _navigationService;
@@ -91,8 +91,6 @@ namespace GrKouk.CodeManager.ViewModels
         }
         async void Navigate()
         {
-            //nameof(HomePage) + "/" +
-            //await _navigationService.NavigateAsync(nameof(HomePage) + "/" + nameof(NavigationPage) + "/" + SelectedMenuItem.PageName);
             try
             {
                 await _navigationService.NavigateAsync(nameof(NavigationPage) + "/" + SelectedMenuItem.PageName);
@@ -103,9 +101,6 @@ namespace GrKouk.CodeManager.ViewModels
                 Console.WriteLine(e);
                 throw;
             }
-
-            // await _navigationService.NavigateAsync( SelectedMenuItem.PageName);
-
         }
     }
 }
