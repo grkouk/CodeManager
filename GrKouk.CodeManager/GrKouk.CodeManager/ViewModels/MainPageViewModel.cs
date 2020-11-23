@@ -23,8 +23,21 @@ namespace GrKouk.CodeManager.ViewModels
             Title = $"Main Page version {vs}";
             _ds = ds;
         }
+
         private string _backendVersion;
-        public string BackendVersion { get => _backendVersion; set => _backendVersion = value; }
+        public string BackendVersion
+        {
+            get => _backendVersion;
+            set => SetProperty(ref _backendVersion, value) ;
+        }
+
+        private string _serverName;
+
+        public string ServerName
+        {
+            get => _serverName; 
+            set =>  SetProperty(ref _serverName, value); 
+        }
         private DelegateCommand _mediaCommand;
         private string _photoPath;
         public DelegateCommand MediaCommand =>
@@ -88,11 +101,25 @@ namespace GrKouk.CodeManager.ViewModels
         private string _testFileName;
         private ImageSource _image;
         private DelegateCommand _getApiInfoCommand;
+
+
         public DelegateCommand GetApiInfoCommand =>
-            _getApiInfoCommand ?? (_getApiInfoCommand = new DelegateCommand(async () => await getApiInfoComImpl()));
+_getApiInfoCommand ?? (_getApiInfoCommand = new DelegateCommand(async () => await getApiInfoComImpl()));
 
         private async Task getApiInfoComImpl()
         {
+            try
+            {
+                var apiInfo = await _ds.GetApiInfoAsync();
+                BackendVersion = apiInfo.AssemblyVersion;
+                ServerName = apiInfo.ServerName;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+            }
+
 
         }
         private async Task<FileResult> PickAndShow(PickOptions options)

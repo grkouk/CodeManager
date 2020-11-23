@@ -29,6 +29,6 @@ namespace GrKouk.CodeManager.Services
         Task<IEnumerable<ProductAttrCombinationDto>> GetShopProductAttrCombinations(int shopId, int productId);
         Task<IEnumerable<ProductListDto>> GetShopFeaturedProductList(int shopId);
         Task<AffectedResponse> UncheckFeaturedProductsAsync(int shopId, string productIdList);
-        Task<GrKoukApiInfo> GetApiInfo();
+        Task<GrKoukApiInfo> GetApiInfoAsync();
     }
 }

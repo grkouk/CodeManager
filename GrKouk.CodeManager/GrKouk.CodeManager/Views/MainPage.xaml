@@ -12,6 +12,7 @@
         <Label Text="Welcome to Xamarin Forms and Prism!" />
         <Button Text="Test" Command="{Binding MediaCommand}" ></Button>
         <Label Text="{Binding BackendVersion}" />
+        <Label Text="{Binding ServerName}" />
         <Button Text="Get Api Info" Command="{Binding GetApiInfoCommand}" ></Button>
     </StackLayout>
 

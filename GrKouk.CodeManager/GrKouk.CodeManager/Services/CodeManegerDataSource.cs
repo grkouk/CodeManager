@@ -664,12 +664,13 @@ namespace GrKouk.CodeManager.Services
             }
             return new List<ProductListDto>();
         }
-        public async Task<GrKoukApiInfo> GetApiInfo()
+        public async Task<GrKoukApiInfo> GetApiInfoAsync()
         {
             var webApiBaseAddress = Preferences.Get(Constants.WebApiNopBaseAddressKey, "http://localhost:63481/api");
             //var webNopApiKey = Preferences.Get(Constants.WebNopApikeyKey, "");
             var apiCall = $"/info";
-            var apiCallAddress = webApiBaseAddress + apiCall;
+            var stripedApiBase = webApiBaseAddress.Replace("/api", "");
+            var apiCallAddress = stripedApiBase + apiCall;
 
             HttpStatusCode[] httpStatusCodesWorthRetrying = {
                 HttpStatusCode.RequestTimeout, // 408
@@ -698,6 +699,15 @@ namespace GrKouk.CodeManager.Services
                     var jsonContent = await response.Content.ReadAsStringAsync();
                     var apiResponse = JsonConvert.DeserializeObject<GrKoukApiInfo>(jsonContent);
                     return apiResponse;
+                }
+                else
+                {
+                    return new GrKoukApiInfo()
+                    {
+                        AssemblyVersion = "Error",
+                        ServerName = "Error",
+                        ShopName = $"{response.RequestMessage} inner {response.StatusCode.ToString()}"
+                    };
                 }
             }
             catch (Exception e)
