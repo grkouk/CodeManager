@@ -13,7 +13,7 @@
     <PackageReference Include="GrKouk.Shared.Core" Version="1.0.0" />
     <PackageReference Include="GrKouk.Shared.Definitions" Version="1.0.0" />
     <PackageReference Include="GrKouk.Shared.Mobile.Dtos" Version="1.1.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Plugin.Toast" Version="2.2.0" />
     <PackageReference Include="Polly" Version="7.2.1" />
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="18.3.0.50" />
